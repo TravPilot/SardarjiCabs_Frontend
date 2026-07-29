@@ -1,0 +1,218 @@
+﻿@{
+    ViewBag.Title = "Payment Cancelled";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+        min-height: 100vh;
+        font-family: 'Segoe UI',sans-serif;
+    }
+
+    .payment-wrapper {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+    }
+
+    .payment-card {
+        width: 100%;
+        max-width: 700px;
+        background: rgba(255,255,255,.12);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 45px;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(255,255,255,.2);
+        box-shadow: 0 25px 60px rgba(0,0,0,.35);
+        animation: fadeIn .8s ease;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .cancel-circle {
+        width: 120px;
+        height: 120px;
+        margin: auto;
+        border-radius: 50%;
+        background: rgba(255,255,255,.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid rgba(255,255,255,.25);
+        animation: pulse 2s infinite;
+    }
+
+        .cancel-circle i {
+            font-size: 60px;
+            color: #ff4d4f;
+        }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255,77,79,.5);
+        }
+
+        70% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 18px rgba(255,77,79,0);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    h1 {
+        margin-top: 30px;
+        font-size: 38px;
+        font-weight: 700;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        opacity: .9;
+        margin-top: 15px;
+    }
+
+    .info-box {
+        margin-top: 35px;
+        background: rgba(255,255,255,.10);
+        border-radius: 15px;
+        padding: 20px;
+        text-align: left;
+    }
+
+        .info-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .info-box li {
+            margin-bottom: 10px;
+        }
+
+    .btn-custom {
+        min-width: 180px;
+        border-radius: 50px;
+        padding: 12px 30px;
+        font-weight: 600;
+        transition: .3s;
+        text-decoration: none;
+    }
+
+    .btn-home {
+        background: #ffffff;
+        color: #0f172a;
+    }
+
+        .btn-home:hover {
+            background: #e2e8f0;
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+    .btn-retry {
+        background: #ef4444;
+        color: white;
+    }
+
+        .btn-retry:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+    .buttons {
+        margin-top: 35px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .footer-note {
+        margin-top: 30px;
+        font-size: 14px;
+        opacity: .8;
+    }
+
+    @@media(max-width:768px) {
+
+        .payment-card {
+            padding: 30px 20px;
+        }
+
+        h1 {
+            font-size: 30px;
+        }
+    }
+
+</style>
+
+<div class="payment-wrapper">
+
+    <div class="payment-card">
+
+        <div class="cancel-circle">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <h1>Payment Cancelled</h1>
+
+        <p class="subtitle">
+            Your transaction was cancelled before completion.
+            No booking has been confirmed.
+        </p>
+
+        <div class="info-box">
+
+            <h5><i class="fas fa-circle-info"></i> What happens next?</h5>
+
+            <ul>
+                <li>No payment has been successfully processed.</li>
+                <li>If money was deducted, your bank will automatically process the refund.</li>
+                <li>You can safely retry your booking whenever you're ready.</li>
+                <li>Need help? Our support team is available to assist you.</li>
+            </ul>
+
+        </div>
+
+        <div class="buttons">
+
+            <a href="@Url.Action("Index","Home")"
+               class="btn btn-custom btn-home">
+                <i class="fas fa-house"></i> Home
+            </a>
+
+         
+
+        </div>
+
+        <div class="footer-note">
+            Reference Time: @DateTime.Now.ToString("dd MMM yyyy hh:mm tt")
+        </div>
+
+    </div>
+
+</div>

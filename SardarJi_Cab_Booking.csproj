@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\Style.css" />
+    <Content Remove="wwwroot\images\Arctic-Blue_6688ba.avif" />
+    <Content Remove="wwwroot\images\ban1.png" />
+    <Content Remove="wwwroot\images\ban2.png" />
+    <Content Remove="wwwroot\images\Bann12.png" />
+    <Content Remove="wwwroot\images\bannner.jpg" />
+    <Content Remove="wwwroot\images\BYD-Seal-charging-at-Evie-Wodonga.webp" />
+    <Content Remove="wwwroot\images\charger.webp" />
+    <Content Remove="wwwroot\images\default.jpeg" />
+    <Content Remove="wwwroot\images\ev.png" />
+    <Content Remove="wwwroot\images\hyndai.png" />
+    <Content Remove="wwwroot\images\logo.png" />
+    <Content Remove="wwwroot\images\logog1.png" />
+    <Content Remove="wwwroot\images\logog2.png" />
+    <Content Remove="wwwroot\images\logog3.png" />
+    <Content Remove="wwwroot\images\logog4.png" />
+    <Content Remove="wwwroot\images\LogoSardar.jpg" />
+    <Content Remove="wwwroot\images\LogoSardar.png" />
+    <Content Remove="wwwroot\images\mainNee.png" />
+    <Content Remove="wwwroot\images\Main_img.jpg" />
+    <Content Remove="wwwroot\images\Nexon.png" />
+    <Content Remove="wwwroot\images\nexonev.png" />
+    <Content Remove="wwwroot\images\PremiumLOgo.png" />
+    <Content Remove="wwwroot\images\Screenshot 2026-07-06 184937.png" />
+    <Content Remove="wwwroot\images\Step1.png" />
+    <Content Remove="wwwroot\images\Step2.png" />
+    <Content Remove="wwwroot\images\Step3.png" />
+    <Content Remove="wwwroot\images\Url1.jpg" />
+    <Content Remove="wwwroot\images\Url2.jpg" />
+    <Content Remove="wwwroot\images\Windsor.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\Style.css" />
+    <None Include="wwwroot\images\Arctic-Blue_6688ba.avif" />
+    <None Include="wwwroot\images\ban1.png" />
+    <None Include="wwwroot\images\ban2.png" />
+    <None Include="wwwroot\images\Bann12.png" />
+    <None Include="wwwroot\images\bannner.jpg" />
+    <None Include="wwwroot\images\BYD-Seal-charging-at-Evie-Wodonga.webp" />
+    <None Include="wwwroot\images\charger.webp" />
+    <None Include="wwwroot\images\default.jpeg" />
+    <None Include="wwwroot\images\ev.png" />
+    <None Include="wwwroot\images\hyndai.png" />
+    <None Include="wwwroot\images\logo.png" />
+    <None Include="wwwroot\images\logog1.png" />
+    <None Include="wwwroot\images\logog2.png" />
+    <None Include="wwwroot\images\logog3.png" />
+    <None Include="wwwroot\images\logog4.png" />
+    <None Include="wwwroot\images\LogoSardar.jpg" />
+    <None Include="wwwroot\images\LogoSardar.png" />
+    <None Include="wwwroot\images\mainNee.png" />
+    <None Include="wwwroot\images\Main_img.jpg" />
+    <None Include="wwwroot\images\Nexon.png" />
+    <None Include="wwwroot\images\nexonev.png" />
+    <None Include="wwwroot\images\PremiumLOgo.png" />
+    <None Include="wwwroot\images\Screenshot 2026-07-06 184937.png" />
+    <None Include="wwwroot\images\Step1.png" />
+    <None Include="wwwroot\images\Step2.png" />
+    <None Include="wwwroot\images\Step3.png" />
+    <None Include="wwwroot\images\Url1.jpg" />
+    <None Include="wwwroot\images\Url2.jpg" />
+    <None Include="wwwroot\images\Windsor.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.79" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="QuestPDF" Version="2026.7.1" />
+    <PackageReference Include="RestSharp" Version="114.0.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data Layer\" />
+  </ItemGroup>
+
+</Project>

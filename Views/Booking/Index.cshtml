@@ -1,0 +1,393 @@
+﻿@model TravelSummaryViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation & Invoice</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Montserrat Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --hertz-yellow: #e0611c;
+            --hertz-dark: #1a1a1a;
+            --text-gray: #4a4a4a;
+            --border-gray: #e0e0e0;
+            --link-blue: #2b6cb0;
+            --bg-light: #f7f7f8;
+        }
+
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            color: var(--hertz-dark);
+            background: #fff;
+            font-size: 14px;
+        }
+
+        /* ===== Hero image ===== */
+        .hero-banner {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            filter: grayscale(100%);
+            display: block;
+        }
+
+        /* ===== Confirmation card ===== */
+        .confirmation-card {
+            max-width: 800px;
+            margin: -40px auto 0;
+            background: #fff;
+            border: 1px solid var(--border-gray);
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            padding: 2rem 2.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+            .confirmation-card h2 {
+                font-weight: 400;
+                font-size: 1.4rem;
+                color: #333;
+                margin-bottom: .5rem;
+            }
+
+            .confirmation-card .conf-number {
+                font-size: .95rem;
+            }
+
+                .confirmation-card .conf-number strong {
+                    font-weight: 700;
+                }
+
+        .trip-dates {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin: 1.75rem 0 1rem;
+        }
+
+            .trip-dates .date-block {
+                text-align: left;
+                flex: 1;
+            }
+
+                .trip-dates .date-block .big-date {
+                    font-weight: 800;
+                    font-size: 1.1rem;
+                    margin-bottom: .35rem;
+                }
+
+                .trip-dates .date-block .loc-time {
+                    font-size: .85rem;
+                    color: var(--text-gray);
+                    line-height: 1.4;
+                }
+
+            .trip-dates .arrow {
+                font-size: 1.5rem;
+                color: var(--hertz-yellow);
+                font-weight: bold;
+            }
+
+        /* ===== Itinerary section ===== */
+        .section-heading {
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--border-gray);
+            padding-bottom: .6rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .itin-label {
+            font-weight: 700;
+            font-size: .85rem;
+            margin-bottom: .15rem;
+        }
+
+        .itin-value {
+            font-size: .85rem;
+            color: var(--text-gray);
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+        }
+
+        /* ===== Price summary card (Invoice) ===== */
+        .price-card {
+            border: 1px solid var(--border-gray);
+            box-shadow: 0 4px 12px rgba(0,0,0,.05);
+        }
+
+        .price-card-header {
+            background: var(--hertz-dark);
+            color: #fff;
+            text-align: center;
+            padding: 1.2rem 1rem;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+            .price-card-header .amt {
+                font-weight: 800;
+                font-size: 1.4rem;
+                display: block;
+                margin-top: .3rem;
+                color: var(--hertz-yellow);
+            }
+
+        .price-card-body {
+            padding: 1.25rem;
+        }
+
+            .price-card-body img {
+                width: 100%;
+                max-height: 180px;
+                object-fit: contain;
+                margin-bottom: 1rem;
+            }
+
+        .car-class-title {
+            font-weight: 700;
+            font-size: .9rem;
+            margin-bottom: .15rem;
+            text-transform: uppercase;
+        }
+
+        .car-class-sub {
+            font-size: .85rem;
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: .85rem;
+            padding: .4rem 0;
+        }
+
+        .price-section-title {
+            font-weight: 700;
+            font-size: .85rem;
+            text-transform: uppercase;
+            letter-spacing: .3px;
+            margin-top: 1rem;
+            margin-bottom: .35rem;
+            border-bottom: 1px dashed var(--border-gray);
+            padding-bottom: .3rem;
+        }
+
+        .price-total-row {
+            background: var(--bg-light);
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin: 0 -1.25rem;
+            border-top: 2px solid var(--hertz-dark);
+        }
+
+        .fine-print {
+            font-size: .75rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+            padding: 1rem 1.25rem;
+            background: #fff;
+        }
+
+        @@media (max-width:768px) {
+            .trip-dates
+
+        {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .trip-dates .arrow {
+            transform: rotate(90deg);
+        }
+
+        }
+    </style>
+</head>
+<body>
+
+   
+    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&h=560&fit=crop" alt="Road Journey" class="hero-banner">
+
+   
+    <div class="confirmation-card">
+        <h2>Thank you, @Model.PassengerName</h2>
+        <p class="conf-number mb-2">Your Ride Booking Code is: <strong>@Model.RideCode</strong></p>
+        <p class="text-muted mb-1" style="font-size:.85rem;">Barcode Info: @Model.BarcodeCaption</p>
+
+        <button onclick="window.print()" class="btn btn-sm btn-outline-dark mt-2 mb-3" style="font-size:.85rem;">Print Invoice</button>
+
+        <div class="trip-dates">
+            <div class="date-block">
+                <div class="big-date">Pick-up</div>
+                <div class="loc-time">
+                    <strong>@Model.Pickup</strong><br>
+                    @Convert.ToDateTime(Model.RideDate).ToString("ddd, dd MMM yyyy") at @Model.RideTime
+                </div>
+            </div>
+            <div class="arrow">&#10230;</div>
+            <div class="date-block text-end">
+                <div class="big-date">Drop-off</div>
+                <div class="loc-time">
+                    <strong>@Model.Drop</strong><br>
+                    Distance: @Model.DistanceKm km
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <div class="container mt-5">
+        <div class="row">
+           
+            <div class="col-lg-7">
+                <h3 class="section-heading">Journey Details</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="itin-label">Passenger Name</div>
+                        <div class="itin-value">@Model.PassengerName</div>
+
+                        <div class="itin-label">Contact Number</div>
+                        <div class="itin-value">@Model.PassengerContact</div>
+
+                        <div class="itin-label">Pick-up Location</div>
+                        <div class="itin-value">@Model.Pickup</div>
+
+                        <div class="itin-label">Drop-off Location</div>
+                        <div class="itin-value">@Model.Drop</div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="itin-label">Scheduled Date & Time</div>
+                        <div class="itin-value">@Convert.ToDateTime(Model.RideDate).ToString("dd MMM yyyy") | @Model.RideTime</div>
+
+                        <div class="itin-label">Vehicle Assinged</div>
+                        <div class="itin-value">@Model.CarName (@Model.CarModelName)</div>
+
+                        <div class="itin-label">Vehicle Color & Fuel</div>
+                        <div class="itin-value">@Model.Color | @Model.FuelType</div>
+
+                        <div class="itin-label">Total Distance</div>
+                        <div class="itin-value">@Model.DistanceKm km</div>
+                    </div>
+                </div>
+            </div>
+
+           
+            <div class="col-lg-5">
+                <div class="price-card mb-4">
+                    <div class="price-card-header">
+                        TOTAL INVOICE AMOUNT
+                        <span class="amt">₹@Model.Total.ToString("0.00")</span>
+                    </div>
+                    <div class="price-card-body">
+                        
+                        <img src="@Model.CarImage" alt="@Model.CarName">
+
+                        <div class="car-class-title">@Model.CarName</div>
+                        <div class="car-class-sub">
+                            Model: @Model.CarModelName | Color: @Model.Color    | RegistrationNo: @Model.RegistrationNo
+                        </div>
+
+                        <div class="price-section-title">Payment Information</div>
+                        <div class="price-row">
+                            <span>Method</span>
+                            <strong>@Model.PaymentMethod</strong>
+                        </div>
+
+                        <div class="price-section-title">Fare Breakdown</div>
+                        <div class="price-row">
+                            <span>Base Fare</span>
+                            <span>₹@Model.BasePrice.ToString("0.00")</span>
+                        </div>
+
+                        @if (Model.TollCharges > 0)
+                        {
+                            <div class="price-row">
+                                <span>Toll Charges</span>
+                                <span>₹@Model.TollCharges.ToString("0.00")</span>
+                            </div>
+                        }
+
+                        @if (Model.Discount > 0)
+                        {
+                            <div class="price-row text-success">
+                                <span>Discount Applied</span>
+                                <span>- ₹@Model.Discount.ToString("0.00")</span>
+                            </div>
+                        }
+
+                        @if (Model.walletamount > 0)
+                        {
+                            <div class="price-row text-primary">
+                                <span>Wallet Deduction</span>
+                                <span>- ₹@Model.walletamount.ToString("0.00")</span>
+                            </div>
+                        }
+
+                    </div>
+
+                    <div class="price-total-row">
+                        <span>Net Payable</span>
+                        <span>₹@Model.Total.ToString("0.00")</span>
+                    </div>
+
+                    <div class="fine-print">
+                        <p><strong>Note:</strong> This is a computer-generated invoice for your ride booking <strong>@Model.RideCode</strong>. Toll taxes and parking charges (if applicable and not listed above) are to be paid extra as per actuals.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5">
+
+      
+        <div class="accordion accordion-flush accordion-custom mb-5" id="infoAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                        Important Notifications & Rules
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#infoAccordion">
+                    <div class="accordion-body">
+                        Please review all notifications regarding your ride prior to boarding, including luggage restrictions and wait-time policies.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                        Terms and Conditions
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#infoAccordion">
+                    <div class="accordion-body">
+                        Full ride terms and conditions apply to this reservation, covering toll policy, extra mileage, and cancellation rules.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
