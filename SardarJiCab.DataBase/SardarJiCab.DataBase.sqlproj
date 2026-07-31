@@ -63,7 +63,6 @@
     <Build Include="Procedures\GetDriver_ByMobile.sql" />
     <Build Include="Tables\Drivers.sql" />
     <Build Include="Procedures\GetLocalIST.sql" />
-    <Build Include="Procedures\GetDriver_RecordFailedLogin.sql" />
     <Build Include="Procedures\GetDriver_UpdateLastLogin.sql" />
   </ItemGroup>
 </Project>

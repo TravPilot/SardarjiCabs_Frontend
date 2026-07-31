@@ -1,4 +1,4 @@
-﻿@* @using SardarJiCab.Model
+﻿@using SardarJiCab.Model
 @model TripInProgressViewModel
 @{
     ViewData["Title"] = "Trip In Progress";
@@ -105,6 +105,10 @@
                 flex-shrink: 0;
             }
 
+        .brand > img {
+            height: 38px;
+            border-radius: 12px;
+        }
             .visual-pane .brand .word {
                 color: #fff;
                 font-weight: 700;
@@ -580,7 +584,7 @@
         <div class="visual-pane">
             <div class="visual-pane-content">
                 <div class="brand">
-                    <div class="mark">SJ</div>
+                    <img src="~/sardar.png" />
                     <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
                 </div>
                 <div class="visual-pane-quote">
@@ -848,4 +852,4 @@
     </script>
 
 </body>
-</html> *@
+</html>

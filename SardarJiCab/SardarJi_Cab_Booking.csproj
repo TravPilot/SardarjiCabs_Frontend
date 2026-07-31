@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\DriverDashboardController.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="wwwroot\css\Style.css" />
     <Content Remove="wwwroot\images\Arctic-Blue_6688ba.avif" />
     <Content Remove="wwwroot\images\ban1.png" />
