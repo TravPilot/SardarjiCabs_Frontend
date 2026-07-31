@@ -958,6 +958,9 @@
                                     <a href="https://www.google.com/maps/dir/?api=1&destination=@Uri.EscapeDataString(trip.DropAddress)" target="_blank" class="card-btn ghost">
                                         <i class="fa-solid fa-diamond-turn-right"></i> Navigate
                                     </a>
+                                    <a href="/drivertripinprogress/index?bookingId=@trip.BookingId" class="card-btn primary">
+                                        <i class="fa-solid fa-play"></i> Trip Details
+                                    </a>
                                 </div>
                             </div>
                         }
@@ -1040,7 +1043,7 @@
                                 }
 
                                 <div class="card-actions">
-                                    <a href="https://www.google.com/maps/dir/?api=1&destination=@Uri.EscapeDataString(trip.PickupAddress)" target="_blank" class="card-btn ghost">
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination=@Uri.EscapeDataString(trip.DropAddress)" target="_blank" class="card-btn ghost">
                                         <i class="fa-solid fa-diamond-turn-right"></i> Navigate
                                     </a>
                                     <button type="button" class="card-btn primary" onclick="startTrip(@trip.BookingId, '@trip.BookingNo')">
