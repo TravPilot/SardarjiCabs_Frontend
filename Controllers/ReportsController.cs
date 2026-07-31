@@ -38,6 +38,10 @@ namespace SardarJi_Cab_Booking.Controllers
         {
             var customer = HttpContext.Session.GetObject<CustomerVM>("customer");
             TravelSummaryViewModel bookinglist = await _booking.GetBookingList(customer.Id);
+            bookinglist.TodayRide = bookinglist.Bookings
+    .FirstOrDefault(x =>
+        x.JourneyDate.Date == DateTime.Today &&
+        x.DriverId > 0);
             bookinglist.UserName=customer.FirstName +" "+customer.LastName;
             return View(bookinglist);
         }
@@ -85,16 +89,6 @@ namespace SardarJi_Cab_Booking.Controllers
             return File(pdfBytes, "application/pdf", fileName);
         }
 
-
-        //[HttpPost]
-        //public async Task<IActionResult> Create([FromBody] BookingDetails details)
-        //{
-        //    if (details == null)
-        //        return BadRequest("Booking details are required.");
-
-        //    var newId = await _booking.CreateBookingAsync(details);
-        //    return Ok(new { success = true, newBookingId = newId });
-        //}
 
 
         [HttpPost]

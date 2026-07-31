@@ -93,8 +93,13 @@ namespace SardarJi_Cab_Booking.Business_Layer
 
                         col.Item().AlignRight().Column(c =>
                         {
-                            c.Item().Text("₹ Total Fare: {b.TotalFare:C2}").FontSize(11);
-                            c.Item().Text("₹ Net Payable: {b.NetPayable:C2}").Bold().FontSize(13).FontColor(Colors.Green.Darken2);
+                            c.Item().Text($"₹ Total Fare: {b.TotalFare:N2}")
+                                .FontSize(11);
+
+                            c.Item().Text($"₹ Net Payable: {b.NetPayable:N2}")
+                                .Bold()
+                                .FontSize(13)
+                                .FontColor(Colors.Green.Darken2);
                         });
 
                         if (!string.IsNullOrWhiteSpace(b.BarcodeInfo))

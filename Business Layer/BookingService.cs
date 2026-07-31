@@ -30,6 +30,7 @@ namespace SardarJi_Cab_Booking.Business_Layer
                 p.Add("@ClientId", details.ClientId);
                 p.Add("@UserId", details.UserId);
                 p.Add("@CabRoute", CabRoute);
+                p.Add("@BookingOtp", details.BookingOtp);
                 p.Add("@PickupAddress", details.Pickup);
                 p.Add("@DropAddress", details.Drop);
                 p.Add("@JourneyDate", details.RideDate);
@@ -194,7 +195,19 @@ namespace SardarJi_Cab_Booking.Business_Layer
         #endregion  end  Get Booking List   
 
 
+        public async Task<LiveLocation> GetLiveLocation(int bookingId)
+        {
+            using var conn = new SqlConnection(_connectionString);
 
+            var p = new DynamicParameters();
+            p.Add("@BookingId", bookingId);
+
+          
+            return await conn.QueryFirstOrDefaultAsync<LiveLocation>(
+                "dbo.GetDriverLiveLocation",
+                p,
+                commandType: CommandType.StoredProcedure);
+        }
 
 
 

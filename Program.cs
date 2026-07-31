@@ -18,7 +18,12 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<PaymentGatwaySettings>();
 builder.Services.AddScoped<IRazorGatewayRepository, RazorGatewayRepository>();
+builder.Services.AddScoped<IGeocodingService, GeocodingService>();
 
+builder.Services.AddControllersWithViews();
+
+// Register SignalR
+builder.Services.AddSignalR();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -45,6 +50,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
+app.MapControllers();
+app.MapHub<LocationHub>("/hubs/location");
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

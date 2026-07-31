@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using SardarJi_Cab_Booking.Business_Layer;
 using SardarJi_Cab_Booking.Helper;
 using SardarJi_Cab_Booking.Models;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SardarJi_Cab_Booking.Controllers
@@ -16,15 +18,17 @@ namespace SardarJi_Cab_Booking.Controllers
         private readonly IConfiguration _config;
         private readonly IBookingService _booking;
         private readonly IInvoiceService _invoiceService;
+        private readonly IGeocodingService _geocodingService;
+        
 
-
-        public CustomerController(ICustomerService customerService, IConfiguration config, IBookingService booking, IInvoiceService invoiceService)
+        public CustomerController(ICustomerService customerService, IConfiguration config, IBookingService booking, IInvoiceService invoiceService, IGeocodingService geocodingService)
         {
 
             _customerService = customerService;
             _config = config;
             _booking = booking;
             _invoiceService = invoiceService;
+            _geocodingService = geocodingService;
         }
 
 
@@ -86,22 +90,24 @@ namespace SardarJi_Cab_Booking.Controllers
 
         }
 
-        public async Task<JsonResult> UpdateProfile(CustomerProfile profile)
+        public async Task<JsonResult> UpdateProfile(ProfileUpdateRequest profile)
         {
-            profile.ClientId = Convert.ToInt64(Convert.ToInt64(_config["ClientId"]));
             var customer = HttpContext.Session.GetObject<CustomerVM>("customer");
-            string email = profile.Email;
-            string mobile = profile.Mobile;
-            string firstName = profile.FirstName;
-            string lastName = profile.LastName;
+            if (customer == null)
+            {
+                return Json(new { success = false, message = "Session expired. Please log in again." });
+            }
 
-            var result = await _customerService.UpdateProfile(profile);
+            long clientId = Convert.ToInt64(_config["ClientId"]);
+
+            var result = await _customerService.UpdateProfileFields(
+                customer.Id, clientId, profile);
 
             return Json(new
             {
-                success = result != null,
-                data = result,
-                message = result != null ? "Profile updated successfully." : "Profile update failed."
+                success = result?.Success ?? false,
+                message = result?.Message ?? "Profile update failed."
+               
             });
         }
 
@@ -137,8 +143,7 @@ namespace SardarJi_Cab_Booking.Controllers
             {
                 Sendto = profile.Email,
                 From = quotationemailsettings.FromEmail,
-                
-                Subject = "Reset Password",
+               Subject = "Reset Password",
                 Body = profile.Body,
                 DisplayName = quotationemailsettings.DisplayName,
                 ClientId = ClientId,
@@ -147,7 +152,7 @@ namespace SardarJi_Cab_Booking.Controllers
                 Port = quotationemailsettings.Port,
                 UserId = quotationemailsettings.UserId,
                 Password = quotationemailsettings.Password,
-                FilePath = ""
+                FilePath = null
             };
 
             Sendmailstoall sendmailstoall = new Sendmailstoall();
@@ -157,6 +162,44 @@ namespace SardarJi_Cab_Booking.Controllers
                 new { Message = profile.Message, Success = profile.IsSuccess }
                
             );
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> TrackRide(int bookingId)
+        {
+            LiveLocation rideLocation = await _booking.GetLiveLocation(bookingId);
+
+            if (rideLocation == null)
+                return NotFound();
+
+            var vm = new TrackRideViewModel
+            {
+                BookingId = rideLocation.bookingid,
+                Latitude = rideLocation.Latitude,
+                Longitude = rideLocation.longitute,
+                DriverName = rideLocation.DriverName,
+                GoogleMapsApiKey = _config["GoogleMapsApiKey"] ?? ""
+            };
+
+            return View(vm);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LiveLocationJson(int bookingId)
+        {
+            LiveLocation rideLocation = await _booking.GetLiveLocation(bookingId);
+
+            if (rideLocation == null)
+                return NotFound();
+
+            return Json(new
+            {
+                latitude = rideLocation.Latitude,
+                longitude = rideLocation.longitute,
+                driverName = rideLocation.DriverName
+            });
         }
 
 
@@ -172,5 +215,86 @@ namespace SardarJi_Cab_Booking.Controllers
 
 
 
+
+
+
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> TrackkkkRide(int bookingId)
+        {
+            
+            var ride = await GetBookingByIdAsync(bookingId); 
+            if (ride == null) return NotFound();
+
+            double dropLat = ride.DropLat;
+            double dropLng = ride.DropLng;
+
+            
+            if (dropLat == 0 && dropLng == 0)
+            {
+                var geocoded = await _geocodingService.GeocodeAsync(ride.DropAddress);
+                if (geocoded != null)
+                {
+                    dropLat = geocoded.Value.Lat;
+                    dropLng = geocoded.Value.Lng;
+                    // ride.DropLat = dropLat; ride.DropLng = dropLng; await _db.SaveChangesAsync();
+                }
+            }
+
+            var vm = new TrackRideViewModel
+            {
+                BookingId = ride.BookingId,
+                BookingNo = ride.BookingNo,
+                PickupAddress = ride.PickupAddress,
+                DropAddress = ride.DropAddress,
+                DriverName = ride.DriverName,
+                VehicleNumber = ride.VehicleNumber,
+                Status = ride.Status,
+                CarImage = ride.CarImage,
+                DropLat = dropLat,
+                DropLng = dropLng,
+                GoogleMapsApiKey = _config["GoogleMaps:GoogleMapsApiKey"] ?? ""
+            };
+
+            return View(vm);
+        }
+
+        
+        private Task<BookingPlaceholder?> GetBookingByIdAsync(int bookingId)
+        {
+            var ride = new BookingPlaceholder
+            {
+                BookingId = bookingId,
+                BookingNo = "SJ-7377",
+                PickupAddress = "TraviYo, F Block, Sector 6, Noida, Uttar Pradesh, India",
+                DropAddress = "Sector 12, Vasundhara, Ghaziabad, Uttar Pradesh 201012, India",
+                DriverName = "Shivam thapa",
+                VehicleNumber = "UP13DC0008",
+                Status = "Confirmed",
+                CarImage = "/images/bmw-i7.png",
+                DropLat = 0,
+                DropLng = 0
+            };
+            return Task.FromResult<BookingPlaceholder?>(ride);
+        }
+
+
+
+
+
     }
+
+   
+
+
+
+
+
+
+
+
 }
+
