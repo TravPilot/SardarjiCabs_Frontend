@@ -1,0 +1,610 @@
+﻿@model TravelSummaryViewModel
+@{
+    ViewData["Title"] = "My Bookings";
+    var inr = new System.Globalization.CultureInfo("en-IN");
+}
+
+<style>
+    :root {
+        --ink: #1B2130;
+        --muted: #6B7280;
+        --faint: #9AA1AE;
+        --line: #E6E8EE;
+        --surface: #FFFFFF;
+        --canvas: #F5F6FA;
+        --primary: #3949AB;
+        --primary-bg: #EAEBF8;
+        --confirmed: #2E7D6B;
+        --confirmed-bg: #E4F3EF;
+        --completed: #3949AB;
+        --completed-bg: #EAEBF8;
+        --cancelled: #B4443A;
+        --cancelled-bg: #FBEAE8;
+        --ongoing: #B5842A;
+        --ongoing-bg: #FBF3E1;
+        --shadow: 0 1px 2px rgba(20,24,40,0.04), 0 8px 24px -12px rgba(20,24,40,0.10);
+    }
+
+    .bk-wrap {
+        font-family: 'Inter','Segoe UI',system-ui,sans-serif;
+        color: var(--ink);
+        background: var(--canvas);
+        padding: 32px;
+        border-radius: 14px;
+    }
+
+    .bk-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+        .bk-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 4px;
+        }
+
+        .bk-header p {
+            color: var(--muted);
+            margin: 0;
+            font-size: .86rem;
+        }
+
+    .bk-header-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: var(--primary-bg);
+        color: var(--primary);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-right: 12px;
+        flex: 0 0 auto;
+    }
+
+    .bk-title-row {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Summary cards */
+    .bk-cards {
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .bk-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px 20px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .bk-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            opacity: .55;
+        }
+
+        .bk-card .label {
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .bk-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 6px;
+            letter-spacing: -0.01em;
+        }
+
+    .bk-table-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+
+    table.bk-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: .86rem;
+    }
+
+        table.bk-table thead th {
+            text-align: left;
+            background: #FAFAFC;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: .70rem;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--line);
+            white-space: nowrap;
+        }
+
+        table.bk-table th.col-sno {
+            width: 48px;
+            text-align: center;
+        }
+
+        table.bk-table tbody td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: middle;
+        }
+
+            table.bk-table tbody td.col-sno {
+                text-align: center;
+                color: var(--faint);
+                font-weight: 600;
+            }
+
+        table.bk-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        table.bk-table tbody tr:hover {
+            background: #FAFAFD;
+        }
+
+    .bk-code {
+        font-weight: 700;
+    }
+
+    .bk-sub {
+        color: var(--muted);
+        font-size: .78rem;
+        margin-top: 2px;
+    }
+
+    .col-route {
+        min-width: 320px;
+    }
+
+    .bk-route-wrap {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        cursor: default;
+    }
+
+    .bk-route {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: .8rem;
+        max-width: 320px;
+    }
+
+        .bk-route .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex: 0 0 auto;
+        }
+
+            .bk-route .dot.a {
+                background: var(--confirmed);
+            }
+
+            .bk-route .dot.b {
+                background: var(--cancelled);
+            }
+
+        .bk-route .seg {
+            flex: 1 1 auto;
+            min-width: 18px;
+            height: 1px;
+            background: repeating-linear-gradient(90deg, var(--line) 0 4px, transparent 4px 8px);
+        }
+
+        .bk-route .place {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 130px;
+        }
+
+    /* Custom hover tooltip revealing the full route */
+    .bk-route-tip {
+        position: absolute;
+        left: 0;
+        bottom: calc(100% + 10px);
+        min-width: 220px;
+        max-width: 320px;
+        background: var(--ink);
+        color: #fff;
+        padding: 10px 13px;
+        border-radius: 10px;
+        font-size: .78rem;
+        line-height: 1.45;
+        white-space: normal;
+        box-shadow: 0 12px 28px -8px rgba(20,24,40,0.35);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(4px);
+        transition: opacity .15s ease, transform .15s ease;
+        z-index: 20;
+        pointer-events: none;
+    }
+
+        .bk-route-tip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 16px;
+            border: 6px solid transparent;
+            border-top-color: var(--ink);
+        }
+
+        .bk-route-tip .tip-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+            .bk-route-tip .tip-row + .tip-row {
+                margin-top: 6px;
+            }
+
+        .bk-route-tip .tip-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            margin-top: 5px;
+            flex: 0 0 auto;
+        }
+
+            .bk-route-tip .tip-dot.a {
+                background: #6FE0BE;
+            }
+
+            .bk-route-tip .tip-dot.b {
+                background: #F0968B;
+            }
+
+    .bk-route-wrap:hover .bk-route-tip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .badge-status {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: .02em;
+    }
+
+    .badge-confirmed {
+        background: var(--confirmed-bg);
+        color: var(--confirmed);
+    }
+
+    .badge-completed {
+        background: var(--completed-bg);
+        color: var(--completed);
+    }
+
+    .badge-cancelled {
+        background: var(--cancelled-bg);
+        color: var(--cancelled);
+    }
+
+    .badge-ongoing {
+        background: var(--ongoing-bg);
+        color: var(--ongoing);
+    }
+
+    .bk-fare {
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .bk-actions a {
+        text-decoration: none;
+        font-size: .78rem;
+        font-weight: 600;
+        color: var(--primary);
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: var(--primary-bg);
+        transition: opacity .15s ease;
+    }
+
+        .bk-actions a:hover {
+            opacity: .8;
+        }
+
+    .bk-empty {
+        text-align: center;
+        padding: 64px 20px;
+        color: var(--muted);
+    }
+
+        .bk-empty .glyph {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+    @@media (max-width: 900px) {
+        .bk-cards {
+            grid-template-columns: repeat(2,1fr);
+        }
+    }
+</style>
+<style>
+    .back-container {
+        margin: 20px 0;
+    }
+
+    .bk-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: #0d6efd;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+        .bk-back-link:hover {
+            background: #0b5ed7;
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .bk-back-link i {
+            font-size: 14px;
+        }
+</style>
+
+<style>
+    .today-ride-card {
+        background: skyblue;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,.12);
+        margin-bottom: 20px;
+    }
+
+    .ride-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .ride-details {
+        flex: 1;
+    }
+
+        .ride-details h3 {
+            margin-bottom: 15px;
+        }
+
+        .ride-details p {
+            margin: 8px 0;
+        }
+
+    .ride-image {
+        flex: 0 0 250px;
+        text-align: right;
+    }
+
+        .ride-image img {
+            width: 230px;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+   
+    @@media (max-width:768px) {
+        .ride-content
+
+    {
+        flex-direction: column;
+    }
+
+    .ride-image {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+        .ride-image img {
+            width: 180px;
+        }
+
+    }</style>
+<div class="bk-wrap">
+    <div class="bk-header">
+        <div class="back-container">
+            <a asp-action="Index" asp-controller="Home" class="bk-back-link">
+                <i class="fa fa-arrow-left"></i> ← Back to Home
+            </a>
+        </div>
+        <div class="bk-title-row">
+            <span class="bk-header-icon">🧾</span>
+            <div>
+                <h1>My Bookings</h1>
+                <p>@Model.TotalTrips trip@(Model.TotalTrips == 1 ? "" : "s") on record for user #@Model.UserName</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bk-cards">
+        <div class="bk-card">
+            <div class="label">Total trips</div>
+            <div class="value">@Model.TotalTrips</div>
+        </div>
+        <div class="bk-card">
+            <div class="label">Total spent</div>
+            <div class="value">@Model.TotalSpent.ToString("C2", inr)</div>
+        </div>
+        <div class="bk-card">
+            <div class="label">Distance covered</div>
+            <div class="value">@Model.TotalDistanceKm.ToString("0.0") km</div>
+        </div>
+        <div class="bk-card">
+            <div class="label">Last trip</div>
+            <div class="value">@(Model.LastTripDate?.ToString("dd MMM yyyy") ?? "—")</div>
+        </div>
+    </div>
+    @if (Model.TodayRide != null)
+    {
+        <div class="today-ride-card">
+
+            <div class="ride-content">
+
+                <div class="ride-details">
+                    <h3>🚖 Today's Ride</h3>
+
+                    <p><strong>Booking:</strong> @Model.TodayRide.BookingNo</p>
+                    <p><strong>Pickup:</strong> @Model.TodayRide.PickupAddress</p>
+                    <p><strong>Drop:</strong> @Model.TodayRide.DropAddress</p>
+                    <p><strong>Driver:</strong> @Model.TodayRide.DriverName</p>
+                    <p><strong>Vehicle:</strong> @Model.TodayRide.VehicleNumber</p>
+                    <p><strong>Status:</strong> @Model.TodayRide.Status</p>
+
+                    <a class="btn btn-success"
+                       href="@Url.Action("TrackRide","Customer",new { bookingId = Model.TodayRide.BookingId })">
+                        📍 Track Driver
+                    </a>
+                </div>
+
+                <div class="ride-image">
+                    <img src="@Model.TodayRide.CarImage"
+                         alt="Car"
+                         onerror="this.src='/images/default-car.png';" />
+                </div>
+
+            </div>
+
+        </div>
+    }
+    
+    @if (Model.Bookings == null || Model.Bookings.Count == 0)
+        {
+            <div class="bk-empty">
+                <div class="glyph">🚕</div>
+                <div><strong>No bookings yet.</strong></div>
+                <div>Once a ride is booked, it'll show up here.</div>
+            </div>
+        }
+        else
+        {
+            <table class="bk-table">
+                <thead>
+                    <tr>
+                        <th class="col-sno">S.No</th>
+                        <th>Booking</th>
+                        <th class="col-route">Route</th>
+                        <th>Journey date</th>
+                        <th>Vehicle</th>
+                        <th>Fare</th>
+                        <th>Status</th>
+                        <th>Booking Date</th>
+                        <th>Invoice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int sno = 1;
+                    }
+                    @foreach (var b in Model.Bookings)
+                    {
+                        <tr>
+                            <td class="col-sno">@sno</td>
+                            <td>
+                                <div class="bk-code">@b.BookingNo</div>
+                                <div class="bk-sub">#@b.BookingId</div>
+                            </td>
+                            <td class="col-route">
+                                <div class="bk-route-wrap">
+                                    <div class="bk-route">
+                                        <span class="dot a"></span>
+                                        <span class="place">@b.PickupAddress</span>
+                                        <span class="seg"></span>
+                                        <span class="dot b"></span>
+                                        <span class="place">@b.DropAddress</span>
+                                    </div>
+                                    <div class="bk-route-tip">
+                                        <div class="tip-row">
+                                            <span class="tip-dot a"></span>
+                                            <span>@b.PickupAddress</span>
+                                        </div>
+                                        <div class="tip-row">
+                                            <span class="tip-dot b"></span>
+                                            <span>@b.DropAddress</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (b.TotalDistanceKm.HasValue)
+                                {
+                                    <div class="bk-sub">@b.TotalDistanceKm.Value.ToString("0.0") km</div>
+                                }
+                            </td>
+                            <td>
+                                <div>@b.JourneyDate.ToString("dd MMM yyyy")</div>
+                                <div class="bk-sub">@b.JourneyTime.ToString("hh:mm tt")</div>
+                            </td>
+                            <td>
+                                <div>@b.VehicleName</div>
+                                <div class="bk-sub">@b.VehicleModelYear &middot; @b.VehicleColor ; @b.VehicleNumber</div>
+                            </td>
+                            <td>
+                                <div class="bk-fare">@b.NetPayable.ToString("C2", inr)</div>
+                                @*  <div class="bk-sub">@b.PaymentMethod</div> *@
+                            </td>
+                           
+                            <td>
+                                <span class="badge-status @b.StatusBadgeClass">@b.Status</span>
+                            </td>
+                            <td>
+                                <div>@b.CreatedDate.ToString("dd MMM yyyy")</div>
+                                <div class="bk-sub">@b.CreatedDate.ToString("hh:mm tt")</div>
+                            </td>
+                            <td class="bk-actions">
+                                <a href="@Url.Action("DownloadInvoice", "Reports", new { id = b.BookingId })">Download</a>
+                            </td>
+                        </tr>
+                        sno++;
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarJi_Cab_Booking", "SardarJi\SardarJi_Cab_Booking.csproj", "{198E87CB-1CAF-CA2A-8362-045D174499CA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarJiCab.BL", "SardarJiCab.BL\SardarJiCab.BL.csproj", "{2B0859FB-92F8-0371-A770-BF4E8DAE03BC}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SardarJiCab.DataBase", "SardarJiCab.DataBase\SardarJiCab.DataBase.sqlproj", "{FA13E234-86C1-4E40-B3B1-E1E3E30826FE}"
@@ -15,16 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarJiCab.Model", "Sardar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarJiCab.Services", "SardarJiCab.Services\SardarJiCab.Services.csproj", "{7A673661-B138-8825-ADB7-E2D8BD7B4613}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarJi_Cab_Booking", "SardarJiCab\SardarJi_Cab_Booking.csproj", "{0A3F8408-0E79-5B46-7E33-27B0B7ECB107}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{198E87CB-1CAF-CA2A-8362-045D174499CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{198E87CB-1CAF-CA2A-8362-045D174499CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{198E87CB-1CAF-CA2A-8362-045D174499CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{198E87CB-1CAF-CA2A-8362-045D174499CA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B0859FB-92F8-0371-A770-BF4E8DAE03BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B0859FB-92F8-0371-A770-BF4E8DAE03BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B0859FB-92F8-0371-A770-BF4E8DAE03BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,6 +43,10 @@ Global
 		{7A673661-B138-8825-ADB7-E2D8BD7B4613}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A673661-B138-8825-ADB7-E2D8BD7B4613}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A673661-B138-8825-ADB7-E2D8BD7B4613}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A3F8408-0E79-5B46-7E33-27B0B7ECB107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A3F8408-0E79-5B46-7E33-27B0B7ECB107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A3F8408-0E79-5B46-7E33-27B0B7ECB107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A3F8408-0E79-5B46-7E33-27B0B7ECB107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

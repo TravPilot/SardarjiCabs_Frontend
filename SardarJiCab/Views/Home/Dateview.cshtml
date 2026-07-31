@@ -1,0 +1,644 @@
+﻿@{
+    Layout = null;
+    string pickup = Context.Request.Query["pickup"];
+    string drop = Context.Request.Query["drop"];
+    string distanceKm = Context.Request.Query["distanceKm"];
+    string categoryId = Context.Request.Query["categoryId"];
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Date and Time</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap');
+
+        :root {
+            --surface: #ffffff;
+            --surface-soft: #f3f5fb;
+            --page-bg: #eef3fb;
+            --accent: #264796;
+            --accent-dark: #0b1c42;
+            --accent-soft: rgba(38,71,150,0.08);
+            --muted: #6b7280;
+            --border: #d7ddea;
+            --text: #111827;
+            --shadow: 0 24px 60px rgba(15,23,42,0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Montserrat',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+            background: linear-gradient(180deg,#eef3fb 0%,#ffffff 100%);
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        a.confirm-btn {
+            text-decoration: none;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .page {
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 26px 24px 124px;
+            min-height: 100vh;
+            position: relative;
+            background: rgba(255,255,255,0.96);
+            border-radius: 32px;
+            border: 1px solid rgba(38,71,150,0.08);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .logo-dot {
+            width: 34px;
+            height: 34px;
+            border-radius: 14px;
+            background: linear-gradient(135deg,var(--accent),var(--accent-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .85rem;
+            box-shadow: 0 12px 30px rgba(38,71,150,0.16);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-dark);
+            font-weight: 700;
+            font-size: .95rem;
+            text-decoration: none;
+            margin-bottom: 22px;
+        }
+
+            .back-link:hover {
+                color: var(--accent);
+            }
+
+        .title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0 0 10px;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+        }
+
+        .route-summary {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--muted);
+            margin: 0 0 20px;
+        }
+
+            .route-summary span {
+                color: var(--accent-dark);
+            }
+
+        .format-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--accent-soft);
+            color: var(--accent-dark);
+            font-weight: 700;
+            font-size: .95rem;
+            border-radius: 22px;
+            padding: 16px 18px;
+            margin-bottom: 26px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            user-select: none;
+            transition: transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+        }
+
+            .format-toggle:hover {
+                transform: translateY(-1px);
+                border-color: rgba(38,71,150,0.2);
+                box-shadow: 0 14px 35px rgba(38,71,150,0.08);
+            }
+
+            .format-toggle i {
+                font-size: 1rem;
+            }
+
+        .picker-wrap {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .picker-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: min(220px,100%);
+            max-height: 340px;
+            overflow-y: auto;
+            padding: 4px 6px;
+            scroll-behavior: smooth;
+        }
+
+            /* nicer scrollbar */
+            .picker-col::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .picker-col::-webkit-scrollbar-thumb {
+                background: rgba(38,71,150,0.25);
+                border-radius: 6px;
+            }
+
+        .picker-col-label {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            margin-bottom: 4px;
+        }
+
+        .picker-col-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: min(220px,100%);
+        }
+
+        .picker-option {
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--muted);
+            cursor: pointer;
+            transition: transform .18s ease,box-shadow .18s ease,color .18s ease,background .18s ease;
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+            .picker-option.active {
+                color: var(--accent-dark);
+                background: linear-gradient(180deg, rgba(38,71,150,0.08), rgba(38,71,150,0.02));
+                box-shadow: 0 14px 32px rgba(38,71,150,0.12);
+                transform: translateY(-2px);
+            }
+
+            .picker-option:hover {
+                color: var(--accent-dark);
+                box-shadow: 0 12px 28px rgba(38,71,150,0.1);
+            }
+
+        .selected-summary {
+            margin-top: 24px;
+            text-align: center;
+            background: var(--surface-soft);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 1px solid rgba(38,71,150,0.12);
+        }
+
+            .selected-summary .label {
+                font-size: .72rem;
+                font-weight: 700;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: .12em;
+                margin: 0 0 6px;
+            }
+
+            .selected-summary .value {
+                font-size: 1.35rem;
+                font-weight: 800;
+                color: var(--accent-dark);
+                margin: 0;
+            }
+
+        .confirm-btn {
+            position: fixed;
+            left: 50%;
+            bottom: 22px;
+            transform: translateX(-50%);
+            width: calc(100% - 44px);
+            max-width: 560px;
+            background: linear-gradient(135deg,var(--accent),var(--accent-dark));
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: 800;
+            box-shadow: 0 20px 46px rgba(38,71,150,0.18);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+        }
+
+            .confirm-btn:hover {
+                /*   transform: translate(-50%,-1px); */
+                box-shadow: 0 26px 54px rgba(38,71,150,0.24);
+            }
+
+        @@media (min-width: 769px) {
+            .phone-frame {
+                max-width: 45%;
+                width: 100%;
+                height: 100vh;
+                overflow-y: scroll;
+            }
+
+            .sheet {
+                width: 100%;
+                max-width: 520px;
+            }
+
+            a.confirm-btn {
+                position: static;
+                transform: none;
+                width: 100%;
+                max-width: 520px;
+                margin: 24px auto 0 !important;
+                margin-top: 24px !important;
+            }
+
+            a.confirm-btn {
+                position: absolute;
+                transform: none;
+                width: 100%;
+                max-width: 520px;
+                margin: 24px auto 0 !important;
+                margin-top: 24px !important;
+                left: 8%;
+            }
+
+            .sheet-overlay.active {
+                justify-content: flex-end;
+            }
+
+            .Main_page {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .phone-frame1 {
+                max-width: 65%;
+                width: 65%;
+            }
+
+                .phone-frame1 img {
+                    width: 100%;
+                    height: 100vh;
+                }
+        }
+
+        @@media (max-width: 768px) {
+            .phone-frame1 {
+                display: none;
+            }
+
+            .page {
+                border-radius: 0;
+                margin: 0 auto;
+                padding: 24px 18px 120px;
+                box-shadow: none;
+            }
+        }
+
+
+
+        .phone-frame1 {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0px;
+        }
+
+            .phone-frame1 img {
+                width: 100%;
+                display: block;
+            }
+
+            .phone-frame1::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient( 90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0) 70% );
+            }
+
+        .banner-content {
+            position: absolute;
+            top: 50%;
+            left: 60px;
+            transform: translateY(-50%);
+            color: #fff;
+            z-index: 2;
+            max-width: 420px;
+        }
+
+        .tag-line {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            padding: 8px 18px;
+            border-radius: 0px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .banner-content h1 {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .banner-content p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 30px;
+        }
+
+        .book-btn {
+            display: inline-block;
+            background: #0B1F5A;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+            .book-btn:hover {
+                background: #15338b;
+                color: #fff;
+            }
+
+        .logo {
+            position: absolute;
+            max-width: 180px;
+            top: 12px;
+            z-index: 99999;
+            left: 53px;
+        }
+
+            .logo img {
+                width: 100%;
+                height: auto;
+            }
+
+
+        @@media(max-width:768px) {
+            .banner-content {
+                left: 25px;
+                right: 25px;
+            }
+
+            .logo {
+                display: none;
+            }
+
+
+            .banner-content h1 {
+                font-size: 36px;
+            }
+
+            .banner-content p {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo_travel">
+        <div class="logo"><img src="~/Images/LogoSardar.png" alt="Sardar JI"></div>
+
+    </div>
+    <div class="Main_page">
+        <div class="phone-frame1">
+            <img src="~/Images/Bann12.png" alt="Sardar Ji Cabs" />
+
+            <div class="banner-content">
+                <span class="tag-line">PREMIUM CAB SERVICE</span>
+                <h1>Sardar Ji Cabs</h1>
+                <p>Luxury Airport, Local & Outstation Rides Across India</p>
+
+                <a href="#" class="book-btn">Book Your Ride</a>
+            </div>
+        </div>
+        <div class="phone-frame">
+            <main class="page">
+
+                <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Go Back</a>
+
+                <h1 class="title">Select Date and Time</h1>
+                <p class="route-summary"><span>@pickup</span> &rarr; <span>@drop</span> &middot; @distanceKm km</p>
+
+                <div class="format-toggle" id="formatToggle">
+                    <i class="fa-regular fa-clock"></i>
+                    <span id="formatLabel">24-Hour Format</span>
+                </div>
+
+
+                <div class="picker-wrap">
+                    <div class="picker-col-group">
+                        <div class="picker-col-label">Date</div>
+                        <div class="picker-col" id="dateCol"></div>
+                    </div>
+                    <div class="picker-col-group">
+                        <div class="picker-col-label">Time</div>
+                        <div class="picker-col" id="timeCol"></div>
+                    </div>
+                </div>
+
+                <div class="selected-summary">
+                    <p class="label">You've selected</p>
+                    <p class="value" id="summaryValue">Today · 19:15</p>
+                </div>
+
+                <a href="#" id="confirmBtn" class="confirm-btn">Confirm Date &amp; Time</a>
+            </main>
+        </div>
+
+    </div>
+
+    <script>
+
+        const routeInfo = {
+            pickup: @Html.Raw(Json.Serialize(pickup ?? "")),
+            drop: @Html.Raw(Json.Serialize(drop ?? "")),
+            distanceKm: @Html.Raw(Json.Serialize(distanceKm ?? "")),
+            categoryId: @Html.Raw(Json.Serialize(categoryId ?? ""))
+        };
+
+        const summary = document.getElementById('summaryValue');
+        const toggle = document.getElementById('formatToggle');
+        const formatLabel = document.getElementById('formatLabel');
+        const dateCol = document.getElementById('dateCol');
+        const timeCol = document.getElementById('timeCol');
+        const confirmBtn = document.getElementById('confirmBtn');
+        let is24 = true;
+
+        // how many days ahead to offer for booking
+        const DAYS_AHEAD = 30;
+
+        const dateOptions = [];
+        for (let i = 0; i < DAYS_AHEAD; i++) {
+            const d = new Date();
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + i);
+            const label = i === 0
+                ? "Today"
+                : i === 1
+                    ? "Tomorrow"
+                    : d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+            dateOptions.push({ date: d, label });
+        }
+
+        let selectedDateIdx = 0;
+        let selectedTimeIdx = 0;
+
+        // build every 15-minute slot for the selected date;
+        // for "today" only future slots are shown
+        function buildTimeOptionsForDate(dateIdx) {
+            const opts = [];
+            const isToday = dateIdx === 0;
+
+            let startH = 0, startM = 0;
+            if (isToday) {
+                const now = new Date();
+                let m = Math.ceil(now.getMinutes() / 15) * 15;
+                let h = now.getHours();
+                if (m === 60) { m = 0; h += 1; }
+                startH = h;
+                startM = m;
+            }
+
+            for (let h = startH; h < 24; h++) {
+                for (let m = (h === startH ? startM : 0); m < 60; m += 15) {
+                    opts.push({ h, m });
+                }
+            }
+
+            // if it's already past 23:45 today, fall back to showing tomorrow's full day
+            if (opts.length === 0) {
+                for (let h = 0; h < 24; h++) {
+                    for (let m = 0; m < 60; m += 15) {
+                        opts.push({ h, m });
+                    }
+                }
+            }
+
+            return opts;
+        }
+
+        let timeOptions = buildTimeOptionsForDate(selectedDateIdx);
+
+        function formatTime(h, m) {
+            const mm = String(m).padStart(2, '0');
+            if (is24) return `${String(h).padStart(2, '0')}:${mm}`;
+            const period = h >= 12 ? 'PM' : 'AM';
+            const h12 = (h % 12) || 12;
+            return `${h12}:${mm} ${period}`;
+        }
+
+        function renderCols() {
+            dateCol.innerHTML = '';
+            dateOptions.forEach((opt, idx) => {
+                const el = document.createElement('div');
+                el.className = 'picker-option' + (idx === selectedDateIdx ? ' active' : '');
+                el.textContent = opt.label;
+                el.addEventListener('click', () => {
+                    selectedDateIdx = idx;
+                    timeOptions = buildTimeOptionsForDate(selectedDateIdx);
+                    selectedTimeIdx = 0;
+                    renderCols();
+                    updateSummary();
+                });
+                dateCol.appendChild(el);
+            });
+
+            timeCol.innerHTML = '';
+            timeOptions.forEach((opt, idx) => {
+                const el = document.createElement('div');
+                el.className = 'picker-option' + (idx === selectedTimeIdx ? ' active' : '');
+                el.textContent = formatTime(opt.h, opt.m);
+                el.addEventListener('click', () => {
+                    selectedTimeIdx = idx;
+                    renderCols();
+                    updateSummary();
+                });
+                timeCol.appendChild(el);
+            });
+
+            // keep the active option in view
+            const activeDate = dateCol.querySelector('.active');
+            if (activeDate) activeDate.scrollIntoView({ block: 'nearest' });
+            const activeTime = timeCol.querySelector('.active');
+            if (activeTime) activeTime.scrollIntoView({ block: 'nearest' });
+        }
+
+        function buildConfirmLink() {
+            const d = dateOptions[selectedDateIdx];
+            const t = timeOptions[selectedTimeIdx];
+            const isoDate = d.date.toISOString().slice(0, 10);
+            const time24 = `${String(t.h).padStart(2, '0')}:${String(t.m).padStart(2, '0')}`;
+
+            const params = new URLSearchParams({
+                pickup: routeInfo.pickup,
+                drop: routeInfo.drop,
+                distanceKm: routeInfo.distanceKm,
+                categoryId: routeInfo.categoryId,
+                date: isoDate,
+                time: time24
+            });
+            confirmBtn.href = `/Home/select_ride_map?${params.toString()}`;
+        }
+
+        function updateSummary() {
+            const d = dateOptions[selectedDateIdx];
+            const t = timeOptions[selectedTimeIdx];
+            summary.textContent = `${d.label} \u00b7 ${formatTime(t.h, t.m)}`;
+            buildConfirmLink();
+        }
+
+        toggle.addEventListener('click', () => {
+            is24 = !is24;
+            formatLabel.textContent = is24 ? "24-Hour Format" : "12-Hour Format";
+            renderCols();
+            updateSummary();
+        });
+
+        renderCols();
+        updateSummary();
+    </script>
+</body>
+</html>
