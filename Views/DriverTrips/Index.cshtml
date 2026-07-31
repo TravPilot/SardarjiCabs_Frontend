@@ -1,0 +1,1287 @@
+﻿@using SardarJiCab.Model
+@model DriverTrips
+@{
+    ViewData["Title"] = "My Trips";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Trips | Sardar Ji EV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --navy: #16265A;
+            --terracotta: #D6491F;
+            --terracotta-2: #EF7A3C;
+            --bg: #F5F4F1;
+            --card: #FFFFFF;
+            --ink: #171B24;
+            --muted: #767C8A;
+            --line: #E7E5E0;
+            --ev-green: #1E8F5F;
+            --ev-green-bg: #E9F7EF;
+            --warn: #C0392B;
+            --warn-bg: #FCEBEA;
+            --gold: #B8860B;
+            --gold-bg: #FBF3DF;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: "Inter",sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+            padding-bottom: 88px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: "Space Grotesk",sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: "Inter",sans-serif;
+        }
+
+        /* ---------------- APP SHELL (mobile-first split layout) ---------------- */
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .visual-pane {
+            display: none;
+            position: relative;
+            flex: 0 0 34%;
+            max-width: 420px;
+            background: linear-gradient(165deg, rgba(11,21,51,0.90) 0%, rgba(22,38,90,0.78) 45%, rgba(214,73,31,0.55) 100%), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1000&q=80') center/cover no-repeat;
+            overflow: hidden;
+            padding: 40px 32px;
+        }
+
+        .visual-pane-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .visual-pane .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+            .visual-pane .brand .mark {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 700;
+                font-size: 15px;
+                font-family: "Space Grotesk",sans-serif;
+                flex-shrink: 0;
+            }
+
+            .visual-pane .brand .word {
+                color: #fff;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 1.1;
+            }
+
+                .visual-pane .brand .word small {
+                    display: block;
+                    color: rgba(255,255,255,0.6);
+                    font-family: "Inter",sans-serif;
+                    font-weight: 600;
+                    font-size: 0.62rem;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    margin-top: 2px;
+                }
+
+        .visual-pane-quote {
+            max-width: 280px;
+        }
+
+            .visual-pane-quote .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(255,255,255,0.85);
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+            }
+
+                .visual-pane-quote .eyebrow i {
+                    color: var(--terracotta-2);
+                }
+
+            .visual-pane-quote h2 {
+                color: #fff;
+                font-size: 1.5rem;
+                line-height: 1.28;
+                font-weight: 700;
+                margin: 0;
+            }
+
+        .visual-pane-foot {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.76rem;
+        }
+
+        .content-pane {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        @@media (min-width:992px) {
+            .visual-pane {
+                display: block;
+            }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+
+        /* ---------------- TOP BAR ---------------- */
+        .topbar {
+            background: var(--navy);
+            padding: 16px 0 20px;
+        }
+
+        .topbar-inner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .topbar h1 {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .topbar p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.78rem;
+            margin: 2px 0 0;
+        }
+
+        /* ---------------- TABS ---------------- */
+        .tabs {
+            display: flex;
+            background: var(--card);
+            border-radius: 14px;
+            padding: 5px;
+            margin: -14px 0 20px;
+            box-shadow: 0 10px 26px rgba(11,21,51,0.08);
+            position: relative;
+            z-index: 5;
+        }
+
+        .tab-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px 0;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.86rem;
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all .18s ease;
+        }
+
+            .tab-btn.active {
+                background: var(--navy);
+                color: #fff;
+            }
+
+            .tab-btn .count {
+                background: rgba(0,0,0,0.08);
+                color: inherit;
+                font-size: 0.7rem;
+                font-weight: 800;
+                padding: 1px 7px;
+                border-radius: 99px;
+            }
+
+            .tab-btn.active .count {
+                background: rgba(255,255,255,0.2);
+            }
+
+        .tab-panel {
+            display: none;
+        }
+
+            .tab-panel.active {
+                display: block;
+            }
+
+        /* ---------------- TRIP CARD ---------------- */
+        .trip-card {
+            background: var(--card);
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 20px rgba(11,21,51,0.05);
+        }
+
+        .trip-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .trip-badge-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .booking-no {
+            font-weight: 800;
+            font-size: 0.82rem;
+            color: var(--ink);
+            font-family: "Space Grotesk",sans-serif;
+        }
+
+        .status-pill {
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 99px;
+        }
+
+            .status-pill.confirmed {
+                background: #EEF1FA;
+                color: var(--navy);
+            }
+
+            .status-pill.completed {
+                background: var(--ev-green-bg);
+                color: var(--ev-green);
+            }
+
+            .status-pill.cancelled {
+                background: var(--warn-bg);
+                color: var(--warn);
+            }
+
+            .status-pill.inprogress {
+                background: var(--gold-bg);
+                color: var(--gold);
+            }
+
+        .journey-meta {
+            text-align: right;
+            font-size: 0.74rem;
+            color: var(--muted);
+        }
+
+            .journey-meta .date {
+                font-weight: 700;
+                color: var(--ink);
+                font-size: 0.8rem;
+            }
+
+        /* route */
+        .route-block {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .route-line {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4px;
+        }
+
+        .route-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--terracotta);
+            flex-shrink: 0;
+        }
+
+            .route-dot.drop {
+                background: var(--navy);
+            }
+
+        .route-connector {
+            width: 2px;
+            flex: 1;
+            background: var(--line);
+            margin: 4px 0;
+            min-height: 22px;
+        }
+
+        .route-texts {
+            flex: 1;
+            min-width: 0;
+        }
+
+            .route-texts .addr {
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--ink);
+                line-height: 1.35;
+                margin-bottom: 16px;
+            }
+
+                .route-texts .addr:last-child {
+                    margin-bottom: 0;
+                }
+
+            .route-texts .lbl {
+                font-size: 0.66rem;
+                font-weight: 700;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                margin-bottom: 2px;
+            }
+
+        /* passenger + vehicle strip */
+        .trip-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #F8FAFB;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .passenger-info {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+        }
+
+            .passenger-info .avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 9px;
+                background: var(--navy);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 0.74rem;
+                flex-shrink: 0;
+            }
+
+            .passenger-info .name {
+                font-size: 0.82rem;
+                font-weight: 700;
+                color: var(--ink);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .passenger-info .phone {
+                font-size: 0.72rem;
+                color: var(--muted);
+            }
+
+        .call-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: var(--ev-green-bg);
+            color: var(--ev-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .vehicle-strip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+            .vehicle-strip img {
+                width: 52px;
+                height: 38px;
+                border-radius: 9px;
+                object-fit: cover;
+                background: var(--line);
+                flex-shrink: 0;
+            }
+
+            .vehicle-strip .vinfo .vname {
+                font-size: 0.82rem;
+                font-weight: 700;
+                color: var(--ink);
+            }
+
+            .vehicle-strip .vinfo .vsub {
+                font-size: 0.72rem;
+                color: var(--muted);
+            }
+
+        .metric-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .metric {
+            flex: 1;
+            background: #F8FAFB;
+            border-radius: 11px;
+            padding: 9px 10px;
+            text-align: center;
+        }
+
+            .metric .v {
+                font-family: "Space Grotesk",sans-serif;
+                font-weight: 700;
+                font-size: 0.92rem;
+                color: var(--ink);
+            }
+
+            .metric .l {
+                font-size: 0.66rem;
+                color: var(--muted);
+                margin-top: 2px;
+            }
+
+        .otp-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--gold-bg);
+            border-radius: 11px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+        }
+
+            .otp-strip .l {
+                font-size: 0.72rem;
+                font-weight: 700;
+                color: var(--gold);
+            }
+
+            .otp-strip .code {
+                font-family: "Space Grotesk",sans-serif;
+                font-weight: 800;
+                font-size: 1.05rem;
+                letter-spacing: 3px;
+                color: var(--gold);
+            }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .card-btn {
+            flex: 1;
+            border: none;
+            border-radius: 11px;
+            padding: 11px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+
+            .card-btn.primary {
+                background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+                color: #fff;
+            }
+
+            .card-btn.ghost {
+                background: #F1F0EC;
+                color: var(--ink);
+            }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+            .empty-state i {
+                font-size: 2rem;
+                color: var(--line);
+                margin-bottom: 12px;
+            }
+
+            .empty-state p {
+                font-size: 0.9rem;
+                margin: 0;
+            }
+
+        /* ---------------- BOTTOM TAB BAR ---------------- */
+        .bottom-tab-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1100;
+            background: #fff;
+            border-top: 1px solid var(--line);
+            box-shadow: 0 -10px 26px rgba(0,0,0,0.06);
+            padding: 8px 0;
+        }
+
+        .bottom-tab-row {
+            max-width: 480px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 4px;
+            padding: 0 10px;
+        }
+
+        .bottom-tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.68rem;
+            color: var(--muted);
+            padding: 8px 0;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+            .bottom-tab-item i {
+                font-size: 16px;
+            }
+
+            .bottom-tab-item.active {
+                color: var(--terracotta);
+                background: #FFF1E7;
+            }
+
+        @@media (min-width:768px) {
+            .bottom-tab-bar {
+                display: none;
+            }
+
+            body {
+                padding-bottom: 40px;
+            }
+        }
+
+        /* ---------------- OTP VERIFICATION MODAL ---------------- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11,21,51,0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity .2s ease;
+        }
+
+            .modal-overlay.show {
+                display: flex;
+                opacity: 1;
+            }
+
+        .modal-sheet {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 24px 24px 0 0;
+            padding: 22px 22px 26px;
+            transform: translateY(100%);
+            transition: transform .3s cubic-bezier(.25,.8,.35,1);
+            box-shadow: 0 -14px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal-overlay.show .modal-sheet {
+            transform: translateY(0);
+        }
+
+        .modal-handle {
+            width: 36px;
+            height: 4px;
+            border-radius: 99px;
+            background: var(--line);
+            margin: 0 auto 18px;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .modal-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: var(--gold-bg);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 14px;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0 0 4px;
+        }
+
+        .modal-sub {
+            font-size: 0.86rem;
+            color: var(--muted);
+            margin: 0 0 4px;
+            line-height: 1.5;
+        }
+
+        .modal-booking-ref {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--navy);
+            background: #EEF1FA;
+            padding: 3px 10px;
+            border-radius: 99px;
+            margin: 10px 0 20px;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #F3F4F6;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+            .modal-close:hover {
+                background: #E9EBEE;
+            }
+
+        .otp-input-shell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #FBFAF8;
+            border: 1.5px solid var(--line);
+            border-radius: 13px;
+            padding: 0 14px;
+            height: 54px;
+            margin-bottom: 8px;
+            transition: border-color .16s ease, box-shadow .16s ease;
+        }
+
+            .otp-input-shell:focus-within {
+                border-color: var(--terracotta);
+                box-shadow: 0 0 0 4px rgba(214,73,31,0.16);
+            }
+
+            .otp-input-shell.error {
+                border-color: var(--warn);
+                box-shadow: 0 0 0 4px rgba(192,57,43,0.12);
+            }
+
+            .otp-input-shell i {
+                color: var(--muted);
+                font-size: 0.9rem;
+            }
+
+            .otp-input-shell input {
+                border: none;
+                outline: none;
+                background: transparent;
+                flex: 1;
+                font-family: "Space Grotesk",sans-serif;
+                font-size: 1.2rem;
+                font-weight: 700;
+                letter-spacing: 6px;
+                color: var(--ink);
+                text-align: center;
+            }
+
+                .otp-input-shell input::placeholder {
+                    color: #D8D5CD;
+                    letter-spacing: 6px;
+                }
+
+        .modal-error-msg {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            color: var(--warn);
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin: 0 0 16px;
+        }
+
+            .modal-error-msg.show {
+                display: flex;
+            }
+
+        .modal-verify-btn {
+            width: 100%;
+            border: none;
+            border-radius: 13px;
+            padding: 15px;
+            background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+            color: #fff;
+            font-family: "Space Grotesk",sans-serif;
+            font-weight: 700;
+            font-size: 0.96rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            box-shadow: 0 12px 24px rgba(214,73,31,0.28);
+            transition: opacity .15s ease;
+        }
+
+            .modal-verify-btn:disabled {
+                opacity: 0.65;
+                cursor: not-allowed;
+            }
+
+            .modal-verify-btn .fa-spinner {
+                animation: modalSpin .7s linear infinite;
+            }
+
+        @@keyframes modalSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .modal-cancel-link {
+            display: block;
+            text-align: center;
+            margin-top: 14px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-shell">
+
+        <!-- ===================== LEFT VISUAL PANE (desktop only, image/branding — no functionality) ===================== -->
+        <div class="visual-pane">
+            <div class="visual-pane-content">
+                <div class="brand">
+                    <div class="mark">SJ</div>
+                    <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
+                </div>
+                <div class="visual-pane-quote">
+                    <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Trip History</div>
+                    <h2>Every trip, upcoming or completed, right where you need it.</h2>
+                </div>
+                <div class="visual-pane-foot">&copy; Sardar Ji EV &middot; Driver Partner Network</div>
+            </div>
+        </div>
+
+        <!-- ===================== RIGHT PANE: ALL FUNCTIONALITY (full width on mobile) ===================== -->
+        <div class="content-pane">
+
+            <div class="topbar">
+                <div class="container topbar-inner">
+                    <a href="@Url.Action("Index", "DriverDashboard")" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <div>
+                        <h1>My Trips</h1>
+                        <p>All your assigned rides in one place</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+
+                <div class="tabs">
+                    <button class="tab-btn active" id="ongoingTabBtn" onclick="switchTab('ongoing')">
+                        Ongoing <span class="count">@Model.OnGoing.Count</span>
+                    </button>
+                    <button class="tab-btn" id="upcomingTabBtn" onclick="switchTab('upcoming')">
+                        Upcoming <span class="count">@Model.UpcomingTrips.Count</span>
+                    </button>
+                    <button class="tab-btn" id="completedTabBtn" onclick="switchTab('completed')">
+                        Completed <span class="count">@Model.CompletedTrips.Count</span>
+                    </button>
+                </div>
+
+                <!-- ===================== UPCOMING TAB ===================== -->
+                <div class="tab-panel active" id="ongoingPanel">
+                    @if (Model.OnGoing.Any())
+                    {
+                        foreach (var trip in Model.OnGoing)
+                        {
+                            <div class="trip-card">
+                                <div class="trip-card-top">
+                                    <div class="trip-badge-row">
+                                        <span class="booking-no">#@trip.BookingNo</span>
+                                        <span class="status-pill @trip.StatusCssClass">@trip.Status</span>
+                                    </div>
+                                    <div class="journey-meta">
+                                        <div class="date">@trip.JourneyDate.ToString("dd MMM yyyy")</div>
+                                        <div>@trip.JourneyTime</div>
+                                    </div>
+                                </div>
+
+                                <div class="route-block">
+                                    <div class="route-line">
+                                        <div class="route-dot pickup"></div>
+                                        <div class="route-connector"></div>
+                                        <div class="route-dot drop"></div>
+                                    </div>
+                                    <div class="route-texts">
+                                        <div class="lbl">Pickup</div>
+                                        <div class="addr">@trip.PickupAddress</div>
+                                        <div class="lbl">Drop</div>
+                                        <div class="addr">@trip.DropAddress</div>
+                                    </div>
+                                </div>
+
+                                <div class="trip-strip">
+                                    <div class="passenger-info">
+                                        <div class="avatar">@trip.PassengerInitials</div>
+                                        <div>
+                                            <div class="name">@trip.PassengerName</div>
+                                            <div class="phone">@trip.ContactNumber</div>
+                                        </div>
+                                    </div>
+                                    <a href="tel:@trip.ContactNumber" class="call-btn"><i class="fa-solid fa-phone"></i></a>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(trip.CarImage) || !string.IsNullOrEmpty(trip.VehicleName))
+                                {
+                                    <div class="vehicle-strip">
+                                        <img src="@(string.IsNullOrEmpty(trip.CarImage) ? "https://via.placeholder.com/52x38" : trip.CarImage)" alt="@trip.VehicleName" />
+                                        <div class="vinfo">
+                                            <div class="vname">@trip.VehicleName @(string.IsNullOrEmpty(trip.VehicleColor) ? "" : $"· {trip.VehicleColor}")</div>
+                                            <div class="vsub">@trip.VehicleNumber</div>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="metric-row">
+                                    <div class="metric"><div class="v">@trip.TotalDistanceKm.ToString("0.0") km</div><div class="l">Distance</div></div>
+                                    <div class="metric"><div class="v">₹@trip.NetPayable.ToString("N0")</div><div class="l">Fare</div></div>
+                                    <div class="metric"><div class="v">@trip.PaymentMethod</div><div class="l">Payment</div></div>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination=@Uri.EscapeDataString(trip.DropAddress)" target="_blank" class="card-btn ghost">
+                                        <i class="fa-solid fa-diamond-turn-right"></i> Navigate
+                                    </a>
+                                    <a href="/drivertripinprogress/index?bookingId=@trip.BookingId" class="card-btn primary">
+                                        <i class="fa-solid fa-play"></i> Trip Details
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <p>No upcoming trips right now. New bookings will show up here.</p>
+                        </div>
+                    }
+                </div>
+                
+                
+                <!-- ===================== UPCOMING TAB ===================== -->
+                <div class="tab-panel" id="upcomingPanel">
+                    @if (Model.UpcomingTrips.Any())
+                    {
+                        foreach (var trip in Model.UpcomingTrips)
+                        {
+                            <div class="trip-card">
+                                <div class="trip-card-top">
+                                    <div class="trip-badge-row">
+                                        <span class="booking-no">#@trip.BookingNo</span>
+                                        <span class="status-pill @trip.StatusCssClass">@trip.Status</span>
+                                    </div>
+                                    <div class="journey-meta">
+                                        <div class="date">@trip.JourneyDate.ToString("dd MMM yyyy")</div>
+                                        <div>@trip.JourneyTime</div>
+                                    </div>
+                                </div>
+
+                                <div class="route-block">
+                                    <div class="route-line">
+                                        <div class="route-dot pickup"></div>
+                                        <div class="route-connector"></div>
+                                        <div class="route-dot drop"></div>
+                                    </div>
+                                    <div class="route-texts">
+                                        <div class="lbl">Pickup</div>
+                                        <div class="addr">@trip.PickupAddress</div>
+                                        <div class="lbl">Drop</div>
+                                        <div class="addr">@trip.DropAddress</div>
+                                    </div>
+                                </div>
+
+                                <div class="trip-strip">
+                                    <div class="passenger-info">
+                                        <div class="avatar">@trip.PassengerInitials</div>
+                                        <div>
+                                            <div class="name">@trip.PassengerName</div>
+                                            <div class="phone">@trip.ContactNumber</div>
+                                        </div>
+                                    </div>
+                                    <a href="tel:@trip.ContactNumber" class="call-btn"><i class="fa-solid fa-phone"></i></a>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(trip.CarImage) || !string.IsNullOrEmpty(trip.VehicleName))
+                                {
+                                    <div class="vehicle-strip">
+                                        <img src="@(string.IsNullOrEmpty(trip.CarImage) ? "https://via.placeholder.com/52x38" : trip.CarImage)" alt="@trip.VehicleName" />
+                                        <div class="vinfo">
+                                            <div class="vname">@trip.VehicleName @(string.IsNullOrEmpty(trip.VehicleColor) ? "" : $"· {trip.VehicleColor}")</div>
+                                            <div class="vsub">@trip.VehicleNumber</div>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="metric-row">
+                                    <div class="metric"><div class="v">@trip.TotalDistanceKm.ToString("0.0") km</div><div class="l">Distance</div></div>
+                                    <div class="metric"><div class="v">₹@trip.NetPayable.ToString("N0")</div><div class="l">Fare</div></div>
+                                    <div class="metric"><div class="v">@trip.PaymentMethod</div><div class="l">Payment</div></div>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(trip.Otp))
+                                {
+                                    <div class="otp-strip">
+                                        <span class="l">Ask passenger for start OTP</span>
+                                    </div>
+                                }
+
+                                <div class="card-actions">
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination=@Uri.EscapeDataString(trip.DropAddress)" target="_blank" class="card-btn ghost">
+                                        <i class="fa-solid fa-diamond-turn-right"></i> Navigate
+                                    </a>
+                                    <button type="button" class="card-btn primary" onclick="startTrip(@trip.BookingId, '@trip.BookingNo')">
+                                        <i class="fa-solid fa-play"></i> Start Trip
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <p>No upcoming trips right now. New bookings will show up here.</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- ===================== COMPLETED TAB ===================== -->
+                <div class="tab-panel" id="completedPanel">
+                    @if (Model.CompletedTrips.Any())
+                    {
+                        foreach (var trip in Model.CompletedTrips)
+                        {
+                            <div class="trip-card">
+                                <div class="trip-card-top">
+                                    <div class="trip-badge-row">
+                                        <span class="booking-no">#@trip.BookingNo</span>
+                                        <span class="status-pill @trip.StatusCssClass">@trip.Status</span>
+                                    </div>
+                                    <div class="journey-meta">
+                                        <div class="date">@(trip.CompletedOn?.ToString("dd MMM yyyy") ?? trip.JourneyDate.ToString("dd MMM yyyy"))</div>
+                                        <div>@(trip.CompletedOn?.ToString("hh:mm tt") ?? "")</div>
+                                    </div>
+                                </div>
+
+                                <div class="route-block">
+                                    <div class="route-line">
+                                        <div class="route-dot pickup"></div>
+                                        <div class="route-connector"></div>
+                                        <div class="route-dot drop"></div>
+                                    </div>
+                                    <div class="route-texts">
+                                        <div class="lbl">Pickup</div>
+                                        <div class="addr">@trip.PickupAddress</div>
+                                        <div class="lbl">Drop</div>
+                                        <div class="addr">@trip.DropAddress</div>
+                                    </div>
+                                </div>
+
+                                <div class="trip-strip">
+                                    <div class="passenger-info">
+                                        <div class="avatar">@trip.PassengerInitials</div>
+                                        <div>
+                                            <div class="name">@trip.PassengerName</div>
+                                            <div class="phone">@trip.ContactNumber</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="metric-row">
+                                    <div class="metric"><div class="v">@trip.TotalDistanceKm.ToString("0.0") km</div><div class="l">Distance</div></div>
+                                    <div class="metric"><div class="v">₹@trip.NetPayable.ToString("N0")</div><div class="l">Earned</div></div>
+                                    <div class="metric"><div class="v">@trip.PaymentMethod</div><div class="l">Payment</div></div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa-solid fa-road"></i>
+                            <p>No completed trips yet.</p>
+                        </div>
+                    }
+                </div>
+
+            </div>
+
+            <!-- ===================== BOTTOM TAB BAR (mobile) ===================== -->
+            <div class="bottom-tab-bar">
+                <div class="bottom-tab-row">
+                    <a href="@Url.Action("Index", "DriverDashboard")" class="bottom-tab-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+                    <a href="@Url.Action("Index", "DriverTrips")" class="bottom-tab-item active"><i class="fa-solid fa-calendar-check"></i><span>Trips</span></a>
+                    <a href="@Url.Action("Index", "DriverEarnings")" class="bottom-tab-item"><i class="fa-solid fa-wallet"></i><span>Earnings</span></a>
+                    <a href="@Url.Action("Index", "DriverProfile")" class="bottom-tab-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+                </div>
+            </div>
+
+            @Html.AntiForgeryToken()
+
+            <!-- ===================== OTP VERIFICATION MODAL ===================== -->
+            <div class="modal-overlay" id="otpModalOverlay">
+                <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="otpModalTitle">
+                    <div class="modal-handle"></div>
+                    <div class="modal-header">
+                        <div></div>
+                        <button type="button" class="modal-close" onclick="closeOtpModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="modal-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="modal-title" id="otpModalTitle">Verify start OTP</h3>
+                    <p class="modal-sub">Ask the passenger for the 6-digit code and enter it below to begin the trip.</p>
+                    <span class="modal-booking-ref" id="modalBookingRef">#—</span>
+
+                    <div class="otp-input-shell" id="modalOtpShell">
+                        <i class="fa-solid fa-key"></i>
+                        <input type="text" id="modalOtpInput" inputmode="numeric" maxlength="6" placeholder="• • • • • •" autocomplete="one-time-code">
+                    </div>
+                    <div class="modal-error-msg" id="modalOtpError">
+                        <i class="fa-solid fa-circle-exclamation"></i> <span>Incorrect OTP. Please try again.</span>
+                    </div>
+
+                    <button type="button" class="modal-verify-btn" id="modalVerifyBtn" onclick="verifyAndStartTrip()">
+                        <span id="modalVerifyLabel">Verify &amp; Start Trip</span>
+                        <i class="fa-solid fa-arrow-right" id="modalVerifyIcon"></i>
+                    </button>
+                    <button type="button" class="modal-cancel-link" onclick="closeOtpModal()">Cancel</button>
+                </div>
+            </div>
+
+        </div><!-- /.content-pane -->
+    </div><!-- /.app-shell -->
+
+    <script>
+        function switchTab(tab) {
+          document.getElementById('ongoingTabBtn').classList.toggle('active', tab === 'ongoing');
+          document.getElementById('upcomingTabBtn').classList.toggle('active', tab === 'upcoming');
+          document.getElementById('completedTabBtn').classList.toggle('active', tab === 'completed');
+          document.getElementById('upcomingPanel').classList.toggle('active', tab === 'upcoming');
+          document.getElementById('completedPanel').classList.toggle('active', tab === 'completed');
+          document.getElementById('ongoingPanel').classList.toggle('active', tab === 'ongoing');
+        }
+
+        // ---------------- OTP verification modal ----------------
+        let activeBookingId = null;
+
+        function startTrip(bookingId, bookingNo) {
+          activeBookingId = bookingId;
+          document.getElementById('modalBookingRef').textContent = '#' + (bookingNo || bookingId);
+          document.getElementById('modalOtpInput').value = '';
+          clearModalError();
+          document.getElementById('otpModalOverlay').classList.add('show');
+          document.body.style.overflow = 'hidden';
+          setTimeout(() => document.getElementById('modalOtpInput').focus(), 150);
+        }
+
+        function closeOtpModal() {
+          document.getElementById('otpModalOverlay').classList.remove('show');
+          document.body.style.overflow = '';
+          activeBookingId = null;
+        }
+
+        function setModalError(message) {
+          const shell = document.getElementById('modalOtpShell');
+          const errEl = document.getElementById('modalOtpError');
+          shell.classList.add('error');
+          errEl.querySelector('span').textContent = message;
+          errEl.classList.add('show');
+        }
+
+        function clearModalError() {
+          document.getElementById('modalOtpShell').classList.remove('error');
+          document.getElementById('modalOtpError').classList.remove('show');
+        }
+
+        function setModalLoading(loading) {
+          const btn = document.getElementById('modalVerifyBtn');
+          const label = document.getElementById('modalVerifyLabel');
+          const icon = document.getElementById('modalVerifyIcon');
+          btn.disabled = loading;
+          label.textContent = loading ? 'Verifying…' : 'Verify & Start Trip';
+          icon.className = loading ? 'fa-solid fa-spinner' : 'fa-solid fa-arrow-right';
+        }
+
+        async function verifyAndStartTrip() {
+          const otp = document.getElementById('modalOtpInput').value.trim();
+          clearModalError();
+
+          if (!/^\d{6}$/.test(otp)) {
+            setModalError('Enter the 6-digit OTP shared by the passenger.');
+            return;
+          }
+          if (!activeBookingId) {
+            setModalError('Something went wrong. Please close and try again.');
+            return;
+          }
+
+          setModalLoading(true);
+
+          try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            const res = await fetch('@Url.Action("StartTrip", "DriverTrips")', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'RequestVerificationToken': token
+              },
+              body: new URLSearchParams({
+                bookingId: activeBookingId,
+                otp: otp,
+                __RequestVerificationToken: token
+              })
+            });
+
+            let payload;
+            try { payload = await res.json(); }
+            catch { payload = { success: false, message: 'Unexpected server response. Please try again.' }; }
+
+            if (payload.success) {
+              document.getElementById('modalVerifyLabel').textContent = 'Trip started…';
+              setTimeout(() => {
+                window.location.href = payload.redirectUrl || '@Url.Action("Index", "DriverTrips")';
+              }, 500);
+            } else {
+              setModalLoading(false);
+              setModalError(payload.message || 'Incorrect OTP. Please try again.');
+              document.getElementById('modalOtpInput').select();
+            }
+          } catch (err) {
+            setModalLoading(false);
+            setModalError('Network error — please check your connection and try again.');
+          }
+        }
+
+        document.getElementById('modalOtpInput').addEventListener('input', function () {
+          this.value = this.value.replace(/\D/g, '').slice(0, 6);
+          clearModalError();
+        });
+        document.getElementById('modalOtpInput').addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') verifyAndStartTrip();
+        });
+        document.getElementById('otpModalOverlay').addEventListener('click', function (e) {
+          if (e.target === this) closeOtpModal();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeOtpModal();
+        });
+    </script>
+
+</body>
+</html>

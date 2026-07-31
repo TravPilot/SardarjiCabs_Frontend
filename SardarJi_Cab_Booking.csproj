@@ -86,4 +86,9 @@
     <Folder Include="Data Layer\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SardarJiCab.BL\SardarJiCab.BL.csproj" />
+    <ProjectReference Include="..\SardarJiCab.Services\SardarJiCab.Services.csproj" />
+  </ItemGroup>
+
 </Project>

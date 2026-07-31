@@ -1,0 +1,1080 @@
+﻿@using SardarJiCab.Model
+@model DriverDashboard
+@{
+    ViewData["Title"] = "Driver Dashboard";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Sardar Ji EV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --navy: #16265A;
+            --navy-deep: #0B1533;
+            --terracotta: #D6491F;
+            --terracotta-2: #EF7A3C;
+            --bg: #F5F4F1;
+            --card: #FFFFFF;
+            --ink: #171B24;
+            --muted: #767C8A;
+            --line: #E7E5E0;
+            --ev-green: #1E8F5F;
+            --ev-green-bg: #E9F7EF;
+            --warn: #C0392B;
+            --warn-bg: #FCEBEA;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: "Inter",sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+            padding-bottom: 88px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, .display {
+            font-family: "Space Grotesk",sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: "Inter",sans-serif;
+        }
+
+        /* ---------------- APP SHELL (mobile-first split layout) ---------------- */
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .visual-pane {
+            display: none;
+            position: relative;
+            flex: 0 0 34%;
+            max-width: 420px;
+            background: linear-gradient(165deg, rgba(11,21,51,0.90) 0%, rgba(22,38,90,0.78) 45%, rgba(214,73,31,0.55) 100%), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1000&q=80') center/cover no-repeat;
+            overflow: hidden;
+            padding: 40px 32px;
+        }
+
+        .visual-pane-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .visual-pane .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+            .visual-pane .brand .word {
+                color: #fff;
+            }
+
+                .visual-pane .brand .word small {
+                    color: rgba(255,255,255,0.6);
+                }
+
+        .visual-pane-quote {
+            max-width: 280px;
+        }
+
+            .visual-pane-quote .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(255,255,255,0.85);
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+            }
+
+                .visual-pane-quote .eyebrow i {
+                    color: var(--terracotta-2);
+                }
+
+            .visual-pane-quote h2 {
+                color: #fff;
+                font-size: 1.5rem;
+                line-height: 1.28;
+                font-weight: 700;
+                margin: 0;
+            }
+
+        .visual-pane-foot {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.76rem;
+        }
+
+        .content-pane {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        @@media (min-width:992px) {
+            .visual-pane {
+                display: block;
+            }
+        }
+
+        /* ---------------- TOP BAR ---------------- */
+        .topbar {
+            background: var(--navy);
+            padding: 16px 0;
+        }
+
+        .topbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+            .brand .mark {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 700;
+                font-size: 15px;
+                font-family: "Space Grotesk",sans-serif;
+                flex-shrink: 0;
+            }
+
+            .brand .word {
+                color: #fff;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 1.1;
+            }
+
+                .brand .word small {
+                    display: block;
+                    color: rgba(255,255,255,0.55);
+                    font-family: "Inter",sans-serif;
+                    font-weight: 600;
+                    font-size: 0.62rem;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    margin-top: 2px;
+                }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: rgba(255,255,255,0.08);
+            border: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 15px;
+            position: relative;
+        }
+
+            .icon-btn:hover {
+                background: rgba(255,255,255,0.16);
+            }
+
+            .icon-btn .dot {
+                position: absolute;
+                top: 7px;
+                right: 8px;
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: var(--terracotta-2);
+                border: 1.5px solid var(--navy);
+            }
+
+        .avatar-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg,#2b3d78,#1a2a5e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+            .avatar-btn img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        /* ---------------- ONLINE STATUS STRIP ---------------- */
+        .status-strip {
+            margin-top: 16px;
+            background: var(--card);
+            border-radius: 18px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            box-shadow: 0 10px 26px rgba(11,21,51,0.06);
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--muted);
+            flex-shrink: 0;
+            transition: background .2s ease;
+        }
+
+            .status-dot.online {
+                background: var(--ev-green);
+                box-shadow: 0 0 0 4px var(--ev-green-bg);
+            }
+
+            .status-dot.offline {
+                background: #B7B4AC;
+                box-shadow: 0 0 0 4px #F1F0EC;
+            }
+
+        .status-text .title {
+            font-weight: 700;
+            font-size: 0.94rem;
+            color: var(--ink);
+        }
+
+        .status-text .sub {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #DDDBD5;
+            border-radius: 99px;
+            cursor: pointer;
+            transition: background .2s ease;
+        }
+
+            .slider::before {
+                content: "";
+                position: absolute;
+                width: 22px;
+                height: 22px;
+                left: 3px;
+                top: 3px;
+                background: #fff;
+                border-radius: 50%;
+                transition: transform .2s ease;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+            }
+
+        .switch input:checked + .slider {
+            background: var(--ev-green);
+        }
+
+            .switch input:checked + .slider::before {
+                transform: translateX(22px);
+            }
+
+        /* ---------------- APPROVAL BANNER (conditional) ---------------- */
+        .approval-banner {
+            margin-top: 14px;
+            border-radius: 16px;
+            padding: 13px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.84rem;
+            font-weight: 600;
+        }
+
+            .approval-banner.pending {
+                background: #FFF4E8;
+                color: #8A5A16;
+            }
+
+            .approval-banner.rejected {
+                background: var(--warn-bg);
+                color: var(--warn);
+            }
+
+            .approval-banner i {
+                font-size: 1rem;
+            }
+
+        /* ---------------- GREETING ---------------- */
+        .greeting {
+            margin: 26px 0 18px;
+        }
+
+            .greeting h1 {
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: var(--ink);
+                margin: 0 0 4px;
+            }
+
+            .greeting p {
+                font-size: 0.88rem;
+                color: var(--muted);
+                margin: 0;
+            }
+
+        /* ---------------- STAT CARDS ---------------- */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 8px 20px rgba(11,21,51,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .stat-card .stat-icon {
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+
+            .stat-card.earnings .stat-icon {
+                background: var(--ev-green-bg);
+                color: var(--ev-green);
+            }
+
+            .stat-card.trips .stat-icon {
+                background: #EEF1FA;
+                color: var(--navy);
+            }
+
+            .stat-card.rating .stat-icon {
+                background: #FFF1E7;
+                color: var(--terracotta);
+            }
+
+            .stat-card.co2 .stat-icon {
+                background: #E9F7EF;
+                color: var(--ev-green);
+            }
+
+            .stat-card .num {
+                font-family: "Space Grotesk",sans-serif;
+                font-weight: 700;
+                font-size: 1.3rem;
+                color: var(--ink);
+            }
+
+            .stat-card .lbl {
+                font-size: 0.74rem;
+                color: var(--muted);
+                margin-top: 3px;
+            }
+
+        /* ---------------- QUICK ACTIONS ---------------- */
+        .section-title {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+            .section-title a {
+                font-size: 0.78rem;
+                font-weight: 700;
+                color: var(--terracotta);
+            }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            margin-bottom: 26px;
+            scrollbar-width: none;
+        }
+
+            .action-row::-webkit-scrollbar {
+                display: none;
+            }
+
+        .action-chip {
+            flex: 0 0 auto;
+            min-width: 104px;
+            background: var(--card);
+            border-radius: 15px;
+            padding: 14px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-align: center;
+            box-shadow: 0 8px 18px rgba(11,21,51,0.05);
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: border-color .15s ease, transform .15s ease;
+        }
+
+            .action-chip:hover {
+                border-color: var(--line);
+                transform: translateY(-2px);
+            }
+
+            .action-chip .ic {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+                background: #EEF1FA;
+                color: var(--navy);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+            }
+
+            .action-chip span {
+                font-size: 0.74rem;
+                font-weight: 700;
+                color: var(--ink);
+            }
+
+        /* ---------------- TRIP REQUEST CARD ---------------- */
+        .trip-request {
+            background: linear-gradient(135deg,var(--navy),#223a7a);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 26px;
+            color: #fff;
+            display: none;
+        }
+
+            .trip-request.show {
+                display: block;
+            }
+
+            .trip-request .tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(255,255,255,0.14);
+                padding: 4px 10px;
+                border-radius: 99px;
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                margin-bottom: 12px;
+            }
+
+            .trip-request .route {
+                font-size: 0.92rem;
+                font-weight: 600;
+                line-height: 1.5;
+                margin-bottom: 14px;
+            }
+
+                .trip-request .route i {
+                    color: var(--terracotta-2);
+                    width: 16px;
+                }
+
+            .trip-request .meta {
+                display: flex;
+                gap: 18px;
+                margin-bottom: 16px;
+            }
+
+                .trip-request .meta div .n {
+                    font-family: "Space Grotesk",sans-serif;
+                    font-weight: 700;
+                    font-size: 1.05rem;
+                }
+
+                .trip-request .meta div .l {
+                    font-size: 0.68rem;
+                    color: rgba(255,255,255,0.6);
+                }
+
+            .trip-request .btn-row {
+                display: flex;
+                gap: 10px;
+            }
+
+        .trip-btn {
+            flex: 1;
+            border: none;
+            border-radius: 12px;
+            padding: 11px;
+            font-weight: 700;
+            font-size: 0.86rem;
+            cursor: pointer;
+        }
+
+            .trip-btn.accept {
+                background: var(--ev-green);
+                color: #fff;
+            }
+
+            .trip-btn.decline {
+                background: rgba(255,255,255,0.12);
+                color: #fff;
+            }
+
+        /* ---------------- RECENT TRIPS ---------------- */
+        .trip-list {
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(11,21,51,0.05);
+            margin-bottom: 26px;
+        }
+
+        .trip-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+        }
+
+            .trip-item + .trip-item {
+                border-top: 1px solid var(--line);
+            }
+
+            .trip-item .trip-icon {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                background: #F6F6F3;
+                color: var(--navy);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                flex-shrink: 0;
+            }
+
+            .trip-item .trip-info {
+                flex: 1;
+                min-width: 0;
+            }
+
+                .trip-item .trip-info .route {
+                    font-size: 0.86rem;
+                    font-weight: 600;
+                    color: var(--ink);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .trip-item .trip-info .when {
+                    font-size: 0.74rem;
+                    color: var(--muted);
+                    margin-top: 2px;
+                }
+
+            .trip-item .trip-amount {
+                text-align: right;
+                flex-shrink: 0;
+            }
+
+                .trip-item .trip-amount .amt {
+                    font-weight: 700;
+                    font-size: 0.9rem;
+                    color: var(--ink);
+                }
+
+                .trip-item .trip-amount .status {
+                    font-size: 0.68rem;
+                    font-weight: 700;
+                    margin-top: 2px;
+                    padding: 2px 8px;
+                    border-radius: 99px;
+                    display: inline-block;
+                }
+
+        .status.completed {
+            background: var(--ev-green-bg);
+            color: var(--ev-green);
+        }
+
+        .status.cancelled {
+            background: var(--warn-bg);
+            color: var(--warn);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 36px 20px;
+            color: var(--muted);
+        }
+
+            .empty-state i {
+                font-size: 1.6rem;
+                color: var(--line);
+                margin-bottom: 10px;
+            }
+
+            .empty-state p {
+                font-size: 0.86rem;
+                margin: 0;
+            }
+
+        /* ---------------- CO2 IMPACT BANNER ---------------- */
+        .impact-banner {
+            background: linear-gradient(135deg,#d9f8ec 0%,#c7f3e2 100%);
+            border-radius: 18px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 26px;
+        }
+
+            .impact-banner .txt .small {
+                font-size: 0.78rem;
+                color: #3c6b5c;
+                margin-bottom: 2px;
+            }
+
+            .impact-banner .txt .big {
+                font-weight: 800;
+                font-size: 1.05rem;
+                color: #12321f;
+            }
+
+            .impact-banner i {
+                font-size: 1.8rem;
+                color: var(--ev-green);
+            }
+
+        /* ---------------- BOTTOM TAB BAR ---------------- */
+        .bottom-tab-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1100;
+            background: #fff;
+            border-top: 1px solid var(--line);
+            box-shadow: 0 -10px 26px rgba(0,0,0,0.06);
+            padding: 8px 0;
+        }
+
+        .bottom-tab-row {
+            max-width: 480px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 4px;
+            padding: 0 10px;
+        }
+
+        .bottom-tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.68rem;
+            color: var(--muted);
+            padding: 8px 0;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+            .bottom-tab-item i {
+                font-size: 16px;
+            }
+
+            .bottom-tab-item.active {
+                color: var(--terracotta);
+                background: #FFF1E7;
+            }
+
+        @@media (min-width:768px) {
+            .stat-grid {
+                grid-template-columns: repeat(4,1fr);
+            }
+
+            .bottom-tab-bar {
+                display: none;
+            }
+
+            body {
+                padding-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-shell">
+
+        <!-- ===================== LEFT VISUAL PANE (desktop only, image/branding — no functionality) ===================== -->
+        <div class="visual-pane">
+            <div class="visual-pane-content">
+                <div class="brand">
+                    <div class="mark">SJ</div>
+                    <div class="word">Sardar Ji EV<small style="display:block;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:2px;">Driver Partner Network</small></div>
+                </div>
+                <div class="visual-pane-quote">
+                    <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Driver Home</div>
+                    <h2>Track your trips, earnings and impact — all in one place.</h2>
+                </div>
+                <div class="visual-pane-foot">&copy; Sardar Ji EV &middot; Driver Partner Network</div>
+            </div>
+        </div>
+
+        <!-- ===================== RIGHT PANE: ALL FUNCTIONALITY (full width on mobile) ===================== -->
+        <div class="content-pane">
+
+            <!-- ===================== TOP BAR ===================== -->
+            <div class="topbar">
+                <div class="container topbar-inner">
+                    <div class="brand">
+                        <div class="mark">SJ</div>
+                        <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
+                    </div>
+                    <div class="topbar-actions">
+                        <button class="icon-btn" type="button" aria-label="Notifications">
+                            <i class="fa-solid fa-bell"></i>
+                            @if (Model.HasUnreadNotifications)
+                            {
+                                <span class="dot"></span>
+                            }
+                        </button>
+                        <a href="@Url.Action("Index", "DriverProfile")" class="avatar-btn" aria-label="Profile">
+                            @if (!string.IsNullOrEmpty(Model.ProfilePhotoUrl))
+                            {
+                                <img src="@Model.ProfilePhotoUrl" alt="@Model.FullName" />
+                            }
+                            else
+                            {
+                                @(GetInitials(Model.FullName))
+                            }
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+
+                <!-- ===================== ONLINE / OFFLINE STATUS ===================== -->
+                <div class="status-strip">
+                    <div class="status-left">
+                        <div class="status-dot @(Model.IsOnline ? "online" : "offline")" id="statusDot"></div>
+                        <div class="status-text">
+                            <div class="title" id="statusTitle">@(Model.IsOnline ? "You're online" : "You're offline")</div>
+                            <div class="sub" id="statusSub">@(Model.IsOnline ? "Ready to receive trip requests" : "Go online to start receiving trips")</div>
+                        </div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="onlineToggle" @(Model.IsOnline ? "checked" : "") @(Model.ApprovalStatus != "Approved" ? "disabled" : "")>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- ===================== APPROVAL STATUS BANNER ===================== -->
+                @if (Model.ApprovalStatus == "Pending")
+                {
+                    <div class="approval-banner pending">
+                        <i class="fa-solid fa-clock"></i>
+                        <span>Your documents are under review. You'll be able to go online once approved.</span>
+                    </div>
+                }
+                else if (Model.ApprovalStatus == "Rejected")
+                {
+                    <div class="approval-banner rejected">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Your application was rejected@(string.IsNullOrEmpty(Model.RejectionReason) ? "." : $": {Model.RejectionReason}")</span>
+                    </div>
+                }
+                else if (Model.ApprovalStatus == "Suspended")
+                {
+                    <div class="approval-banner rejected">
+                        <i class="fa-solid fa-ban"></i>
+                        <span>Your account is suspended. Contact support for assistance.</span>
+                    </div>
+                }
+
+                <!-- ===================== GREETING ===================== -->
+                <div class="greeting">
+                    <h1>Hi @Model.FirstName, have a safe ride today 👋</h1>
+                    <p>Here's what's happening with your account.</p>
+                </div>
+
+                <!-- ===================== INCOMING TRIP REQUEST (populated via JS/polling) ===================== -->
+                <div class="trip-request" id="tripRequestCard">
+                    <span class="tag"><i class="fa-solid fa-bolt"></i> New trip request</span>
+                    <div class="route" id="tripRoute">
+                        <div><i class="fa-solid fa-circle-dot"></i> <span id="tripPickup">—</span></div>
+                        <div><i class="fa-solid fa-location-dot"></i> <span id="tripDrop">—</span></div>
+                    </div>
+                    <div class="meta">
+                        <div><div class="n" id="tripDistance">—</div><div class="l">Distance</div></div>
+                        <div><div class="n" id="tripFare">—</div><div class="l">Est. fare</div></div>
+                        <div><div class="n" id="tripEta">—</div><div class="l">Pickup ETA</div></div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="trip-btn decline" type="button" onclick="respondToTrip(false)">Decline</button>
+                        <button class="trip-btn accept" type="button" onclick="respondToTrip(true)">Accept</button>
+                    </div>
+                </div>
+
+                <!-- ===================== STAT CARDS ===================== -->
+                <div class="stat-grid">
+                    <div class="stat-card earnings">
+                        <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        <div class="num">₹@Model.TodayEarnings.ToString("N0")</div>
+                        <div class="lbl">Today's earnings</div>
+                    </div>
+                    <div class="stat-card trips">
+                        <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
+                        <div class="num">@Model.TotalTrips</div>
+                        <div class="lbl">Total trips</div>
+                    </div>
+                    <div class="stat-card rating">
+                        <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+                        <div class="num">@Model.AverageRating.ToString("0.0")</div>
+                        <div class="lbl">Average rating</div>
+                    </div>
+                    <div class="stat-card co2">
+                        <div class="stat-icon"><i class="fa-solid fa-leaf"></i></div>
+                        <div class="num">@Model.TotalCo2SavedKg.ToString("0.0")kg</div>
+                        <div class="lbl">CO&#8322; saved</div>
+                    </div>
+                </div>
+
+                <!-- ===================== QUICK ACTIONS ===================== -->
+                <div class="section-title">Quick actions</div>
+                <div class="action-row">
+                    <a href="@Url.Action("Index", "DriverTrips")" class="action-chip">
+                        <div class="ic"><i class="fa-solid fa-calendar-check"></i></div>
+                        <span>My Trips</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DriverEarnings")" class="action-chip">
+                        <div class="ic"><i class="fa-solid fa-wallet"></i></div>
+                        <span>Earnings</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DriverDocuments")" class="action-chip">
+                        <div class="ic"><i class="fa-solid fa-id-card"></i></div>
+                        <span>Documents</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DriverSupport")" class="action-chip">
+                        <div class="ic"><i class="fa-solid fa-headset"></i></div>
+                        <span>Support</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DriverProfile")" class="action-chip">
+                        <div class="ic"><i class="fa-solid fa-user"></i></div>
+                        <span>Profile</span>
+                    </a>
+                </div>
+
+                <!-- ===================== CO2 IMPACT BANNER ===================== -->
+                <div class="impact-banner">
+                    <div class="txt">
+                        <div class="small">Your electric rides have saved</div>
+                        <div class="big">@Model.TotalCo2SavedKg.ToString("0.0") Kg CO&#8322; so far</div>
+                    </div>
+                    <i class="fa-solid fa-car-side"></i>
+                </div>
+
+                <!-- ===================== RECENT TRIPS ===================== -->
+                <div class="section-title">Recent trips <a href="@Url.Action("Index", "DriverTrips")">View all</a></div>
+                <div class="trip-list">
+                    @if (Model.RecentTrips != null && Model.RecentTrips.Any())
+                    {
+                        foreach (var trip in Model.RecentTrips)
+                        {
+                            <div class="trip-item">
+                                <div class="trip-icon"><i class="fa-solid fa-car"></i></div>
+                                <div class="trip-info">
+                                    <div class="route">@trip.PickupArea &rarr; @trip.DropArea</div>
+                                    <div class="when">@trip.CompletedAt.ToString("dd MMM, hh:mm tt")</div>
+                                </div>
+                                <div class="trip-amount">
+                                    <div class="amt">₹@trip.Fare.ToString("N0")</div>
+                                    <div class="status @(trip.Status == "Cancelled" ? "cancelled" : "completed")">@trip.Status</div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa-solid fa-road"></i>
+                            <p>No trips yet. Go online to start receiving ride requests.</p>
+                        </div>
+                    }
+                </div>
+
+            </div>
+
+            <!-- ===================== BOTTOM TAB BAR (mobile) ===================== -->
+            <div class="bottom-tab-bar">
+                <div class="bottom-tab-row">
+                    <a href="@Url.Action("Index", "DriverDashboard")" class="bottom-tab-item active">
+                        <i class="fa-solid fa-house"></i><span>Home</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DriverTrips")" class="bottom-tab-item">
+                        <i class="fa-solid fa-calendar-check"></i><span>Trips</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DriverEarnings")" class="bottom-tab-item">
+                        <i class="fa-solid fa-wallet"></i><span>Earnings</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DriverProfile")" class="bottom-tab-item">
+                        <i class="fa-solid fa-user"></i><span>Profile</span>
+                    </a>
+                </div>
+            </div>
+
+        </div><!-- /.content-pane -->
+    </div><!-- /.app-shell -->
+
+    <script>
+        const toggle = document.getElementById('onlineToggle');
+        const statusDot = document.getElementById('statusDot');
+        const statusTitle = document.getElementById('statusTitle');
+        const statusSub = document.getElementById('statusSub');
+
+        toggle.addEventListener('change', async function () {
+          const goingOnline = this.checked;
+          const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+          try {
+            const res = await fetch('@Url.Action("SetOnlineStatus", "DriverDashboard")', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                ...(token ? { 'RequestVerificationToken': token } : {})
+              },
+              body: new URLSearchParams({ isOnline: goingOnline, __RequestVerificationToken: token || '' })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+              statusDot.classList.toggle('online', goingOnline);
+              statusDot.classList.toggle('offline', !goingOnline);
+              statusTitle.textContent = goingOnline ? "You're online" : "You're offline";
+              statusSub.textContent = goingOnline ? "Ready to receive trip requests" : "Go online to start receiving trips";
+            } else {
+              this.checked = !goingOnline; // revert on failure
+              alert(data.message || 'Could not update your status. Please try again.');
+            }
+          } catch {
+            this.checked = !goingOnline;
+            alert('Network error — please check your connection.');
+          }
+        });
+
+        function respondToTrip(accepted) {
+          // TODO: wire to /DriverDashboard/RespondToTrip with the active trip id
+          document.getElementById('tripRequestCard').classList.remove('show');
+        }
+    </script>
+
+    @functions {
+        string GetInitials(string fullName)
+        {
+            if (string.IsNullOrWhiteSpace(fullName)) return "D";
+            var parts = fullName.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length >= 2
+            ? $"{parts[0][0]}{parts[1][0]}".ToUpper()
+            : parts[0][0].ToString().ToUpper();
+        }
+    }
+
+</body>
+</html>

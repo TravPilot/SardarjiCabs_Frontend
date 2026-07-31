@@ -1,6 +1,13 @@
 using CabBookingMVC.Helper;
 using SardarJi_Cab_Booking.Business_Layer;
 using SardarJi_Cab_Booking.Helper;
+using SardarjiCab.DB;
+using SardarjiCab.DB.Interface;
+using SardarJiCab.BL;
+using SardarJiCab.BL.Interface;
+using SardarJiCab.Model;
+using SardarJiCab.Services;
+using SardarJiCab.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +26,20 @@ builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<PaymentGatwaySettings>();
 builder.Services.AddScoped<IRazorGatewayRepository, RazorGatewayRepository>();
 builder.Services.AddScoped<IGeocodingService, GeocodingService>();
+
+builder.Services.AddScoped<IDriverDashboardDB, DriverDashboardDB>();
+builder.Services.AddScoped<IDriverDashboardBL, DriverDashboardBL>();
+
+builder.Services.AddScoped<IDriverTripsDB, DriverTripsDB>();
+builder.Services.AddScoped<IDriverTripsBL, DriverTripsBL>();
+
+builder.Services.AddScoped<IDriverLoginDB, DriverLoginDB>();
+builder.Services.AddScoped<IDriverLoginBL, DriverLoginBL>();
+builder.Services.AddMemoryCache();
+//builder.Services.AddScoped<ISmsSender, YourSmsSenderImplementation>();
+
+builder.Services.Configure<BrevoSmtpOptions>(builder.Configuration.GetSection("BrevoSmtp"));
+builder.Services.AddScoped<IEmailSender, BrevoSmtpEmailSender>();
 
 builder.Services.AddControllersWithViews();
 
@@ -50,8 +71,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
-app.MapControllers();
-app.MapHub<LocationHub>("/hubs/location");
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
