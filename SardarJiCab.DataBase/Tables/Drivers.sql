@@ -1,0 +1,20 @@
+﻿CREATE TABLE Drivers (
+        Id                  BIGINT IDENTITY(1,1) PRIMARY KEY,
+        DMId                BIGINT NOT NULL,
+        MobileNumber        NVARCHAR(10)   NOT NULL UNIQUE,
+        PasswordHash        NVARCHAR(500)  NULL,
+		PasswordText		NVARCHAR(500)  NULL,
+        Email               NVARCHAR(150)  NULL,
+        FullName            NVARCHAR(120)  NOT NULL,
+        IsActive            BIT            NOT NULL DEFAULT 1,
+        IsVerified          BIT            NOT NULL DEFAULT 0,
+        ApprovalStatus      NVARCHAR(20)   NOT NULL DEFAULT 'Pending',
+        FailedLoginAttempts INT            NOT NULL DEFAULT 0,
+        LockedUntil         DATETIME2      NULL,
+        LastLoginAt         DATETIME2      NULL,
+        LastLoginIp         NVARCHAR(45)   NULL,
+        CreatedOn           DATETIME2      NOT NULL DEFAULT dbo.GetLocalIST(),
+        UpdatedOn           DATETIME2      NOT NULL DEFAULT dbo.GetLocalIST(),
+		CreatedBy			BIGINT		   NOT NULL DEFAULT -1,
+		UpdatedBy			BIGINT		   NOT NULL DEFAULT -1
+    );
