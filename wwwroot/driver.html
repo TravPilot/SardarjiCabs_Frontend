@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Driver - Share Live Location</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  body { font-family: system-ui, sans-serif; background:#0f172a; color:#e2e8f0; text-align:center; padding:40px 20px; }
+  h1 { font-size: 1.3rem; margin-bottom: 4px; }
+  #bookingLabel { color:#94a3b8; margin-bottom: 28px; }
+  #statusDot { display:inline-block; width:12px; height:12px; border-radius:50%; background:#ef4444; margin-right:8px; }
+  #statusDot.live { background:#22c55e; }
+  #startBtn { background:#16a34a; color:white; border:none; padding:14px 28px; font-size:1rem; border-radius:8px; cursor:pointer; }
+  #startBtn:disabled { background:#334155; cursor:not-allowed; }
+  #log { margin-top:24px; font-size:0.85rem; color:#64748b; }
+</style>
+</head>
+<body>
+
+  <h1>🚖 Driver Location Sharing</h1>
+  <div id="bookingLabel">Booking: <span id="bookingIdText">-</span></div>
+
+  <div><span id="statusDot"></span><span id="statusText">Not sharing</span></div>
+  <br/>
+  <button id="startBtn">Start Sharing Location</button>
+
+  <div id="log"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+  <script>
+    // IMPORTANT: this bookingId must exactly match the one used by
+    // TrackRide.cshtml (currently Model.BookingId.ToString()) so both
+    // sides join the SAME SignalR group.
+    // Example usage: driver.html?bookingId=123
+    const params = new URLSearchParams(window.location.search);
+    const bookingId = params.get('bookingId') || '';
+    document.getElementById('bookingIdText').textContent = bookingId || '(missing bookingId in URL)';
+
+    const statusDot = document.getElementById('statusDot');
+    const statusText = document.getElementById('statusText');
+    const startBtn = document.getElementById('startBtn');
+    const log = document.getElementById('log');
+
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("/hubs/location")
+      .withAutomaticReconnect()
+      .build();
+
+    let watchId = null;
+
+    async function start() {
+      if (!bookingId) {
+        log.textContent = "No bookingId found in the URL - open this page as driver.html?bookingId=YOUR_ID";
+        return;
+      }
+
+      startBtn.disabled = true;
+      startBtn.textContent = "Connecting...";
+
+      await connection.start();
+      await connection.invoke("JoinBookingRoom", bookingId);
+
+      if (!("geolocation" in navigator)) {
+        log.textContent = "Geolocation is not supported on this device/browser.";
+        return;
+      }
+
+      watchId = navigator.geolocation.watchPosition(
+        (pos) => {
+          const { latitude, longitude, heading, speed } = pos.coords;
+
+          connection.invoke(
+            "SendLocation",
+            bookingId,
+            latitude,
+            longitude,
+            heading || 0,
+            speed ? (speed * 3.6) : 0 // m/s -> km/h
+          ).catch(err => console.error(err));
+
+          statusDot.classList.add('live');
+          statusText.textContent = "Sharing live location";
+          startBtn.textContent = "Sharing...";
+          log.textContent = `Last sent: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+        },
+        (err) => {
+          log.textContent = "Location error: " + err.message;
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 10000
+        }
+      );
+    }
+
+    startBtn.addEventListener('click', start);
+
+    window.addEventListener('beforeunload', () => {
+      if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+      if (bookingId) connection.invoke("SendStatus", bookingId, "driver_disconnected").catch(() => {});
+    });
+  </script>
+</body>
+</html>

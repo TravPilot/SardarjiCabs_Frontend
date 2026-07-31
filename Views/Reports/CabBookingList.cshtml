@@ -358,9 +358,104 @@
         }
     }
 </style>
+<style>
+    .back-container {
+        margin: 20px 0;
+    }
 
+    .bk-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: #0d6efd;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+        .bk-back-link:hover {
+            background: #0b5ed7;
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .bk-back-link i {
+            font-size: 14px;
+        }
+</style>
+
+<style>
+    .today-ride-card {
+        background: skyblue;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,.12);
+        margin-bottom: 20px;
+    }
+
+    .ride-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .ride-details {
+        flex: 1;
+    }
+
+        .ride-details h3 {
+            margin-bottom: 15px;
+        }
+
+        .ride-details p {
+            margin: 8px 0;
+        }
+
+    .ride-image {
+        flex: 0 0 250px;
+        text-align: right;
+    }
+
+        .ride-image img {
+            width: 230px;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+   
+    @@media (max-width:768px) {
+        .ride-content
+
+    {
+        flex-direction: column;
+    }
+
+    .ride-image {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+        .ride-image img {
+            width: 180px;
+        }
+
+    }</style>
 <div class="bk-wrap">
     <div class="bk-header">
+        <div class="back-container">
+            <a asp-action="Index" asp-controller="Home" class="bk-back-link">
+                <i class="fa fa-arrow-left"></i> ← Back to Home
+            </a>
+        </div>
         <div class="bk-title-row">
             <span class="bk-header-icon">🧾</span>
             <div>
@@ -388,9 +483,40 @@
             <div class="value">@(Model.LastTripDate?.ToString("dd MMM yyyy") ?? "—")</div>
         </div>
     </div>
+    @if (Model.TodayRide != null)
+    {
+        <div class="today-ride-card">
 
-    <div class="bk-table-card">
-        @if (Model.Bookings == null || Model.Bookings.Count == 0)
+            <div class="ride-content">
+
+                <div class="ride-details">
+                    <h3>🚖 Today's Ride</h3>
+
+                    <p><strong>Booking:</strong> @Model.TodayRide.BookingNo</p>
+                    <p><strong>Pickup:</strong> @Model.TodayRide.PickupAddress</p>
+                    <p><strong>Drop:</strong> @Model.TodayRide.DropAddress</p>
+                    <p><strong>Driver:</strong> @Model.TodayRide.DriverName</p>
+                    <p><strong>Vehicle:</strong> @Model.TodayRide.VehicleNumber</p>
+                    <p><strong>Status:</strong> @Model.TodayRide.Status</p>
+
+                    <a class="btn btn-success"
+                       href="@Url.Action("TrackRide","Customer",new { bookingId = Model.TodayRide.BookingId })">
+                        📍 Track Driver
+                    </a>
+                </div>
+
+                <div class="ride-image">
+                    <img src="@Model.TodayRide.CarImage"
+                         alt="Car"
+                         onerror="this.src='/images/default-car.png';" />
+                </div>
+
+            </div>
+
+        </div>
+    }
+    
+    @if (Model.Bookings == null || Model.Bookings.Count == 0)
         {
             <div class="bk-empty">
                 <div class="glyph">🚕</div>

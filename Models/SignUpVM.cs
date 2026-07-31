@@ -92,4 +92,69 @@ namespace SardarJi_Cab_Booking.Models
         public string CompanyName { get; set; }
         public string GSTNo { get; set; }
     }
+
+    public class ProfileUpdateRequest
+    {
+        public string Title { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string PinCode { get; set; }
+        public bool Success { get; set; }
+        public string Message { get; set; }
+    }
+    public class ProfileUpdateResult
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+    }
+
+    public class BookingPlaceholder
+    {
+        public int BookingId { get; set; }
+        public string BookingNo { get; set; } = "";
+        public string PickupAddress { get; set; } = "";
+        public string DropAddress { get; set; } = "";
+        public string DriverName { get; set; } = "";
+        public string VehicleNumber { get; set; } = "";
+        public string Status { get; set; } = "";
+        public string? CarImage { get; set; }
+        public double DropLat { get; set; }
+        public double DropLng { get; set; }
+    }
+    public class TrackRideViewModel
+    {
+        public int BookingId { get; set; }
+        public string BookingNo { get; set; } = "";
+        public string PickupAddress { get; set; } = "";
+        public string DropAddress { get; set; } = "";
+        public string DriverName { get; set; } = "";
+        public string VehicleNumber { get; set; } = "";
+        public string Status { get; set; } = "";
+        public string? CarImage { get; set; }
+
+        
+        public double DropLat { get; set; }
+        public double DropLng { get; set; }
+       
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+      
+
+        public string GoogleMapsApiKey { get; set; } = "";
+    }
+
+
+    //public class LiveLocation
+    //{
+    //    public int BookingId { get; set; }
+    //    public int DriverId { get; set; }
+    //    public string DriverName { get; set; }
+    //    public decimal Latitude { get; set; }
+    //    public decimal Longitude { get; set; }
+    //}
+
+   
+    
+
 }

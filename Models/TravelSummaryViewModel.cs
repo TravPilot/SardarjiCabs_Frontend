@@ -7,7 +7,7 @@
         public string BookingNo { get; set; }
         public long ClientId { get; set; }
         public long UserId { get; set; }
-        
+        public string BookingOtp { get; set; }
         public string Pickup { get; set; }
         public string Drop { get; set; }
         public double DistanceKm { get; set; }
@@ -43,6 +43,7 @@
         public decimal RazorpayAmount { get; set; }
 
         public List<BookingListItem> Bookings { get; set; } = new();
+        public BookingListItem TodayRide { get; set; }
 
         public int TotalTrips => Bookings.Count;
         public decimal TotalSpent => Bookings.Sum(b => b.NetPayable);
@@ -60,6 +61,8 @@
 
     public class BookingListItem
     {
+        public string DriverName { get; set; }
+        public int DriverId { get; set; }
         public long NewBookingId { get; set; }
         public long? BookingId { get; set; }
         public string BookingNo { get; set; }

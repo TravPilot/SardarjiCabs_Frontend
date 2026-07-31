@@ -219,14 +219,80 @@
             transform: rotate(90deg);
         }
 
+            .back-container {
+                margin: 20px 0;
+            }
+
+            .bk-back-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 18px;
+                background: #0d6efd;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 30px;
+                font-size: 15px;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            }
+
+                .bk-back-link:hover {
+                    background: #0b5ed7;
+                    color: #fff;
+                    text-decoration: none;
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+                }
+
+                .bk-back-link i {
+                    font-size: 14px;
+                }
         }
+    </style>
+    <style>
+        .back-container {
+            margin: 20px 0;
+        }
+
+        .bk-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: #0d6efd;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+            .bk-back-link:hover {
+                background: #0b5ed7;
+                color: #fff;
+                text-decoration: none;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            }
+
+            .bk-back-link i {
+                font-size: 14px;
+            }
     </style>
 </head>
 <body>
 
    
     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&h=560&fit=crop" alt="Road Journey" class="hero-banner">
-
+    <div class="back-container">
+        <a asp-action="Index" asp-controller="Home" class="bk-back-link">
+            <i class="fa fa-arrow-left"></i> ← Back to Home
+        </a>
+    </div>
    
     <div class="confirmation-card">
         <h2>Thank you, @Model.PassengerName</h2>

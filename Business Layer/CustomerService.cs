@@ -100,37 +100,23 @@ namespace SardarJi_Cab_Booking.Business_Layer
         }
 
 
-        public async Task<CustomerProfile> UpdateProfile(CustomerProfile profile)
+        public async Task<ProfileUpdateResult> UpdateProfileFields(long customerId, long clientId, ProfileUpdateRequest profile)
         {
             try
             {
                 using var conn = new SqlConnection(_connectionString);
 
                 var p = new DynamicParameters();
-
-                p.Add("@Id", profile.Id);
-                p.Add("@ClientId", profile.ClientId);
-                p.Add("@Email", profile.Email);
-                p.Add("@Password", profile.Password);
-                p.Add("@ISDCode", profile.IsdCodes);
-                p.Add("@Mobile", profile.Mobile);
+                p.Add("@Id", customerId);
+                p.Add("@ClientId", clientId);
                 p.Add("@Title", profile.Title);
                 p.Add("@FirstName", profile.FirstName);
                 p.Add("@LastName", profile.LastName);
                 p.Add("@Address", profile.Address);
-                p.Add("@CountryId", profile.CountryId);
-                p.Add("@StateId", profile.StateId);
-                p.Add("@CityId", profile.CityId);
                 p.Add("@PinCode", profile.PinCode);
-                p.Add("@AgencyName", profile.CompanyName);
-                p.Add("@GstEmail", profile.CompanyEmail);
-                p.Add("@CompMobile", profile.CompanyMobile);
-                p.Add("@PanNo", profile.PanNo);
-                p.Add("@GstNo", profile.GstNo);
-                p.Add("@LogoPath", profile.LogoPath);
 
-                var result = await conn.QueryFirstOrDefaultAsync<CustomerProfile>(
-                    "dbo.Customer_Update_TraviyoPortal",
+                var result = await conn.QueryFirstOrDefaultAsync<ProfileUpdateResult>(
+                    "dbo.Customer_UpdateProfileFields_SardarJi",
                     p,
                     commandType: CommandType.StoredProcedure);
 
@@ -140,12 +126,7 @@ namespace SardarJi_Cab_Booking.Business_Layer
             {
                 throw;
             }
-            catch (Exception)
-            {
-                throw;
-            }
         }
-
         public async Task<CustomerProfile> ForgotPassword(CustomerProfile profile)
         {
             try

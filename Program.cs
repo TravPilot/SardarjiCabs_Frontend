@@ -25,6 +25,7 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<PaymentGatwaySettings>();
 builder.Services.AddScoped<IRazorGatewayRepository, RazorGatewayRepository>();
+builder.Services.AddScoped<IGeocodingService, GeocodingService>();
 
 builder.Services.AddScoped<IDriverDashboardDB, DriverDashboardDB>();
 builder.Services.AddScoped<IDriverDashboardBL, DriverDashboardBL>();
@@ -40,6 +41,10 @@ builder.Services.AddMemoryCache();
 builder.Services.Configure<BrevoSmtpOptions>(builder.Configuration.GetSection("BrevoSmtp"));
 builder.Services.AddScoped<IEmailSender, BrevoSmtpEmailSender>();
 
+builder.Services.AddControllersWithViews();
+
+// Register SignalR
+builder.Services.AddSignalR();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

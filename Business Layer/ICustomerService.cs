@@ -8,7 +8,8 @@ namespace SardarJi_Cab_Booking.Business_Layer
         public Task<CustomerProfile> GetCustomerProfile(long Id);
         public Task<List<CitiesVM>> GetCities(string stateId);
         public Task<List<StatesVM>> GetStates(string CountryId);
-        public Task<CustomerProfile> UpdateProfile( CustomerProfile profile);
+        public Task<ProfileUpdateResult> UpdateProfileFields(long Id,long clientId, ProfileUpdateRequest profile);
+                
         public Task<QuotationEmailSettings> GetQuotationDetails(long Id);
         public Task<CustomerProfile> ForgotPassword(CustomerProfile profile);
         public Task<WalletVM> GetWalletDetails(long Id);

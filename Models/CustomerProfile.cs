@@ -9,7 +9,8 @@ namespace SardarJi_Cab_Booking.Models
         public List<NameValueList> State { get; set; }
         public List<NameValueList> Cities { get; set; }
         public string IsdCode { get; set; }
-
+        public string City { get; set; }
+        public string Country { get; set; }
         public long Id { get; set; }
         public string IsdCodes { get; set; }
         public string Email { get; set; }
@@ -106,9 +107,9 @@ namespace SardarJi_Cab_Booking.Models
         public decimal SingleOccupancy { get; set; }
         public decimal DoubleOccupancy { get; set; }
         public string ToDate { get; set; }
-       
+
         public long CityId { get; set; }
-       
+
     }
     public class StatesVM
     {
@@ -308,7 +309,7 @@ namespace SardarJi_Cab_Booking.Models
         public String EmailSignature { get; set; }
         public String Notes { get; set; }
         public Boolean IsAutoEmail { get; set; }
-        
+
         public Int32 RecordStatusId { get; set; }
         public long CreatedBy { get; set; }
         public string CreatedOn { get; set; }
@@ -321,4 +322,16 @@ namespace SardarJi_Cab_Booking.Models
         public string UserId { get; set; }
         public string Password { get; set; }
     }
+
+    public class LiveLocation
+    {
+
+        public int Latitude { get; set; }
+        public int longitute { get; set; }
+        public int bookingid { get; set; }
+        public decimal driverId { get; set; }
+        public string DriverName { get; set; }
+        
+    }
 }
+

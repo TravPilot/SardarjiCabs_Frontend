@@ -14,11 +14,6 @@
         }
     }
 
-    /* ===================================================================
-    SardarJi Cabs — My Profile
-    Brand tokens shared with login / ride-request / forgot-password pages
-    =================================================================== */
-
     :root {
     --road:         #1B1B1F;
     --mustard:      #F2A93C;
@@ -40,7 +35,7 @@
 
     * { box-sizing: border-box; }
 
-    /* ---------- Page shell ---------- */
+   
 
     .profile-page {
     min-height: 100vh;
@@ -454,6 +449,38 @@
     }
 
 </style>
+<style>
+    .back-container {
+        margin: 20px 0;
+    }
+
+    .bk-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: #0d6efd;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+        .bk-back-link:hover {
+            background: #0b5ed7;
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .bk-back-link i {
+            font-size: 14px;
+        }
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -461,6 +488,11 @@
 <link rel="stylesheet" href="~/css/my-profile.css" asp-append-version="true">
 
 <div class="profile-page">
+    <div class="back-container">
+        <a asp-action="Index" asp-controller="Home" class="bk-back-link">
+            <i class="fa fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
     <div class="profile-shell">
 
         <aside class="profile-sidebar">
@@ -492,15 +524,38 @@
 
             <ul class="sidebar-nav">
                 <li><a href="/Customer/Index" class="active"><i class="fa-solid fa-user"></i>My Profile</a></li>
-                <li><a href="/bookings"><i class="fa-solid fa-plane-departure"></i>All Bookings<span class="chev">›</span></a></li>
+                <li><a href="/CabBookingList"><i class="fa-solid fa-plane-departure"></i>All Bookings<span class="chev">›</span></a></li>
                 @* <li><a href="/wallet"><i class="fa-solid fa-wallet"></i>Wallet</a></li> *@
                 <li><a href="/ledger"><i class="fa-solid fa-book"></i>Ledger</a></li>
                 <li><a href="/Customer/ForgotPassword" class="danger"><i class="fa-solid fa-lock"></i>Change Password</a></li>
             </ul>
         </aside>
 
-       
         <main class="profile-main">
+
+            <div class="avatar-section">
+                <div class="avatar-wrap">
+                    <svg class="avatar-ring" viewBox="0 0 120 120">
+                        <circle class="avatar-ring-bg" cx="60" cy="60" r="55" />
+                        <circle id="avatarProgress" class="avatar-ring-fg" cx="60" cy="60" r="55"
+                                stroke-dasharray="345" stroke-dashoffset="345" />
+                    </svg>
+                    <div class="avatar-img">
+                        @if (!string.IsNullOrEmpty(Model?.LogoPath))
+                        {
+                            <img src="@Model.LogoPath" alt="Profile photo" />
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-user"></i>
+                        }
+                    </div>
+                    <label for="avatarInput" class="avatar-edit"><i class="fa-solid fa-camera"></i></label>
+                    <input type="file" id="avatarInput" accept="image/*" hidden />
+                </div>
+                <div id="completenessTag" class="completeness-tag">Profile 0% complete</div>
+            </div>
+
             <form id="profileForm"
                   asp-action="UpdateProfile" asp-controller="Customer" method="post" enctype="multipart/form-data"
                   data-get-states-url="@Url.Action("GetStates", "Customer")"
@@ -509,7 +564,6 @@
                   data-initial-country-id="@Model?.CountryId"
                   data-initial-state-id="@Model?.StateId"
                   data-initial-city-id="@Model?.CityId">
-                <input type="hidden" asp-for="ClientId" />
 
                 <div class="main-header">
                     <h1>Profile</h1>
@@ -543,14 +597,12 @@
                         <div class="field locked">
                             <label for="Mobile">Mobile number</label>
                             <input id="Mobile" asp-for="Mobile" class="track-field" disabled />
-                            <input type="hidden" asp-for="Mobile" />
                             <i class="fa-solid fa-lock lock-icon"></i>
                             <div class="hint">Used for booking confirmations &amp; OTP login</div>
                         </div>
                         <div class="field locked">
                             <label for="Email">Email address</label>
                             <input id="Email" type="email" asp-for="Email" class="track-field" disabled />
-                            <input type="hidden" asp-for="Email" />
                             <i class="fa-solid fa-lock lock-icon"></i>
                             <div class="hint">Contact support to change your email</div>
                         </div>
@@ -571,33 +623,6 @@
                         </div>
                     </div>
 
-                    <div class="field-grid thirds">
-                        <div class="field">
-                            <label for="drpUsercountry">Country</label>
-                            <select id="drpUsercountry" asp-for="CountryId" class="track-field">
-                                <option value="">Select country</option>
-                                @if (ViewBag.Countries != null)
-                                {
-                                    foreach (var c in ViewBag.Countries)
-                                    {
-                                        <option value="@c.Id">@c.CName</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label for="drpUserstate">State</label>
-                            <select id="drpUserstate" asp-for="StateId" class="track-field" disabled>
-                                <option value="">Select state</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label for="drpUserCity">City</label>
-                            <select id="drpUserCity" asp-for="CityId" class="track-field" disabled>
-                                <option value="">Select city</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="main-footer">
@@ -613,194 +638,120 @@
 <a href="https://wa.me/917408866469" target="_blank" class="wa-float" aria-label="Chat on WhatsApp">
     <i class="fa-brands fa-whatsapp"></i>
 </a>
-
-@section Scripts {
 <script>
-   
     var profileCfg = {};
 
-    $(function () {
-        var $form = $('#profileForm');
+    $(document).ready(function () {
+
+        var $form = $("#profileForm");
+
         profileCfg = {
-            getStatesUrl: $form.data('get-states-url'),
-            getCitiesUrl: $form.data('get-cities-url'),
-            updateUrl: $form.data('update-url'),
-            initialCountryId: String($form.data('initial-country-id') || ''),
-            initialStateId: String($form.data('initial-state-id') || ''),
-            initialCityId: String($form.data('initial-city-id') || '')
+            updateUrl: $form.data("update-url")
         };
 
-       
-        if (typeof activeSubMenu === 'function') {
-            activeSubMenu('/my-profile');
+        if (typeof activeSubMenu === "function") {
+            activeSubMenu("/my-profile");
         }
 
-        
-        $('#avatarInput').on('change', function (e) {
+      
+        $("#avatarInput").on("change", function (e) {
             var file = e.target.files[0];
             if (!file) return;
+
             var reader = new FileReader();
             reader.onload = function (ev) {
-                $('.avatar-img').html('<img src="' + ev.target.result + '" alt="Profile photo" />');
+                $(".avatar-img").html('<img src="' + ev.target.result + '" alt="Profile Photo" />');
                 updateCompleteness();
             };
             reader.readAsDataURL(file);
         });
 
-        
-        $('#drpUsercountry').on('change', function () {
-            $('#drpUserstate').prop('disabled', !$(this).val());
-            loadStates(null);
+        $(".track-field").on("input change", function () {
+            updateCompleteness();
         });
 
-        $('#drpUserstate').on('change', function () {
-            $('#drpUserCity').prop('disabled', !$(this).val());
-            loadCities(null);
-        });
-
-        // Pre-fill on page load if the model already has a country/state selected
-        if (profileCfg.initialCountryId && profileCfg.initialCountryId !== '0') {
-            $('#drpUsercountry').val(profileCfg.initialCountryId);
-            $('#drpUserstate').prop('disabled', false);
-            loadStates(profileCfg.initialStateId, function () {
-                if (profileCfg.initialStateId && profileCfg.initialStateId !== '0') {
-                    $('#drpUserCity').prop('disabled', false);
-                    loadCities(profileCfg.initialCityId);
-                }
-            });
-        }
-
-        $('.track-field').on('input change', updateCompleteness);
         updateCompleteness();
 
-        $('#profileForm').on('submit', function (e) {
+       
+        $("#profileForm").off("submit").on("submit", function (e) {
             e.preventDefault();
             submitProfile();
+            return false;
         });
+
     });
 
-    // ASP.NET Core's Json() helper camelCases property names by default
-    // (State -> state, Cities -> cities). Read both so this keeps working
-    // whether or not JsonSerializerOptions has been changed server-side.
-    function pick(res, upperKey, lowerKey) {
-        return res[upperKey] !== undefined ? res[upperKey] : res[lowerKey];
-    }
-
-    function loadStates(selectedStateId, callback) {
-        var countryId = $('#drpUsercountry').val();
-
-        $('#drpUserstate').html('<option value="">Select state</option>');
-        $('#drpUserCity').html('<option value="">Select city</option>').prop('disabled', true);
-
-        if (!countryId) { updateCompleteness(); return; }
-
-        $.ajax({
-            url: profileCfg.getStatesUrl,
-            type: 'GET',
-            dataType: 'json',
-            data: { CountryId: countryId },
-            success: function (res) {
-                var list = pick(res, 'State', 'state') || [];
-                var options = '<option value="">Select state</option>';
-                $.each(list, function (i, s) {
-                    options += '<option value="' + s.Id + '">' + s.SName + '</option>';
-                });
-                $('#drpUserstate').html(options);
-                if (selectedStateId) { $('#drpUserstate').val(selectedStateId); }
-                updateCompleteness();
-                if (typeof callback === 'function') callback();
-            },
-            error: function (xhr) {
-                console.error('GetStates failed:', xhr.status, xhr.responseText);
-                showToast(false, 'Could not load states. Please try again.');
-            }
-        });
-    }
-
-    function loadCities(selectedCityId) {
-        var stateId = $('#drpUserstate').val();
-
-        $('#drpUserCity').html('<option value="">Select city</option>');
-
-        if (!stateId) { updateCompleteness(); return; }
-
-        $.ajax({
-            url: profileCfg.getCitiesUrl,
-            type: 'GET',
-            dataType: 'json',
-            data: { StateId: stateId },
-            success: function (res) {
-                var list = pick(res, 'Cities', 'cities') || [];
-                var options = '<option value="">Select city</option>';
-                $.each(list, function (i, c) {
-                    options += '<option value="' + c.Id + '">' + c.CTName + '</option>';
-                });
-                $('#drpUserCity').html(options);
-                if (selectedCityId) { $('#drpUserCity').val(selectedCityId); }
-                updateCompleteness();
-            },
-            error: function (xhr) {
-                console.error('GetCities failed:', xhr.status, xhr.responseText);
-                showToast(false, 'Could not load cities. Please try again.');
-            }
-        });
-    }
-
     function submitProfile() {
-        var $btn = $('#saveBtn');
-        var originalHtml = $btn.html();
-        $btn.prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin"></i>Saving…');
 
-        var formData = new FormData(document.getElementById('profileForm'));
+        var $btn = $("#saveBtn");
+        var originalHtml = $btn.html();
+
+        $btn.prop("disabled", true);
+        $btn.html('<i class="fa-solid fa-spinner fa-spin"></i> Saving...');
+
+        var payload = {
+            Title: $("#Title").val(),
+            FirstName: $("#FirstName").val(),
+            LastName: $("#LastName").val(),
+            Address: $("#Address").val(),
+            PinCode: $("#PinCode").val()
+        };
 
         $.ajax({
             url: profileCfg.updateUrl,
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (res) {
-                showToast(!!res.success, res.message || (res.success ? 'Profile updated successfully.' : 'Profile update failed.'));
-            },
-            error: function (xhr) {
-                console.error('UpdateProfile failed:', xhr.status, xhr.responseText);
-                showToast(false, 'Something went wrong. Please try again.');
-            },
-            complete: function () {
-                $btn.prop('disabled', false).html(originalHtml);
+            type: "POST",
+            data: payload,
+            dataType: "json",
+            cache: false,
+           success: function (res) {
+        if (res && res.success) {
+            window.location.href = '/Customer/Index';
+        } else {
+            alert(res.message);
+        }
+    },
+
+            error: function (xhr, status, error) {
+
+                console.log(xhr.responseText);
+
+                alert("Something went wrong.");
+
+                $btn.prop("disabled", false);
+                $btn.html(originalHtml);
             }
         });
     }
 
-    function showToast(success, message) {
-        var $t = $('<div class="profile-toast ' + (success ? 'success' : 'error') + '">'
-            + '<i class="fa-solid ' + (success ? 'fa-circle-check' : 'fa-circle-exclamation') + '"></i>'
-            + $('<div/>').text(message).html()
-            + '</div>');
-        $('body').append($t);
-        requestAnimationFrame(function () { $t.addClass('show'); });
-        setTimeout(function () {
-            $t.removeClass('show');
-            setTimeout(function () { $t.remove(); }, 300);
-        }, 3500);
-    }
-
-    // Profile-completeness ring
     function updateCompleteness() {
-        var fields = document.querySelectorAll('.track-field');
-        var filled = 0;
-        fields.forEach(function (f) { if (f.value && f.value.trim() !== '') filled++; });
-        var hasPhoto = !!document.querySelector('.avatar-img img');
-        var total = fields.length + 1;
-        var done = filled + (hasPhoto ? 1 : 0);
-        var pct = Math.round((done / total) * 100);
 
-        var circumference = 345;
-        var offset = circumference - (circumference * pct) / 100;
-        var ring = document.getElementById('avatarProgress');
-        var tag = document.getElementById('completenessTag');
-        if (ring) ring.style.strokeDashoffset = offset;
-        if (tag) tag.textContent = 'Profile ' + pct + '% complete';
+        var fields = document.querySelectorAll(".track-field");
+        var filled = 0;
+
+        fields.forEach(function (f) {
+            if (f.value.trim() !== "") {
+                filled++;
+            }
+        });
+
+        var hasPhoto = document.querySelector(".avatar-img img") != null;
+
+        var total = fields.length + 1;
+        var completed = filled + (hasPhoto ? 1 : 0);
+
+        var percent = Math.round((completed / total) * 100);
+
+        var ring = document.getElementById("avatarProgress");
+        var tag = document.getElementById("completenessTag");
+
+        if (ring) {
+            var circumference = 345;
+            ring.style.strokeDashoffset = circumference - (circumference * percent / 100);
+        }
+
+        if (tag) {
+            tag.innerHTML = "Profile " + percent + "% complete";
+        }
     }
 </script>
-}
+
