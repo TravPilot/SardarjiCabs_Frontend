@@ -664,7 +664,7 @@
                     <i class="fa-solid fa-flag-checkered" id="completeIcon"></i>
                 </button>
 
-                <a href="@Url.Action("Index", "DriverTrips")" class="back-link">Back to My Trips</a>
+                <a href="@Url.Action("index", "drivertrips")" class="back-link">Back to My Trips</a>
 
             </div>
         </div><!-- /.content-pane -->
@@ -830,7 +830,7 @@
               if (watchId !== null) navigator.geolocation.clearWatch(watchId);
               showToast('Trip completed. Redirecting…', 'success');
               setTimeout(() => {
-                window.location.href = data.redirectUrl || '@Url.Action("Index", "DriverTrips")';
+                window.location.href = data.redirectUrl || '@Url.Action("index", "drivertrips")';
               }, 700);
             } else {
               btn.disabled = false;

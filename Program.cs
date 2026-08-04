@@ -35,6 +35,19 @@ builder.Services.AddScoped<IDriverTripsBL, DriverTripsBL>();
 
 builder.Services.AddScoped<IDriverLoginDB, DriverLoginDB>();
 builder.Services.AddScoped<IDriverLoginBL, DriverLoginBL>();
+
+builder.Services.AddScoped<IDriverProfileDB, DriverProfileDB>();
+builder.Services.AddScoped<IDriverProfileBL, DriverProfileBL>();
+
+builder.Services.AddScoped<IDriverEarningsDB, DriverEarningsDB>();
+builder.Services.AddScoped<IDriverEarningsBL, DriverEarningsBL>();
+
+builder.Services.AddScoped<IDriverDocumentsDB, DriverDocumentsDB>();
+builder.Services.AddScoped<IDriverDocumentsBL, DriverDocumentsBL>();
+
+builder.Services.AddScoped<IDriverSupportDB, DriverSupportDB>();
+builder.Services.AddScoped<IDriverSupportBL, DriverSupportBL>();
+
 builder.Services.AddMemoryCache();
 //builder.Services.AddScoped<ISmsSender, YourSmsSenderImplementation>();
 

@@ -474,6 +474,19 @@
             transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
         }
 
+        .brand > img {
+            height: 38px;
+            border-radius: 12px;
+        }
+        
+        .visual-brand > img {
+            height: 50px;
+            border-radius: 12px;
+        }
+        .top-brand > img {
+            height: 50px;
+            border-radius: 12px;
+        }
             .cta-btn:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 16px 32px rgba(214,73,31,0.36);
@@ -778,11 +791,13 @@
 
             <div class="visual-content">
                 <div class="visual-brand">
-                    <div class="mark">SJ</div>
+                    <img src="~/sardar.png" />
+                    <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
+                    @* <div class="mark">SJ</div>
                     <div class="word">
                         Sardar Ji EV
                         <small>Driver Partner Network</small>
-                    </div>
+                    </div> *@
                 </div>
 
                 <div class="visual-quote">
@@ -804,8 +819,8 @@
             <div class="form-wrap">
 
                 <div class="top-brand">
-                    <div class="mark">SJ</div>
-                    <div class="word">Sardar Ji EV<span>Driver Partner Network</span></div>
+                    <img src="~/sardar.png" />
+                    <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
                 </div>
 
                 <div class="eyebrow-tag"><i class="fa-solid fa-bolt"></i> Driver Sign In</div>
