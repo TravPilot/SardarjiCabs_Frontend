@@ -40,11 +40,11 @@ namespace SardarjiCab.DB
                     FullName = reader["FullName"] as string,
                     ProfilePhotoUrl = reader["Photo"] as string,
                     IsOnline = (bool)reader["IsAvailable"],
-                    //ApprovalStatus = reader["ApprovalStatus"] as string,
-                    //RejectionReason = reader["RejectionReason"] as string,
-                    //TotalTrips = (int)reader["TotalTrips"],
-                    //AverageRating = (decimal)reader["AverageRating"],
-                    //TotalCo2SavedKg = (decimal)reader["TotalCo2SavedKg"]
+                    ApprovalStatus = reader["ApprovalStatus"] as string,
+                    RejectionReason = reader["RejectionReason"] as string,
+                    TotalTrips = (int)reader["TotalTrips"],
+                    AverageRating = (decimal)reader["AverageRating"],
+                    TotalCo2SavedKg = (decimal)reader["TotalCo2SavedKg"]
                 };
             }
             return null;
