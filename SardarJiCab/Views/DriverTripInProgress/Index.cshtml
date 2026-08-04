@@ -1,0 +1,855 @@
+﻿@using SardarJiCab.Model
+@model TripInProgressViewModel
+@{
+    ViewData["Title"] = "Trip In Progress";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip In Progress | Sardar Ji EV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --navy: #16265A;
+            --terracotta: #D6491F;
+            --terracotta-2: #EF7A3C;
+            --bg: #F5F4F1;
+            --card: #FFFFFF;
+            --ink: #171B24;
+            --muted: #767C8A;
+            --line: #E7E5E0;
+            --ev-green: #1E8F5F;
+            --ev-green-bg: #E9F7EF;
+            --warn: #C0392B;
+            --warn-bg: #FCEBEA;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: "Inter",sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-family: "Space Grotesk",sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: "Inter",sans-serif;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* ---------------- LEFT VISUAL PANE (desktop only) ---------------- */
+        .visual-pane {
+            display: none;
+            position: relative;
+            flex: 0 0 34%;
+            max-width: 420px;
+            background: linear-gradient(165deg, rgba(11,21,51,0.90) 0%, rgba(22,38,90,0.78) 45%, rgba(214,73,31,0.55) 100%), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1000&q=80') center/cover no-repeat;
+            overflow: hidden;
+            padding: 40px 32px;
+        }
+
+        .visual-pane-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .visual-pane .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+            .visual-pane .brand .mark {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 700;
+                font-size: 15px;
+                flex-shrink: 0;
+            }
+
+        .brand > img {
+            height: 38px;
+            border-radius: 12px;
+        }
+            .visual-pane .brand .word {
+                color: #fff;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 1.1;
+            }
+
+                .visual-pane .brand .word small {
+                    display: block;
+                    color: rgba(255,255,255,0.6);
+                    font-weight: 600;
+                    font-size: 0.62rem;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    margin-top: 2px;
+                }
+
+        .visual-pane-quote {
+            max-width: 280px;
+        }
+
+            .visual-pane-quote .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(255,255,255,0.85);
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+            }
+
+                .visual-pane-quote .eyebrow i {
+                    color: var(--terracotta-2);
+                }
+
+            .visual-pane-quote h2 {
+                color: #fff;
+                font-size: 1.5rem;
+                line-height: 1.28;
+                font-weight: 700;
+                margin: 0;
+            }
+
+        .visual-pane-foot {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.76rem;
+        }
+
+        .content-pane {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        @@media (min-width:992px) {
+            .visual-pane {
+                display: block;
+            }
+        }
+
+        .wrap {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 22px 18px 40px;
+        }
+
+        /* ---------------- STATUS HERO ---------------- */
+        .status-hero {
+            background: linear-gradient(135deg,var(--navy),#223a7a);
+            border-radius: 20px;
+            padding: 20px 20px 22px;
+            color: #fff;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .status-hero .tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                background: rgba(255,255,255,0.14);
+                padding: 4px 11px;
+                border-radius: 99px;
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                margin-bottom: 12px;
+            }
+
+                .status-hero .tag i {
+                    color: #7FE0A8;
+                }
+
+                .status-hero .tag .pulse-dot {
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    background: #7FE0A8;
+                    display: inline-block;
+                    animation: pulseDot 1.4s ease infinite;
+                }
+
+        @@keyframes pulseDot {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .status-hero h1 {
+            font-size: 1.2rem;
+            margin: 0 0 4px;
+        }
+
+        .status-hero p {
+            margin: 0;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.84rem;
+        }
+
+        /* ---------------- MAP CARD ---------------- */
+        .map-card {
+            background: var(--card);
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(11,21,51,0.06);
+        }
+
+        #liveMap {
+            width: 100%;
+            height: 280px;
+            background: #e9ebee;
+        }
+
+        .map-status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-top: 1px solid var(--line);
+        }
+
+            .map-status-bar .eta-block {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .map-status-bar .eta-icon {
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+                background: var(--ev-green-bg);
+                color: var(--ev-green);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.85rem;
+                flex-shrink: 0;
+            }
+
+            .map-status-bar .eta-text .n {
+                font-family: "Space Grotesk",sans-serif;
+                font-weight: 700;
+                font-size: 0.92rem;
+                color: var(--ink);
+            }
+
+            .map-status-bar .eta-text .l {
+                font-size: 0.7rem;
+                color: var(--muted);
+            }
+
+            .map-status-bar .locate-btn {
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+                background: #F6F6F3;
+                border: none;
+                color: var(--navy);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 0.85rem;
+            }
+
+                .map-status-bar .locate-btn:hover {
+                    background: #EEF1FA;
+                }
+
+        .map-fallback {
+            display: none;
+            padding: 14px 16px;
+            background: var(--warn-bg);
+            color: var(--warn);
+            font-size: 0.8rem;
+            font-weight: 600;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .map-fallback.show {
+                display: flex;
+            }
+
+        /* ---------------- ROUTE CARD ---------------- */
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 20px rgba(11,21,51,0.05);
+        }
+
+        .route-block {
+            display: flex;
+            gap: 12px;
+        }
+
+        .route-line {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4px;
+        }
+
+        .route-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--terracotta);
+            flex-shrink: 0;
+        }
+
+            .route-dot.drop {
+                background: var(--navy);
+            }
+
+        .route-connector {
+            width: 2px;
+            flex: 1;
+            background: var(--line);
+            margin: 4px 0;
+            min-height: 22px;
+        }
+
+        .route-texts {
+            flex: 1;
+            min-width: 0;
+        }
+
+            .route-texts .lbl {
+                font-size: 0.66rem;
+                font-weight: 700;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                margin-bottom: 2px;
+            }
+
+            .route-texts .addr {
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--ink);
+                line-height: 1.35;
+                margin-bottom: 16px;
+            }
+
+                .route-texts .addr:last-child {
+                    margin-bottom: 0;
+                }
+
+        /* ---------------- PASSENGER STRIP ---------------- */
+        .passenger-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #F8FAFB;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            gap: 10px;
+        }
+
+        .passenger-info {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+        }
+
+            .passenger-info .avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 9px;
+                background: var(--navy);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 0.74rem;
+                flex-shrink: 0;
+            }
+
+            .passenger-info .name {
+                font-size: 0.82rem;
+                font-weight: 700;
+                color: var(--ink);
+            }
+
+            .passenger-info .phone {
+                font-size: 0.72rem;
+                color: var(--muted);
+            }
+
+        .call-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: var(--ev-green-bg);
+            color: var(--ev-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .fare-note {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: var(--muted);
+            padding: 0 2px;
+            margin-bottom: 18px;
+        }
+
+            .fare-note .v {
+                font-family: "Space Grotesk",sans-serif;
+                font-weight: 700;
+                font-size: 1rem;
+                color: var(--ink);
+            }
+
+        /* ---------------- COMPLETE BUTTON ---------------- */
+        .complete-btn {
+            width: 100%;
+            border: none;
+            border-radius: 13px;
+            padding: 16px;
+            background: var(--ev-green);
+            color: #fff;
+            font-family: "Space Grotesk",sans-serif;
+            font-weight: 700;
+            font-size: 0.98rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            box-shadow: 0 12px 26px rgba(30,143,95,0.28);
+            transition: transform .15s ease, opacity .15s ease;
+        }
+
+            .complete-btn:hover {
+                transform: translateY(-2px);
+            }
+
+            .complete-btn:disabled {
+                opacity: 0.65;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+            .complete-btn .fa-spinner {
+                animation: spin .7s linear infinite;
+            }
+
+        @@keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: var(--muted);
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .toast-stack {
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: calc(100% - 32px);
+            max-width: 400px;
+        }
+
+        .toast {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #fff;
+            border-radius: 13px;
+            padding: 13px 14px;
+            box-shadow: 0 14px 34px rgba(11,21,51,0.18);
+            border-left: 4px solid var(--navy);
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--ink);
+            opacity: 0;
+            transform: translateY(-14px);
+            animation: toastIn .28s ease forwards;
+        }
+
+            .toast.success {
+                border-left-color: var(--ev-green);
+            }
+
+            .toast.error {
+                border-left-color: var(--warn);
+            }
+
+            .toast i.toast-icon {
+                margin-top: 1px;
+            }
+
+            .toast.success i.toast-icon {
+                color: var(--ev-green);
+            }
+
+            .toast.error i.toast-icon {
+                color: var(--warn);
+            }
+
+            .toast .toast-msg {
+                flex: 1;
+                line-height: 1.4;
+            }
+
+        @@keyframes toastIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast-stack" id="toastStack"></div>
+
+    <div class="app-shell">
+
+        <div class="visual-pane">
+            <div class="visual-pane-content">
+                <div class="brand">
+                    <img src="~/sardar.png" />
+                    <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
+                </div>
+                <div class="visual-pane-quote">
+                    <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Live Trip</div>
+                    <h2>Follow the route, drive safe, and mark it done when you arrive.</h2>
+                </div>
+                <div class="visual-pane-foot">&copy; Sardar Ji EV &middot; Driver Partner Network</div>
+            </div>
+        </div>
+
+        <div class="content-pane">
+            <div class="wrap">
+
+                <div class="status-hero">
+                    <span class="tag"><span class="pulse-dot"></span> Trip in progress</span>
+                    <h1>Booking #@Model.BookingNo</h1>
+                    <p>OTP verified &mdash; heading to the drop location.</p>
+                </div>
+
+                <div class="map-card">
+                    <div id="liveMap"></div>
+                    <div class="map-fallback" id="mapFallback">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>Couldn't get your live location. Check location permissions and refresh.</span>
+                    </div>
+                    <div class="map-status-bar">
+                        <div class="eta-block">
+                            <div class="eta-icon"><i class="fa-solid fa-road"></i></div>
+                            <div class="eta-text">
+                                <div class="n" id="remainingDistance">Calculating…</div>
+                                <div class="l" id="remainingEta">ETA to drop</div>
+                            </div>
+                        </div>
+                        <button type="button" class="locate-btn" onclick="recenterMap()" aria-label="Re-center map">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="route-block">
+                        <div class="route-line">
+                            <div class="route-dot pickup"></div>
+                            <div class="route-connector"></div>
+                            <div class="route-dot drop"></div>
+                        </div>
+                        <div class="route-texts">
+                            <div class="lbl">Pickup</div>
+                            <div class="addr">@Model.PickupAddress</div>
+                            <div class="lbl">Drop</div>
+                            <div class="addr">@Model.DropAddress</div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.PassengerName))
+                {
+                    <div class="passenger-strip">
+                        <div class="passenger-info">
+                            <div class="avatar">@Model.PassengerInitials</div>
+                            <div>
+                                <div class="name">@Model.PassengerName</div>
+                                <div class="phone">@Model.ContactNumber</div>
+                            </div>
+                        </div>
+                        <a href="tel:@Model.ContactNumber" class="call-btn"><i class="fa-solid fa-phone"></i></a>
+                    </div>
+                }
+
+                <div class="fare-note">
+                    <span>Trip fare</span>
+                    <span class="v">₹@Model.NetPayable.ToString("N0")</span>
+                </div>
+
+                <button type="button" class="complete-btn" id="completeBtn" onclick="completeTrip()">
+                    <span id="completeLabel">Mark Trip Completed</span>
+                    <i class="fa-solid fa-flag-checkered" id="completeIcon"></i>
+                </button>
+
+                <a href="@Url.Action("Index", "DriverTrips")" class="back-link">Back to My Trips</a>
+
+            </div>
+        </div><!-- /.content-pane -->
+    </div><!-- /.app-shell -->
+    @Html.AntiForgeryToken()
+
+    <script>
+        const BOOKING_ID = @Model.BookingId;
+        const DROP_ADDRESS = @Html.Raw(Json.Serialize(Model.DropAddress));
+
+        let map, directionsService, directionsRenderer, driverMarker;
+        let watchId = null;
+        let lastKnownPosition = null;
+
+        function showToast(message, type = 'info') {
+          const stack = document.getElementById('toastStack');
+          const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', info: 'fa-circle-info' };
+          const toast = document.createElement('div');
+          toast.className = `toast ${type}`;
+          toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} toast-icon"></i><div class="toast-msg">${message}</div>`;
+          stack.appendChild(toast);
+          setTimeout(() => toast.remove(), 4500);
+        }
+
+        function initMap() {
+          map = new google.maps.Map(document.getElementById('liveMap'), {
+            center: { lat: 28.6139, lng: 77.2090 }, // fallback: Delhi, until geolocation resolves
+            zoom: 12,
+            disableDefaultUI: true,
+            zoomControl: true
+          });
+
+          directionsService = new google.maps.DirectionsService();
+          directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: true,
+            polylineOptions: { strokeColor: '#D6491F', strokeWeight: 5 }
+          });
+
+          if (!navigator.geolocation) {
+            document.getElementById('mapFallback').classList.add('show');
+            return;
+          }
+
+          // One immediate fix so the map + route render right away
+          navigator.geolocation.getCurrentPosition(onPositionUpdate, onPositionError, {
+            enableHighAccuracy: true, timeout: 10000
+          });
+
+          // Continuous tracking as the driver moves
+          watchId = navigator.geolocation.watchPosition(onPositionUpdate, onPositionError, {
+            enableHighAccuracy: true, maximumAge: 5000, timeout: 15000
+          });
+        }
+
+        function onPositionUpdate(position) {
+          const current = { lat: position.coords.latitude, lng: position.coords.longitude };
+          lastKnownPosition = current;
+          document.getElementById('mapFallback').classList.remove('show');
+
+          if (!driverMarker) {
+            driverMarker = new google.maps.Marker({
+              position: current,
+              map: map,
+              icon: {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                scale: 6,
+                fillColor: '#16265A',
+                fillOpacity: 1,
+                strokeColor: '#fff',
+                strokeWeight: 2
+              },
+              title: 'Your location'
+            });
+          } else {
+            driverMarker.setPosition(current);
+          }
+
+          updateRoute(current);
+          reportLocationToServer(current);
+        }
+
+        function onPositionError(err) {
+          console.warn('Geolocation error:', err.message);
+          if (!lastKnownPosition) {
+            document.getElementById('mapFallback').classList.add('show');
+          }
+        }
+
+        function updateRoute(origin) {
+          directionsService.route(
+            {
+              origin: origin,
+              destination: DROP_ADDRESS,
+              travelMode: google.maps.TravelMode.DRIVING
+            },
+            (result, status) => {
+              if (status === 'OK') {
+                directionsRenderer.setDirections(result);
+                const leg = result.routes[0].legs[0];
+                document.getElementById('remainingDistance').textContent = `${leg.distance.text} remaining`;
+                document.getElementById('remainingEta').textContent = `~${leg.duration.text} to drop`;
+              } else {
+                document.getElementById('remainingDistance').textContent = 'Route unavailable';
+              }
+            }
+          );
+        }
+
+        function recenterMap() {
+          if (lastKnownPosition) {
+            map.panTo(lastKnownPosition);
+            map.setZoom(14);
+          }
+        }
+
+        // Optional: pings the server periodically so dispatch/customer can see live driver location
+        let lastReportedAt = 0;
+        async function reportLocationToServer(position) {
+          const now = Date.now();
+          if (now - lastReportedAt < 8000) return; // throttle to ~1 update/8s
+          lastReportedAt = now;
+
+          try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            await fetch('@Url.Action("UpdateLocation", "DriverTripInProgress")', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': token },
+              body: new URLSearchParams({
+                bookingId: BOOKING_ID,
+                latitude: position.lat,
+                longitude: position.lng,
+                __RequestVerificationToken: token
+              })
+            });
+          } catch {
+            // silent — location pings shouldn't interrupt the driver's flow
+          }
+        }
+
+        async function completeTrip() {
+          const btn = document.getElementById('completeBtn');
+          const label = document.getElementById('completeLabel');
+          const icon = document.getElementById('completeIcon');
+
+          btn.disabled = true;
+          label.textContent = 'Completing…';
+          icon.className = 'fa-solid fa-spinner';
+
+          try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            const res = await fetch('@Url.Action("CompleteTrip", "DriverTripInProgress")', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': token },
+              body: new URLSearchParams({ bookingId: BOOKING_ID, __RequestVerificationToken: token })
+            });
+
+            let data;
+            try { data = await res.json(); }
+            catch { data = { success: false, message: 'Unexpected server response.' }; }
+
+            if (data.success) {
+              if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+              showToast('Trip completed. Redirecting…', 'success');
+              setTimeout(() => {
+                window.location.href = data.redirectUrl || '@Url.Action("Index", "DriverTrips")';
+              }, 700);
+            } else {
+              btn.disabled = false;
+              label.textContent = 'Mark Trip Completed';
+              icon.className = 'fa-solid fa-flag-checkered';
+              showToast(data.message || 'Could not complete the trip.', 'error');
+            }
+          } catch (err) {
+            btn.disabled = false;
+            label.textContent = 'Mark Trip Completed';
+            icon.className = 'fa-solid fa-flag-checkered';
+            showToast('Network error — please check your connection.', 'error');
+          }
+        }
+    </script>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApiKey&libraries=places&callback=initMap">
+    </script>
+
+</body>
+</html>
