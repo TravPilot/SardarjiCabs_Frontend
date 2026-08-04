@@ -91,5 +91,9 @@ namespace SardarJi_Cab_Booking.Controllers
             var result = await _driverProfileBL.ChangePasswordAsync(driverId.Value, currentPassword, newPassword);
             return Json(new { success = result.Success, message = result.Message });
         }
+        public IActionResult Update()
+        {
+            return View();
+        }
     }
 }
