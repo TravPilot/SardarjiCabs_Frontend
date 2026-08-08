@@ -195,18 +195,19 @@ namespace SardarJi_Cab_Booking.Business_Layer
         #endregion  end  Get Booking List   
 
 
-        public async Task<LiveLocation> GetLiveLocation(int bookingId)
+        public async Task<List<LiveLocation>> GetLiveLocation(int bookingId)
         {
             using var conn = new SqlConnection(_connectionString);
 
             var p = new DynamicParameters();
             p.Add("@BookingId", bookingId);
 
-          
-            return await conn.QueryFirstOrDefaultAsync<LiveLocation>(
+            var result = await conn.QueryAsync<LiveLocation>(
                 "dbo.GetDriverLiveLocation",
                 p,
                 commandType: CommandType.StoredProcedure);
+
+            return result.ToList();
         }
 
 

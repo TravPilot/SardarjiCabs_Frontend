@@ -34,12 +34,12 @@
         public string RideDate { get; set; }
         public string RideTime { get; set; }
         public int? CategoryId { get; set; }
-       
+       public string GoogleMapsApiKey { get; set; }
         public double PickupLat { get; set; }
         public double PickupLng { get; set; }
         public double DropLat { get; set; }
         public double DropLng { get; set; }
-
+        public decimal? statetax { get; set; }
         public List<AvailableCarWithFare> Cars { get; set; } = new List<AvailableCarWithFare>();
 
     }
@@ -60,5 +60,22 @@
 
         
         public decimal EstimatedCost { get; set; }
+    }
+
+    public class GoogleGeoResponse
+    {
+        public List<Result> results { get; set; }
+    }
+
+    public class Result
+    {
+        public List<AddressComponent> address_components { get; set; }
+    }
+
+    public class AddressComponent
+    {
+        public string long_name { get; set; }
+        public string short_name { get; set; }
+        public List<string> types { get; set; }
     }
 }

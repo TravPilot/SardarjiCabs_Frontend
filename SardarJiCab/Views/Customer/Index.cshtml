@@ -440,6 +440,22 @@
     .field-grid.thirds { grid-template-columns: 1fr; }
     .field-grid { grid-template-columns: 1fr; }
     .profile-main { padding: 1.75rem 1.5rem; }
+
+    .form-section{
+        padding:0 !important;
+    }
+
+    .bk-back-link {
+            background: #f5f5f5 !important;
+    color:#000 !important;
+
+    }
+
+        .sidebar-nav a.active {
+            background: var(--teal) !important;
+            color: #FFFFFF !important;
+        }
+
     }
 
     @@media (prefers-reduced-motion: reduce) {
@@ -526,7 +542,7 @@
                 <li><a href="/Customer/Index" class="active"><i class="fa-solid fa-user"></i>My Profile</a></li>
                 <li><a href="/CabBookingList"><i class="fa-solid fa-plane-departure"></i>All Bookings<span class="chev">›</span></a></li>
                 @* <li><a href="/wallet"><i class="fa-solid fa-wallet"></i>Wallet</a></li> *@
-                <li><a href="/ledger"><i class="fa-solid fa-book"></i>Ledger</a></li>
+               @*  <li><a href="/ledger"><i class="fa-solid fa-book"></i>Ledger</a></li> *@
                 <li><a href="/Customer/ForgotPassword" class="danger"><i class="fa-solid fa-lock"></i>Change Password</a></li>
             </ul>
         </aside>

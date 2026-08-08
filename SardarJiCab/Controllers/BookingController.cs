@@ -58,8 +58,32 @@ namespace SardarJi_Cab_Booking.Controllers
             return View(details);
         }
 
+
+
+        public async Task<IActionResult> CurrentRide()
+        {
+            var customer = HttpContext.Session.GetObject<CustomerVM>("customer");
+
+            if (customer == null)
+            {
+                return RedirectToAction("Index", "LogIn");
+            }
+            TravelSummaryViewModel bookinglist = await _booking.GetBookingList(customer.Id);
+            bookinglist.TodayRide = bookinglist.Bookings
+    .FirstOrDefault(x =>
+        x.JourneyDate.Date == DateTime.Today &&
+        x.DriverId > 0 && x.Status != "Completed");
+            bookinglist.PendingRide = bookinglist.Bookings
+    .FirstOrDefault(x =>
+        x.JourneyDate.Date == DateTime.Today &&
+        x.DriverId <= 0 && x.Status != "Completed");
+            bookinglist.UserName = customer.FirstName + " " + customer.LastName;
+            return View(bookinglist);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> PaymentsDetails(string selectPayment, string currency, string temperatured, string conversionRate)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PaymentsDetails(string selectPayment, string currency, string temperatured, string conversionRate,decimal AppliedDiscount)
         {
             bool isCard = false;
             bool isWallet = false;
@@ -82,18 +106,28 @@ namespace SardarJi_Cab_Booking.Controllers
 
             decimal totalAmount;
             decimal razorpayAmount;
-
-            if (customer != null && customer.CustomerType == 2)
+            decimal NetTotalAmount;
+            
+            if (AppliedDiscount >0)
             {
-                totalAmount = Math.Round(details.Cost);
-                razorpayAmount = Math.Round(details.Cost);
+                NetTotalAmount = details.Cost - AppliedDiscount;
             }
             else
             {
-                totalAmount = Math.Round(details.Cost);
-                razorpayAmount = Math.Round(details.Cost);
+                NetTotalAmount = details.Cost;
             }
 
+            if (customer != null && customer.CustomerType == 2)
+            {
+                totalAmount = Math.Round(NetTotalAmount);
+                razorpayAmount = Math.Round(NetTotalAmount);
+            }
+            else
+            {
+                totalAmount = Math.Round(NetTotalAmount);
+                razorpayAmount = Math.Round(NetTotalAmount);
+            }
+            details.NetTotalAmount = NetTotalAmount;
             decimal walletAmount = 0;
 
             Random random = new Random();

@@ -1,88 +1,776 @@
 ﻿@model TrackRideViewModel
 @{
-    Layout = null; 
+    Layout = null;
 }
+
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Track Your Ride</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Track your ride</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+        :root {
+            --ink: #202821;
+            --muted: #6E7A70;
+            --line: #E4E1D4;
+            --surface: #FFFFFF;
+            --surface-alt: #FBFAF5;
+            --canvas: #F6F4EC;
+            --primary: #1F6F54;
+            --primary-ink: #153E2F;
+            --primary-bg: #E5F1EA;
+            --accent: #E7A537;
+            --accent-ink: #7A5410;
+            --danger: #B4443A;
+            --shadow: 0 6px 16px rgba(32,40,33,0.08), 0 24px 48px -20px rgba(32,40,33,0.28);
+            --safe-t: env(safe-area-inset-top, 0px);
+            --safe-b: env(safe-area-inset-bottom, 0px);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: system-ui, sans-serif;
+            font-family: 'Public Sans', system-ui, sans-serif;
+            color: var(--ink);
+            background: var(--canvas);
+            overscroll-behavior: none;
         }
 
         #map {
             width: 100%;
             height: 100vh;
+            height: 100dvh;
+            background: var(--canvas);
         }
 
-        #status {
+        /* ---------- back pill ---------- */
+        .track-back {
             position: absolute;
-            top: 10px;
+            top: calc(16px + var(--safe-t));
+            left: 16px;
+            z-index: 12;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            text-decoration: none;
+            font-size: .82rem;
+            font-weight: 600;
+            min-height: 40px;
+            padding: 9px 15px 9px 13px;
+            border-radius: 999px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+            .track-back:hover {
+                border-color: var(--primary);
+                color: var(--primary-ink);
+            }
+
+            .track-back:focus-visible {
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+
+        /* ---------- status pill ---------- */
+        #status-pill {
+            position: absolute;
+            top: calc(16px + var(--safe-t));
             left: 50%;
             transform: translateX(-50%);
             z-index: 10;
-            background: white;
-            padding: 8px 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: var(--surface);
+            padding: 9px 18px 9px 14px;
+            min-height: 40px;
+            border-radius: 999px;
+            box-shadow: var(--shadow);
+            font-size: .86rem;
+            font-weight: 600;
+            max-width: calc(100% - 220px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+            #status-pill .dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--accent);
+                flex: 0 0 auto;
+                box-shadow: 0 0 0 0 rgba(231,165,55,0.6);
+                animation: pulse 1.8s ease-out infinite;
+            }
+
+            #status-pill.is-lost .dot {
+                background: var(--danger);
+                animation: none;
+            }
+
+        @@keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(231,165,55,0.55);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(231,165,55,0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(231,165,55,0);
+            }
+        }
+
+        /* ---------- bottom sheet ---------- */
+        #sheet {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 11;
+            background: var(--surface);
+            border-radius: 22px 22px 0 0;
+            box-shadow: var(--shadow);
+            padding: 10px 20px calc(18px + var(--safe-b));
+            max-height: 62vh;
+            overflow-y: auto;
+            transition: max-height .3s cubic-bezier(.4,0,.2,1);
+        }
+
+            #sheet.is-collapsed {
+                max-height: 128px;
+                overflow: hidden;
+            }
+
+        #sheet-handle {
+            width: 38px;
+            height: 4px;
+            background: var(--line);
+            border-radius: 999px;
+            margin: 2px auto 12px;
+            border: none;
+            display: block;
+            cursor: pointer;
+        }
+
+            #sheet-handle:focus-visible {
+                outline: 2px solid var(--primary);
+                outline-offset: 4px;
+            }
+
+        .sheet-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .driver-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--primary-bg);
+            color: var(--primary-ink);
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .sheet-top__info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .sheet-top__name {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sheet-top__sub {
+            font-size: .78rem;
+            color: var(--muted);
+            font-family: 'IBM Plex Mono', monospace;
+            margin-top: 2px;
+        }
+
+        .status-badge {
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            background: var(--primary-bg);
+            color: var(--primary-ink);
+            padding: 4px 10px;
+            border-radius: 999px;
+            flex-shrink: 0;
+        }
+
+        .call-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+            .call-btn:hover {
+                background: var(--primary-ink);
+            }
+
+            .call-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+        /* route timeline inside sheet */
+        .route {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line);
+        }
+
+        .route__rail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4px;
+        }
+
+        .route__dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: #fff;
+        }
+
+        .route__dot--drop {
+            background: var(--ink);
+            border-color: var(--ink);
+        }
+
+        .route__line {
+            width: 2px;
+            flex: 1;
+            min-height: 24px;
+            margin: 4px 0;
+            background: repeating-linear-gradient(to bottom, var(--line) 0, var(--line) 4px, transparent 4px, transparent 8px);
+        }
+
+        .route__stops {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .route__stop {
+            padding-bottom: 16px;
+        }
+
+            .route__stop:last-child {
+                padding-bottom: 0;
+            }
+
+        .route__k {
+            font-size: .68rem;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .route__v {
+            font-size: .86rem;
+            font-weight: 500;
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        /* ---------- locating overlay ---------- */
+        #locating {
+            position: absolute;
+            inset: 0;
+            z-index: 15;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--canvas);
+            padding: 20px;
+        }
+
+        .locating-card {
+            background: var(--surface);
             border-radius: 20px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-            font-size: 14px;
+            box-shadow: var(--shadow);
+            padding: 34px 30px;
+            max-width: 340px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .radar {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 18px;
+            position: relative;
+        }
+
+            .radar .ring {
+                position: absolute;
+                inset: 0;
+                border-radius: 50%;
+                border: 2px solid var(--primary);
+                opacity: 0;
+                animation: radar-ring 2.4s ease-out infinite;
+            }
+
+                .radar .ring:nth-child(2) {
+                    animation-delay: .8s;
+                }
+
+                .radar .ring:nth-child(3) {
+                    animation-delay: 1.6s;
+                }
+
+            .radar .pin {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 14px;
+                height: 14px;
+                margin: -7px 0 0 -7px;
+                border-radius: 50%;
+                background: var(--primary);
+                box-shadow: 0 0 0 4px var(--primary-bg);
+            }
+
+        @@keyframes radar-ring {
+            0% {
+                transform: scale(0.4);
+                opacity: .55;
+            }
+
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+
+        .locating-card h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 0 0 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .locating-card p {
+            color: var(--muted);
+            font-size: .86rem;
+            line-height: 1.5;
+            margin: 0 0 18px;
+        }
+
+        .locating-card .retry {
+            display: none;
+            border: none;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            font-size: .84rem;
+            min-height: 44px;
+            padding: 10px 22px;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+            .locating-card .retry:hover {
+                background: var(--primary-ink);
+            }
+
+        .locating-card.timed-out .retry {
+            display: inline-block;
+        }
+
+        .locating-card.timed-out .waiting-copy {
+            display: none;
+        }
+
+        .locating-card .timeout-copy {
+            display: none;
+        }
+
+        .locating-card.timed-out .timeout-copy {
+            display: block;
+        }
+
+        .locating-card.map-error .waiting-copy,
+        .locating-card.map-error .timeout-copy {
+            display: none;
+        }
+
+        .locating-card .map-error-copy {
+            display: none;
+        }
+
+        .locating-card.map-error .map-error-copy {
+            display: block;
+        }
+
+        .locating-card.map-error .radar {
+            opacity: .35;
+        }
+
+        /* ---------- small screens ---------- */
+        @@media (max-width: 480px) {
+            #status-pill {
+                max-width: calc(100% - 170px);
+                font-size: .8rem;
+            }
+
+            #sheet {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .sheet-top__name {
+                font-size: 15px;
+            }
+        }
+
+        @@media (min-width: 720px) {
+            #sheet {
+                left: 50%;
+                transform: translateX(-50%);
+                width: 480px;
+                border-radius: 22px;
+                bottom: 20px;
+                box-shadow: var(--shadow);
+            }
         }
     </style>
 </head>
 <body>
 
-    <div id="status">Tracking @Model.DriverName...</div>
+    <button class="track-back" onclick="history.back()" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+            <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Back
+    </button>
+
+    <div id="status-pill"><span class="dot"></span><span id="status-text">Tracking @Model.DriverName&hellip;</span></div>
+
     <div id="map"></div>
 
+    @{
+        bool hasFix = Model.Latitude.HasValue && Model.Longitude.HasValue;
+        bool hasRoute = !string.IsNullOrWhiteSpace(Model.PickupAddress) || !string.IsNullOrWhiteSpace(Model.DropAddress);
+        string initials = string.Join("", (Model.DriverName ?? "?").Split(' ', System.StringSplitOptions.RemoveEmptyEntries).Take(2).Select(w => char.ToUpper(w[0])));
+    }
+
+    <div id="sheet">
+        <button id="sheet-handle" type="button" aria-label="Expand or collapse ride details" onclick="toggleSheet()"></button>
+
+        <div class="sheet-top">
+            <div class="driver-avatar" aria-hidden="true">@initials</div>
+            <div class="sheet-top__info">
+                <div class="sheet-top__name">@Model.DriverName</div>
+                <div class="sheet-top__sub">Booking #@Model.BookingId</div>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.Status))
+            {
+                <span class="status-badge">@Model.Status</span>
+            }
+           
+        </div>
+
+        @if (hasRoute)
+        {
+            <div class="route">
+                <div class="route__rail">
+                    <span class="route__dot"></span>
+                    <span class="route__line"></span>
+                    <span class="route__dot route__dot--drop"></span>
+                </div>
+                <div class="route__stops">
+                    <div class="route__stop">
+                        <div class="route__k">Pickup</div>
+                        <div class="route__v">@(Model.PickupAddress ?? "—")</div>
+                    </div>
+                    <div class="route__stop">
+                        <div class="route__k">Drop</div>
+                        <div class="route__v">@(Model.DropAddress ?? "—")</div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div id="locating" style="display:@(hasFix ? "none" : "flex");">
+        <div class="locating-card" id="locating-card">
+            <div class="radar"><span class="ring"></span><span class="ring"></span><span class="ring"></span><span class="pin"></span></div>
+            <h1 class="waiting-copy">Locating @Model.DriverName&hellip;</h1>
+            <p class="waiting-copy">We'll draw the map the moment their GPS signal comes through. This is usually quick.</p>
+            <h1 class="timeout-copy">Still no signal</h1>
+            <p class="timeout-copy">The driver's GPS hasn't checked in yet. You can keep waiting or try again.</p>
+            <h1 class="map-error-copy">Map couldn't load</h1>
+            <p class="map-error-copy">There's a problem loading the map right now. Please check your connection and try again.</p>
+            <button class="retry" type="button" onclick="retryLocating()">Check again</button>
+        </div>
+    </div>
+
     <script>
-        // ---- CONFIG (rendered server-side from the initial DB fetch) ----
         const BOOKING_ID = @Model.BookingId;
-        const POLL_INTERVAL_MS = 4000;
-        const LIVE_LOCATION_URL = `/Booking/LiveLocationJson/${BOOKING_ID}`;
+        const HAS_INITIAL_FIX = @(hasFix ? "true" : "false");
+        const INITIAL_LAT = @(hasFix ? Model.Latitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "null");
+        const INITIAL_LNG = @(hasFix ? Model.Longitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "null");
+        const GMAPS_KEY = "@Model.GoogleMapsApiKey";
+        const POLL_INTERVAL_MS = 2000; // matches the 2s mock-data step while testing; bump back to 4000+ for production
+        const LOCATING_TIMEOUT_MS = 60000; // show "still no signal" after 60s of trying
+        const LIVE_LOCATION_URL = '@Url.Action("LiveLocationJson", "Customer")?bookingId=' + BOOKING_ID;
 
-        let map;
-        let cabMarker;
+        const HAS_DESTINATION = @((Model.PickupLatitude.HasValue && Model.PickupLongitude.HasValue) ? "true" : "false");
+        const DESTINATION = HAS_DESTINATION ? {
+            lat: @(Model.PickupLatitude?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "0"),
+            lng: @(Model.PickupLongitude?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "0")
+        } : null;
+        // Directions API calls cost quota — recompute the road route on this
+        // cadence rather than on every single poll; the marker itself still
+        // moves smoothly every poll via animateMarkerTo().
+        const ROUTE_RECALC_INTERVAL_MS = 8000;
+        let lastRouteCalcAt = 0;
 
-        function initMap() {
-            const startPos = { lat: @Model.Latitude, lng: @Model.Longitude, };
+        // Muted, brand-matching map style (cream canvas, soft green parks, hidden POI clutter)
+        const MAP_STYLE = [
+            { elementType: "geometry", stylers: [{ color: "#F6F4EC" }] },
+            { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+            { elementType: "labels.text.fill", stylers: [{ color: "#6E7A70" }] },
+            { elementType: "labels.text.stroke", stylers: [{ color: "#FBFAF5" }] },
+            { featureType: "poi", stylers: [{ visibility: "off" }] },
+            { featureType: "transit", stylers: [{ visibility: "off" }] },
+            { featureType: "road", elementType: "geometry", stylers: [{ color: "#FFFFFF" }] },
+            { featureType: "road.arterial", elementType: "geometry", stylers: [{ color: "#FBFAF5" }] },
+            { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#E4E1D4" }] },
+            { featureType: "water", elementType: "geometry", stylers: [{ color: "#DCEAE1" }] },
+            { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#F1EEE1" }] },
+            { featureType: "landscape.natural", elementType: "geometry", stylers: [{ color: "#E5F1EA" }] }
+        ];
+
+        let map, cabMarker, destinationMarker, directionsService, directionsRenderer, fallbackRouteLine;
+        let pollTimer, locatingTimeoutTimer, mapLoaded = false;
+
+        // Simple teardrop pin for the pickup point, tinted with the brand accent.
+        const PICKUP_PIN_SVG =
+            'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(
+                '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="40" viewBox="0 0 30 40">' +
+                '<path d="M15 0C6.7 0 0 6.7 0 15c0 11.2 15 25 15 25s15-13.8 15-25C30 6.7 23.3 0 15 0z" fill="#E7A537"/>' +
+                '<circle cx="15" cy="15" r="6.2" fill="#FBFAF5"/></svg>'
+            );
+
+        function setStatus(text, lost) {
+            document.getElementById("status-text").textContent = text;
+            document.getElementById("status-pill").classList.toggle("is-lost", !!lost);
+        }
+
+        window.toggleSheet = function () {
+            document.getElementById("sheet").classList.toggle("is-collapsed");
+        };
+
+        function hideLocatingOverlay() {
+            const el = document.getElementById("locating");
+            el.style.transition = "opacity .35s ease";
+            el.style.opacity = "0";
+            setTimeout(() => { el.style.display = "none"; }, 350);
+            clearTimeout(locatingTimeoutTimer);
+        }
+
+        function markTimedOut() {
+            document.getElementById("locating-card").classList.remove("map-error");
+            document.getElementById("locating-card").classList.add("timed-out");
+        }
+
+        function markMapError() {
+            clearTimeout(locatingTimeoutTimer);
+            const el = document.getElementById("locating");
+            el.style.display = "flex";
+            el.style.opacity = "1";
+            document.getElementById("locating-card").classList.remove("timed-out");
+            document.getElementById("locating-card").classList.add("map-error");
+        }
+
+        window.retryLocating = function () {
+            document.getElementById("locating-card").classList.remove("timed-out", "map-error");
+            if (mapLoaded) {
+                fetchAndUpdateLocation();
+            } else if (HAS_INITIAL_FIX || INITIAL_LAT !== null) {
+                loadGoogleMaps("initMap");
+            } else {
+                fetchAndUpdateLocation();
+            }
+            locatingTimeoutTimer = setTimeout(markTimedOut, LOCATING_TIMEOUT_MS);
+        };
+
+        // Google calls this globally if the API key/billing is invalid
+        window.gm_authFailure = function () {
+            markMapError();
+        };
+
+        function loadGoogleMaps(callbackName) {
+            if (!GMAPS_KEY) { markMapError(); return; }
+            const s = document.createElement("script");
+            s.src = `https://maps.googleapis.com/maps/api/js?key=${GMAPS_KEY}&callback=${callbackName}&loading=async`;
+            s.async = true;
+            s.defer = true;
+            s.onerror = markMapError;
+            document.body.appendChild(s);
+        }
+
+        function buildMap(centerLat, centerLng) {
+            const startPos = { lat: centerLat, lng: centerLng };
 
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 15,
                 center: startPos,
+                disableDefaultUI: true,
+                zoomControl: true,
+                mapTypeControl: false,
+                streetViewControl: false,
+                fullscreenControl: false,
+                styles: MAP_STYLE
             });
 
             cabMarker = new google.maps.Marker({
                 position: startPos,
                 map: map,
-                icon: {
-                    path: "M22.5,10 L23.5,10 L23.5,12 L22.5,12 Z", // placeholder — swap for a real cab icon/SVG path
-                    scale: 6,
-                    fillColor: "#1a73e8",
-                    fillOpacity: 1,
-                    strokeWeight: 1,
-                    strokeColor: "#fff",
-                },
                 title: "@Model.DriverName",
+                zIndex: 50,
+                icon: {
+                    url: "https://maps.google.com/mapfiles/kml/shapes/cabs.png",
+                    scaledSize: new google.maps.Size(42, 42)
+                }
             });
 
-            // start polling once the map is ready
-            setInterval(fetchAndUpdateLocation, POLL_INTERVAL_MS);
+            if (HAS_DESTINATION) {
+                destinationMarker = new google.maps.Marker({
+                    position: DESTINATION,
+                    map: map,
+                    title: "Pickup point",
+                    icon: {
+                        url: PICKUP_PIN_SVG,
+                        scaledSize: new google.maps.Size(30, 40),
+                        anchor: new google.maps.Point(15, 40)
+                    }
+                });
+
+                // Draws instantly and needs no API beyond the base Maps JS
+                // API — so there's always a visible route, even before the
+                // (separately billed) Directions API responds, or if it's
+                // not enabled on this project at all.
+                fallbackRouteLine = new google.maps.Polyline({
+                    path: [startPos, DESTINATION],
+                    map: map,
+                    strokeColor: "#E7A537",
+                    strokeOpacity: 0,
+                    icons: [{
+                        icon: { path: "M 0,-1 0,1", strokeOpacity: 0.85, scale: 3 },
+                        offset: "0",
+                        repeat: "12px"
+                    }],
+                    zIndex: 5
+                });
+
+                directionsService = new google.maps.DirectionsService();
+                directionsRenderer = new google.maps.DirectionsRenderer({
+                    suppressMarkers: true,
+                    preserveViewport: true, // we control fitBounds ourselves, on our own cadence
+                    polylineOptions: {
+                        strokeColor: "#1F6F54",
+                        strokeWeight: 5,
+                        strokeOpacity: 0.9,
+                        zIndex: 6
+                    }
+                });
+                directionsRenderer.setMap(map);
+
+                computeRoute(startPos, /* fitBounds */ true);
+            }
+
+            mapLoaded = true;
+            hideLocatingOverlay();
+            setStatus("Tracking @Model.DriverName\u2026");
+            clearInterval(pollTimer);
+            pollTimer = setInterval(fetchAndUpdateLocation, POLL_INTERVAL_MS);
         }
 
-        // Smoothly slide the marker from its current spot to the new one,
-        // instead of snapping — makes the movement look like a real cab.
-        function animateMarkerTo(marker, newPos, duration = 1000) {
+        function computeRoute(driverPos, fitBounds) {
+            if (!HAS_DESTINATION || !directionsService) return;
+            lastRouteCalcAt = Date.now();
+
+            directionsService.route({
+                origin: driverPos,
+                destination: DESTINATION,
+                travelMode: google.maps.TravelMode.DRIVING
+            }, (result, status) => {
+                if (status !== "OK") {
+                    console.warn("Directions request failed:", status, "— showing straight-line fallback route instead.");
+                    if (fallbackRouteLine) fallbackRouteLine.setMap(map);
+                    return;
+                }
+                directionsRenderer.setDirections(result);
+                if (fallbackRouteLine) fallbackRouteLine.setMap(null); // real road route is showing now
+
+                if (fitBounds) {
+                    const bounds = new google.maps.LatLngBounds();
+                    bounds.extend(driverPos);
+                    bounds.extend(DESTINATION);
+                    map.fitBounds(bounds, 90);
+                }
+
+                const leg = result.routes[0] && result.routes[0].legs[0];
+                if (leg) {
+                    setStatus(`${"@Model.DriverName"} is ${leg.duration.text} away \u00b7 ${leg.distance.text}`);
+                }
+            });
+        }
+
+        window.initMap = function () {
+            buildMap(INITIAL_LAT, INITIAL_LNG);
+        };
+
+        function animateMarkerTo(marker, newPos, duration) {
             const start = marker.getPosition();
             const startLat = start.lat();
             const startLng = start.lng();
             const startTime = performance.now();
-
             function step(now) {
                 const t = Math.min((now - startTime) / duration, 1);
                 const lat = startLat + (newPos.lat - startLat) * t;
@@ -96,27 +784,65 @@
         async function fetchAndUpdateLocation() {
             try {
                 const res = await fetch(LIVE_LOCATION_URL);
-
                 if (!res.ok) {
-                    document.getElementById("status").textContent = "Location unavailable...";
+                    setStatus("Location unavailable \u2014 retrying\u2026", true);
+                    return;
+                }
+                const data = await res.json();
+
+                if (data.latitude == null || data.longitude == null) {
+                    // still no fix — keep polling quietly if the map is already up
+                    if (!mapLoaded) setStatus("Waiting for GPS signal\u2026", true);
                     return;
                 }
 
-                const data = await res.json();
                 const newPos = { lat: data.latitude, lng: data.longitude };
 
+                if (!mapLoaded) {
+                    // first fix just arrived — bring the map to life
+                    clearInterval(pollTimer);
+                    window.initMapFromPoll = function () { buildMap(newPos.lat, newPos.lng); };
+                    loadGoogleMaps("initMapFromPoll");
+                    return;
+                }
+
                 animateMarkerTo(cabMarker, newPos, POLL_INTERVAL_MS * 0.9);
-                document.getElementById("status").textContent = `Tracking ${data.driverName}...`;
+
+                if (HAS_DESTINATION) {
+                    if (fallbackRouteLine) fallbackRouteLine.setPath([newPos, DESTINATION]);
+                    if (Date.now() - lastRouteCalcAt >= ROUTE_RECALC_INTERVAL_MS) {
+                        computeRoute(newPos, false);
+                    }
+                } else {
+                    setStatus(`Tracking ${data.driverName || "@Model.DriverName"}\u2026`);
+                }
             } catch (err) {
                 console.error("Live location fetch failed:", err);
-                document.getElementById("status").textContent = "Connection error, retrying...";
+                setStatus("Connection trouble \u2014 retrying\u2026", true);
             }
         }
-    </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApiKey&callback=initMap"
-            async defer>
-    </script>
+        if (HAS_INITIAL_FIX) {
+            loadGoogleMaps("initMap");
+        } else {
+            setStatus("Waiting for GPS signal\u2026", true);
+            fetchAndUpdateLocation();
+            pollTimer = setInterval(fetchAndUpdateLocation, POLL_INTERVAL_MS);
+            locatingTimeoutTimer = setTimeout(markTimedOut, LOCATING_TIMEOUT_MS);
+        }
 
+        window.addEventListener("beforeunload", () => {
+            clearInterval(pollTimer);
+            clearTimeout(locatingTimeoutTimer);
+        });
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+

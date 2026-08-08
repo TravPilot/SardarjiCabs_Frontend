@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using SardarJi_Cab_Booking.Business_Layer;
 using SardarJi_Cab_Booking.Helper;
 using SardarJi_Cab_Booking.Models;
+using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -116,6 +117,7 @@ namespace SardarJi_Cab_Booking.Controllers
         {
             return View();
         }
+        
 
         public async Task<JsonResult> VerifyAccount(CustomerProfile profile)
         {
@@ -163,36 +165,144 @@ namespace SardarJi_Cab_Booking.Controllers
                
             );
         }
+        public ActionResult GetWalletBalance()
+        {
+           // WalletVM walletDetails = await _customerService.GetWalletDetails(customer.Id);
 
+            return View();
+        }
+
+
+        #region Driver Loction 
+
+
+        private const bool UseMockLiveLocation = false;
+
+
+        private static readonly (double Lat, double Lng)[] DemoDriverPath = new[]
+        {
+        (28.6120, 77.3705),
+        (28.6080, 77.3660),
+        (28.6035, 77.3600),
+        (28.5990, 77.3540),
+        (28.5945, 77.3480),
+        (28.5900, 77.3420),
+        (28.5875, 77.3360),
+        (28.5860, 77.3300),
+        (28.5845, 77.3240),
+        (28.5837, 77.3178),
+    };
+
+        private const int DemoStepSeconds = 2;
+        private const int DemoHoldSeconds = 8;
+
+
+        private static readonly ConcurrentDictionary<int, DateTime> DemoStartTimes = new();
+
+        private (double Lat, double Lng, string DriverName) GetMockDriverLocation(int bookingId)
+        {
+            var startedAt = DemoStartTimes.GetOrAdd(bookingId, _ => DateTime.UtcNow);
+            var elapsedSeconds = (DateTime.UtcNow - startedAt).TotalSeconds;
+
+
+            var travelSeconds = (DemoDriverPath.Length - 1) * DemoStepSeconds;
+            var cycleSeconds = 2 * (travelSeconds + DemoHoldSeconds);
+            var t = elapsedSeconds % cycleSeconds;
+
+            int stepIndex;
+            if (t < travelSeconds)
+            {
+                stepIndex = (int)(t / DemoStepSeconds);
+            }
+            else if (t < travelSeconds + DemoHoldSeconds)
+            {
+                stepIndex = DemoDriverPath.Length - 1;
+            }
+            else if (t < 2 * travelSeconds + DemoHoldSeconds)
+            {
+                var back = t - (travelSeconds + DemoHoldSeconds);
+                stepIndex = DemoDriverPath.Length - 1 - (int)(back / DemoStepSeconds);
+            }
+            else
+            {
+                stepIndex = 0;
+            }
+
+            stepIndex = Math.Clamp(stepIndex, 0, DemoDriverPath.Length - 1);
+            var point = DemoDriverPath[stepIndex];
+            return (point.Lat, point.Lng, "Raju Sharma (test)");
+        }
 
         [HttpGet]
         public async Task<IActionResult> TrackRide(int bookingId)
         {
-            LiveLocation rideLocation = await _booking.GetLiveLocation(bookingId);
+            double lat, lng;
+            string driverName;
 
-            if (rideLocation == null)
-                return NotFound();
+            if (UseMockLiveLocation)
+            {
+                var mock = GetMockDriverLocation(bookingId);
+                lat = mock.Lat;
+                lng = mock.Lng;
+                driverName = mock.DriverName;
+            }
+            else
+            {
+                var rideLocations = await _booking.GetLiveLocation(bookingId);
+                if (rideLocations == null || !rideLocations.Any())
+                {
+                    return View("RideUnavailable", bookingId);
+                }
+
+                var latestLocation = rideLocations
+                    .OrderByDescending(x => x.UpdatedAt)
+                    .First();
+
+                lat = latestLocation.Latitude;
+                lng = latestLocation.longitute;
+                driverName = latestLocation.DriverName;
+            }
 
             var vm = new TrackRideViewModel
             {
-                BookingId = rideLocation.bookingid,
-                Latitude = rideLocation.Latitude,
-                Longitude = rideLocation.longitute,
-                DriverName = rideLocation.DriverName,
-                GoogleMapsApiKey = _config["GoogleMapsApiKey"] ?? ""
+                BookingId = bookingId,
+                Latitude = lat,
+                Longitude = lng,
+                DriverName = driverName,
+                GoogleMapsApiKey = _config["GoogleMapsApiKey"],
+
+
+                PickupLatitude = UseMockLiveLocation ? DemoDriverPath.Last().Lat : (double?)null,
+                PickupLongitude = UseMockLiveLocation ? DemoDriverPath.Last().Lng : (double?)null,
+
+
             };
-
             return View(vm);
-
         }
 
         [HttpGet]
         public async Task<IActionResult> LiveLocationJson(int bookingId)
         {
-            LiveLocation rideLocation = await _booking.GetLiveLocation(bookingId);
+            if (UseMockLiveLocation)
+            {
+                var mock = GetMockDriverLocation(bookingId);
+                return Json(new
+                {
+                    latitude = (double?)mock.Lat,
+                    longitude = (double?)mock.Lng,
+                    driverName = mock.DriverName
+                });
+            }
+
+            var rideLocations = await _booking.GetLiveLocation(bookingId);
+            var rideLocation = rideLocations?
+                .OrderByDescending(x => x.UpdatedAt)
+                .FirstOrDefault();
 
             if (rideLocation == null)
-                return NotFound();
+            {
+                return Json(new { latitude = (double?)null, longitude = (double?)null, driverName = (string)null });
+            }
 
             return Json(new
             {
@@ -204,6 +314,7 @@ namespace SardarJi_Cab_Booking.Controllers
 
 
 
+        #endregion  Driver Loction 
 
 
 
@@ -216,70 +327,41 @@ namespace SardarJi_Cab_Booking.Controllers
 
 
 
-
-
-
-
-
-
-        [HttpGet]
-        public async Task<IActionResult> TrackkkkRide(int bookingId)
+        public async Task<IActionResult> Contactus()
         {
-            
-            var ride = await GetBookingByIdAsync(bookingId); 
-            if (ride == null) return NotFound();
+            //var customer = HttpContext.Session.GetObject<CustomerVM>("customer");
 
-            double dropLat = ride.DropLat;
-            double dropLng = ride.DropLng;
+            //if (customer == null)
+            //{
+            //    return RedirectToAction("Index", "Customer");
+            //}
 
-            
-            if (dropLat == 0 && dropLng == 0)
-            {
-                var geocoded = await _geocodingService.GeocodeAsync(ride.DropAddress);
-                if (geocoded != null)
-                {
-                    dropLat = geocoded.Value.Lat;
-                    dropLng = geocoded.Value.Lng;
-                    // ride.DropLat = dropLat; ride.DropLng = dropLng; await _db.SaveChangesAsync();
-                }
-            }
+            //CustomerProfile customerrr = await _customerService.GetCustomerProfile(customer.Id);
 
-            var vm = new TrackRideViewModel
-            {
-                BookingId = ride.BookingId,
-                BookingNo = ride.BookingNo,
-                PickupAddress = ride.PickupAddress,
-                DropAddress = ride.DropAddress,
-                DriverName = ride.DriverName,
-                VehicleNumber = ride.VehicleNumber,
-                Status = ride.Status,
-                CarImage = ride.CarImage,
-                DropLat = dropLat,
-                DropLng = dropLng,
-                GoogleMapsApiKey = _config["GoogleMaps:GoogleMapsApiKey"] ?? ""
-            };
+            //TempData["Mobile"] = customerrr.Mobile;
+            //TempData["Email"] = customerrr.Email;
 
-            return View(vm);
+            //HttpContext.Session.SetObject("customerProfile", customerrr);
+
+
+            return View();
         }
 
-        
-        private Task<BookingPlaceholder?> GetBookingByIdAsync(int bookingId)
-        {
-            var ride = new BookingPlaceholder
-            {
-                BookingId = bookingId,
-                BookingNo = "SJ-7377",
-                PickupAddress = "TraviYo, F Block, Sector 6, Noida, Uttar Pradesh, India",
-                DropAddress = "Sector 12, Vasundhara, Ghaziabad, Uttar Pradesh 201012, India",
-                DriverName = "Shivam thapa",
-                VehicleNumber = "UP13DC0008",
-                Status = "Confirmed",
-                CarImage = "/images/bmw-i7.png",
-                DropLat = 0,
-                DropLng = 0
-            };
-            return Task.FromResult<BookingPlaceholder?>(ride);
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

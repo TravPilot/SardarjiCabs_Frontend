@@ -6,6 +6,8 @@ using System.Text.Json;
 using CabBookingMVC.Helper;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
+using Newtonsoft.Json;
 using SardarJi_Cab_Booking.Business_Layer;
 using SardarJi_Cab_Booking.Helper;
 using SardarJi_Cab_Booking.Models;
@@ -68,6 +70,9 @@ namespace SardarJi_Cab_Booking.Controllers
         [HttpGet]
         public async Task<IActionResult> select_ride_map(string pickup, string drop, string distanceKm, string date, string time, int? categoryId)
         {
+
+            string pickupState = await GetStateFromAddress(pickup);
+            string dropState = await GetStateFromAddress(drop);
             double.TryParse(distanceKm, out double distKm);
 
             DateTime? journeyDateTime = null;
@@ -88,12 +93,17 @@ namespace SardarJi_Cab_Booking.Controllers
 
             foreach (var car in cars)
             {
-                //car.EstimatedCost = (car.BaseFare ?? 0)
-                //    + ((car.PricePerKm ?? 0) * (decimal)distKm)
-                //    + (car.DriverAllowance ?? 0);
-                car.EstimatedCost = ((car.PricePerKm ?? 0) * (decimal)distKm);
-
-
+                decimal stateTax = pickupState.Equals(dropState, StringComparison.OrdinalIgnoreCase) ? 0 : (car.StateTax ?? 0);
+                decimal estimatedCost = (car.PricePerKm ?? 0) * (decimal)distKm;
+                TimeSpan bookingTime = DateTime.Now.TimeOfDay;
+                if (bookingTime >= car.PeakHourFromTime &&
+                    bookingTime <= car.PeakHourToTime)
+                {
+                    estimatedCost += (car.PeakHourCharge ?? 0);
+                }
+                estimatedCost += stateTax;
+                car.EstimatedCost = estimatedCost;
+               
             }
 
             var pickupCoords = await GeocodeAsync(pickup);
@@ -103,7 +113,8 @@ namespace SardarJi_Cab_Booking.Controllers
             {
                 Pickup = pickup,
                 Drop = drop,
-                
+                GoogleMapsApiKey = _config["GoogleMapsApiKey"],
+                statetax= cars[0].StateTax,
                 DistanceKm = distKm,
                 RideDate = date,
                 RideTime = time,
@@ -179,7 +190,7 @@ namespace SardarJi_Cab_Booking.Controllers
                 routingPreference = "TRAFFIC_UNAWARE"
             };
 
-            var json = JsonSerializer.Serialize(requestBody);
+            var json = System.Text.Json.JsonSerializer.Serialize(requestBody);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -221,11 +232,23 @@ namespace SardarJi_Cab_Booking.Controllers
 
 
 
-        public async Task<IActionResult> Travel_summary_ticket(string pickup, string drop, double distanceKm, string date, string time, int carId, string carName, decimal cost)
+        public async Task<IActionResult> Travel_summary_ticket(string pickup, string drop, double distanceKm, string date, string time, int carId, string carName, decimal cost,decimal statetax)
         {
+            CustomerVM customer = HttpContext.Session.GetObject<CustomerVM>("customer");
+
+            if (customer == null)
+            {
+                return RedirectToAction("Index", "LogIn");
+            }
             var car = await _carService.GetCarByIdAsync(carId);
 
-            CustomerVM customer = HttpContext.Session.GetObject<CustomerVM>("customer");
+            string pickupState = await GetStateFromAddress(pickup);
+            string dropState = await GetStateFromAddress(drop);
+
+
+            decimal stateTax = pickupState.Equals(dropState, StringComparison.OrdinalIgnoreCase) ? 0 : (statetax);
+
+
             var model = new TravelSummaryViewModel
             {
                 RideCode = "SJ-" + new Random().Next(1000, 9999),
@@ -251,6 +274,7 @@ namespace SardarJi_Cab_Booking.Controllers
 
                 Discount = 0,
                 TollCharges = 0,
+                StateCharges = stateTax,
                 BarcodeCaption = $"SJ · {DateTime.Now:HHmm} · {pickup}–{drop}"
             };
             if (model != null)
@@ -271,13 +295,43 @@ namespace SardarJi_Cab_Booking.Controllers
 
             return View();
         }
+        public async Task<string> GetStateFromAddress(string address)
+        {
+            string apiKey = _config["GoogleMapsApiKey"];
 
-      
+            using (HttpClient client = new HttpClient())
+            {
+                string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={Uri.EscapeDataString(address)}&key={apiKey}";
+
+                var response = await client.GetStringAsync(url);
+
+                var result = JsonConvert.DeserializeObject<GoogleGeoResponse>(response);
+
+                if (result != null && result.results.Any())
+                {
+                    var state = result.results[0].address_components
+                        .FirstOrDefault(x => x.types.Contains("administrative_area_level_1"));
+
+                    return state?.long_name;
+                }
+            }
+
+            return "";
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult CarbonImpact()
+        {
+
+            return View();
+        }
+
+
     }
 }
 

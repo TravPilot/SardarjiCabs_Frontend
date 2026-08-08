@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SardarJi_Cab_Booking.Models
 {
@@ -132,18 +133,17 @@ namespace SardarJi_Cab_Booking.Models
         public string VehicleNumber { get; set; } = "";
         public string Status { get; set; } = "";
         public string? CarImage { get; set; }
+        public double? PickupLatitude { get; set; }
+        public double? PickupLongitude { get; set; }
 
-        
         public double DropLat { get; set; }
         public double DropLng { get; set; }
-       
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
-      
+
+        public double? Latitude { get; set; }  
+        public double? Longitude { get; set; }
 
         public string GoogleMapsApiKey { get; set; } = "";
     }
-
 
     //public class LiveLocation
     //{
@@ -153,8 +153,163 @@ namespace SardarJi_Cab_Booking.Models
     //    public decimal Latitude { get; set; }
     //    public decimal Longitude { get; set; }
     //}
+    public class ApplyCouponRequestDto
+    {
+        [Required]
+        public string Code { get; set; } = string.Empty;
 
-   
+        [Required]
+        public decimal FareAmount { get; set; }
+
+        public string? RideType { get; set; }
+    }
+
+    public class ApplyCouponResponseDto
+    {
+        public bool IsValid { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public decimal DiscountAmount { get; set; }
+        public decimal FinalFareAmount { get; set; }
+        public string? CouponCode { get; set; }
+    }
+    public class Coupon
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required, MaxLength(30)]
+        public string Code { get; set; } = string.Empty;   
+
+        [MaxLength(250)]
+        public string? Description { get; set; }
+
+        [Required]
+        public DiscountType DiscountType { get; set; }
+
+      
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal DiscountValue { get; set; }
+
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal? MaxDiscountAmount { get; set; }
+
+      
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal? MinFareAmount { get; set; }
+
+        [Required]
+        public DateTime ValidFrom { get; set; }
+
+        [Required]
+        public DateTime ValidTo { get; set; }
+
+      
+        public int? TotalUsageLimit { get; set; }
+        public int CurrentUsageCount { get; set; } = 0;
+
+       
+        public int? UsageLimitPerUser { get; set; } = 1;
+
+      
+        [MaxLength(200)]
+        public string? ApplicableRideTypes { get; set; }
+
+        public bool IsFirstRideOnly { get; set; } = false;
+
+        public bool IsActive { get; set; } = true;
+
+        public string? CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
+    }
+
+    public enum DiscountType
+    {
+        Percentage = 1,
+        FlatAmount = 2
+    }
+    public class CouponUsage
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        public int CouponId { get; set; }
+        public Coupon? Coupon { get; set; }
+
+        [Required]
+        public string UserId { get; set; } = string.Empty;
+
+        [Required]
+        public int BookingId { get; set; }
+
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal DiscountAmount { get; set; }
+
+        public DateTime UsedAt { get; set; } = DateTime.UtcNow;
+    }
+    public class CouponUpsertDto
+    {
+        [Required, MaxLength(30)]
+        public string Code { get; set; } = string.Empty;
+
+        [MaxLength(250)]
+        public string? Description { get; set; }
+
+        [Required]
+        public DiscountType DiscountType { get; set; }
+
+        [Range(0.01, double.MaxValue)]
+        public decimal DiscountValue { get; set; }
+
+        public decimal? MaxDiscountAmount { get; set; }
+        public decimal? MinFareAmount { get; set; }
+
+        [Required]
+        public DateTime ValidFrom { get; set; }
+
+        [Required]
+        public DateTime ValidTo { get; set; }
+
+        public int? TotalUsageLimit { get; set; }
+        public int? UsageLimitPerUser { get; set; } = 1;
+        public string? ApplicableRideTypes { get; set; }
+        public bool IsFirstRideOnly { get; set; } = false;
+        public bool IsActive { get; set; } = true;
+    }
+
+    public class CouponListItemDto
+    {
+        public int Id { get; set; }
+        public string Code { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public DiscountType DiscountType { get; set; }
+        public decimal DiscountValue { get; set; }
+        public decimal? MaxDiscountAmount { get; set; }
+        public decimal? MinFareAmount { get; set; }
+        public DateTime ValidFrom { get; set; }
+        public DateTime ValidTo { get; set; }
+        public int? TotalUsageLimit { get; set; }
+        public int CurrentUsageCount { get; set; }
+        public bool IsActive { get; set; }
+
+        // Ready-to-show text for a <select> option, e.g. "EVFIRST50 — 50% off · min fare ₹100"
+        public string DisplayLabel
+        {
+            get
+            {
+                var discountText = DiscountType == DiscountType.Percentage
+                    ? $"{DiscountValue}% off"
+                    : $"₹{DiscountValue} off";
+
+                var parts = new System.Collections.Generic.List<string> { $"{Code} — {discountText}" };
+                if (MinFareAmount.HasValue) parts.Add($"min fare ₹{MinFareAmount.Value:0}");
+                if (!string.IsNullOrWhiteSpace(Description)) parts.Add(Description!);
+
+                return string.Join(" · ", parts);
+            }
+        }
+    }
+
     
-
 }

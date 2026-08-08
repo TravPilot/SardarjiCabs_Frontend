@@ -23,8 +23,7 @@ namespace SardarJi_Cab_Booking.Controllers
             _invoiceService = invoiceService;
         }
 
-
-
+       
         //public IActionResult Index()
         //{
         //    return View();
@@ -37,11 +36,20 @@ namespace SardarJi_Cab_Booking.Controllers
         public async Task<ActionResult> CabBookingList()
         {
             var customer = HttpContext.Session.GetObject<CustomerVM>("customer");
+            
+            if (customer == null)
+            {
+                return RedirectToAction("Index", "LogIn");
+            }
             TravelSummaryViewModel bookinglist = await _booking.GetBookingList(customer.Id);
             bookinglist.TodayRide = bookinglist.Bookings
     .FirstOrDefault(x =>
         x.JourneyDate.Date == DateTime.Today &&
-        x.DriverId > 0);
+        x.DriverId > 0 && x.Status != "Completed");
+            bookinglist.PendingRide = bookinglist.Bookings
+    .FirstOrDefault(x =>
+        x.JourneyDate.Date == DateTime.Today &&
+        x.DriverId <= 0 && x.Status != "Completed");
             bookinglist.UserName=customer.FirstName +" "+customer.LastName;
             return View(bookinglist);
         }

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/SardarJi_Cab_Booking.styles.css?v=E6-pZbSI0HMBSvghvmpoNIgkcXCIfyedYLQFqsgU1xw">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <header b-52bmxasoju="" style="display:none;">
         <nav b-52bmxasoju="" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -322,6 +322,29 @@
                 }
 
                 }
+
+            .password-wrapper {
+                position: relative;
+            }
+
+                .password-wrapper .form-control {
+                    padding-right: 45px;
+                }
+
+            .toggle-password {
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: #6c757d;
+                font-size: 18px;
+                z-index: 2;
+            }
+
+                .toggle-password:hover {
+                    color: #000;
+                }
             </style>
 
             <div id="login-split">
@@ -338,11 +361,22 @@
                                 <label for="Email">Email</label>
                                 <input type="email" id="Email" name="Email" class="form-control" placeholder="you@example.com" required>
                             </div>
-                            <div class="form-group">
-                                <label for="Password">Password</label>
-                                <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required>
-                            </div>
                         <div class="form-group">
+                            <label for="Password">Password</label>
+
+                            <div class="password-wrapper">
+                                <input type="password"
+                                       id="Password"
+                                       name="Password"
+                                       class="form-control"
+                                       placeholder="••••••••"
+                                       required>
+                                <span class="toggle-password" onclick="togglePassword()">
+                                    <i class="bi bi-eye" id="toggleIcon"></i>
+                                </span>
+                            </div>
+                        </div>
+                        @* <div class="form-group">
                             <label for="Role">Login As</label>
                             <select id="Role" name="Role" class="form-control" required>
                                 <option value="">-- Select Role --</option>
@@ -350,12 +384,12 @@
                                 <option value="Driver">Driver</option>
                                
                             </select>
-                        </div>
+                        </div> *@
                             <div id="errorMessage" class="text-danger" style="display:none;"></div>
                             <button type="submit" class="btn-primary" id="btnLogin">Login</button>
 
                             <div class="forgot-row">
-                                <a href="/Customer/ForgotPassword" id="forgotPassword">Forgot Password?</a>
+                            <a href="/forgotpassword" id="forgotPassword">Forgot Password?</a>
                             </div>
 
                             <hr>
@@ -368,84 +402,10 @@
                     </div>
 
                     <div class="hero-right">
-                        <svg viewBox="0 0 700 875" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                            <defs>
-                                <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#0A4F46" />
-                                    <stop offset="45%" stop-color="#0E6B5F" />
-                                    <stop offset="75%" stop-color="#D6891C" />
-                                    <stop offset="100%" stop-color="#F2A93C" />
-                                </linearGradient>
-                                <radialGradient id="sun2" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stop-color="#FBF3E1" />
-                                    <stop offset="55%" stop-color="#F2A93C" />
-                                    <stop offset="100%" stop-color="#E5572B" stop-opacity="0" />
-                                </radialGradient>
-                            </defs>
+                    <div>
 
-                            <rect width="700" height="875" fill="url(#sky2)" />
-                            <circle cx="500" cy="430" r="150" fill="url(#sun2)" />
-
-                            <path d="M120 130 q10 -12 20 0 q10 -12 20 0" stroke="#FBF3E1" stroke-width="2.5" fill="none" opacity="0.7" />
-                            <path d="M170 165 q8 -10 16 0 q8 -10 16 0" stroke="#FBF3E1" stroke-width="2.5" fill="none" opacity="0.55" />
-
-                            <path d="M0 470 Q120 400 260 460 T520 440 T700 470 V875 H0 Z" fill="#0F5A50" opacity="0.85" />
-                            <path d="M0 520 Q160 460 340 510 T700 500 V875 H0 Z" fill="#0A4F46" />
-
-                            <rect x="0" y="700" width="700" height="175" fill="#1B1B1F" />
-                            <rect x="0" y="700" width="700" height="10" fill="#241C14" />
-                            <g fill="#FBF3E1" opacity="0.85">
-                                <rect x="0" y="778" width="46" height="8" rx="2" />
-                                <rect x="82" y="778" width="46" height="8" rx="2" />
-                                <rect x="164" y="778" width="46" height="8" rx="2" />
-                                <rect x="246" y="778" width="46" height="8" rx="2" />
-                                <rect x="328" y="778" width="46" height="8" rx="2" />
-                                <rect x="410" y="778" width="46" height="8" rx="2" />
-                                <rect x="492" y="778" width="46" height="8" rx="2" />
-                                <rect x="574" y="778" width="46" height="8" rx="2" />
-                                <rect x="656" y="778" width="46" height="8" rx="2" />
-                            </g>
-
-                            <g transform="translate(430,600)">
-                                <ellipse cx="70" cy="150" rx="120" ry="14" fill="#000000" opacity="0.22" />
-                                <path d="M10 60 Q10 10 60 10 H130 Q150 10 150 40 V110 H10 Z" fill="#F2A93C" />
-                                <rect x="0" y="100" width="170" height="30" rx="8" fill="#D6891C" />
-                                <rect x="18" y="26" width="46" height="46" rx="6" fill="#0A4F46" opacity="0.85" />
-                                <circle cx="34" cy="140" r="20" fill="#1B1B1F" />
-                                <circle cx="34" cy="140" r="8" fill="#7A6E5C" />
-                                <circle cx="140" cy="140" r="20" fill="#1B1B1F" />
-                                <circle cx="140" cy="140" r="8" fill="#7A6E5C" />
-                                <circle cx="158" cy="55" r="7" fill="#FBF3E1" />
-                                <rect x="0" y="55" width="14" height="10" rx="2" fill="#E5572B" />
-                            </g>
-
-                            <g transform="translate(210,560)">
-                                <ellipse cx="45" cy="185" rx="60" ry="12" fill="#000000" opacity="0.2" />
-                                <rect x="28" y="130" width="12" height="55" rx="6" fill="#241C14" />
-                                <rect x="52" y="130" width="12" height="50" rx="6" fill="#241C14" />
-                                <path d="M18 70 Q20 55 45 55 Q70 55 72 70 L78 135 Q45 150 12 135 Z" fill="#0E6B5F" />
-                                <rect x="66" y="82" width="10" height="46" rx="5" fill="#0E6B5F" />
-                                <circle cx="45" cy="40" r="18" fill="#D9A066" />
-                                <path d="M24 34 Q22 12 45 10 Q68 12 66 34 Q68 22 74 26 Q70 12 45 8 Q20 12 16 26 Q22 22 24 34 Z" fill="#E5572B" />
-                                <g transform="translate(78,118)">
-                                    <rect x="0" y="0" width="34" height="46" rx="5" fill="#F2A93C" stroke="#D6891C" stroke-width="2" />
-                                    <rect x="10" y="-8" width="14" height="10" rx="3" fill="none" stroke="#D6891C" stroke-width="2.5" />
-                                    <line x1="0" y1="20" x2="34" y2="20" stroke="#D6891C" stroke-width="2" />
-                                    <circle cx="4" cy="48" r="4" fill="#241C14" />
-                                    <circle cx="30" cy="48" r="4" fill="#241C14" />
-                                </g>
-                            </g>
-
-                            <g transform="translate(-40,560)" opacity="0.96">
-                                <path d="M40 320 C-20 260 0 150 90 120 C60 190 100 240 150 250 C110 190 140 120 210 100 C190 170 220 230 270 250
-                   C240 190 260 120 320 110 C300 180 320 240 360 260 L360 320 Z" fill="#241C14" />
-                                <circle cx="70" cy="150" r="14" fill="#E5572B" opacity="0.9" />
-                                <circle cx="130" cy="115" r="11" fill="#F2A93C" opacity="0.9" />
-                                <circle cx="200" cy="140" r="13" fill="#E5572B" opacity="0.8" />
-                                <circle cx="270" cy="120" r="10" fill="#F2A93C" opacity="0.85" />
-                                <circle cx="40" cy="230" r="9" fill="#F2A93C" opacity="0.7" />
-                            </g>
-                        </svg>
+                        <img src="https://localhost:7281/images/loginimage.jpg" />
+                    </div>
                     </div>
                 </div>
             </div>
@@ -459,8 +419,7 @@
 
                 const email = document.getElementById('Email').value;
                 const password = document.getElementById('Password').value;
-                const role = document.getElementById('Role').value;
-
+                
                 const btn = document.getElementById('btnLogin');
 
                 btn.disabled = true;
@@ -473,8 +432,8 @@
                     },
                     body: new URLSearchParams({
                         UserName: email,
-                        Password: password,
-                        Role: role
+                        Password: password
+                        
                     })
                 })
                 .then(res => res.json())
@@ -557,7 +516,22 @@
     <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo"></script>
 
-  
+  <script>
+    function togglePassword() {
+        const password = document.getElementById("Password");
+        const icon = document.getElementById("toggleIcon");
+
+        if (password.type === "password") {
+            password.type = "text";
+            icon.classList.remove("bi-eye");
+            icon.classList.add("bi-eye-slash");
+        } else {
+            password.type = "password";
+            icon.classList.remove("bi-eye-slash");
+            icon.classList.add("bi-eye");
+        }
+    }
+      </script>
     <script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestid="c5d522281f11401287b6c9aa91ec74a0" data-requestmappingfromserver="false" data-connecturl="http://localhost:64100/82c345d674d448b49fe3622d11549902/browserLink"></script>
    
     <script src="/_framework/aspnetcore-browser-refresh.js"></script>

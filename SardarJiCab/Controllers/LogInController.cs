@@ -100,7 +100,7 @@ namespace SardarJi_Cab_Booking.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CustomerLogin(string UserName, string Password, string Role)
+        public async Task<IActionResult> CustomerLogin(string UserName, string Password)
         {
             try
             {
@@ -128,21 +128,8 @@ namespace SardarJi_Cab_Booking.Controllers
 
                 string redirectUrl = "";
 
-                switch (Role)
-                {
-                    case "Driver":
-                        redirectUrl = "/Driver/Home/Index";
-                        break;
-
-                    case "Admin":
-                        redirectUrl = "/Admin/Home/Index"; ;
-                        break;
-
-                    default:
-                        redirectUrl = Url.Action("Index", "Home");
-                        break;
-                }
-
+              
+                redirectUrl = "/Home/Index";
                 return Json(new
                 {
                     IsSuccess = true,
