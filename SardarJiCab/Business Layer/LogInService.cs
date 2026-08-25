@@ -22,11 +22,12 @@ namespace SardarJi_Cab_Booking.Business_Layer
 
                 var p = new DynamicParameters();
                 p.Add("@ClientId", customer.ClientId);
-                p.Add("@Email", customer.UserName);
+               // p.Add("@Email", customer.UserName);
+                p.Add("@Mobile", customer.UserName);
                 p.Add("@Password", customer.Password);
 
                 var login = await conn.QueryFirstOrDefaultAsync<CustomerVM>(
-                    "dbo.customerLogin_TraviYoPortalNew",
+                    "dbo.customerLogin_Sardarji",    //customerLogin_TraviYoPortalNew
                     p,
                     commandType: CommandType.StoredProcedure);
 

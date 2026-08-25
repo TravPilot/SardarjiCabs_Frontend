@@ -13,18 +13,19 @@ namespace SardarJi_Cab_Booking.Controllers
         private readonly ICustomerService _customerService;
         private readonly IConfiguration _config;
         private readonly IBookingService _booking;
-       
+        private readonly IWebHostEnvironment _env;
 
         private readonly PaymentGatwaySettings _paymentGatewaySettings;
 
 
-        public BookingController(ICustomerService customerService, IConfiguration config, PaymentGatwaySettings paymentGatewaySettings, IBookingService booking)
+        public BookingController(ICustomerService customerService, IConfiguration config, PaymentGatwaySettings paymentGatewaySettings, IBookingService booking, IWebHostEnvironment env)
         {
             _customerService = customerService;
             _config = config;
             _paymentGatewaySettings = paymentGatewaySettings;
             _booking = booking;
-            
+            _env = env;
+
         }
 
 
@@ -51,15 +52,62 @@ namespace SardarJi_Cab_Booking.Controllers
 
 
             #endregion  Booking OTP
-
+            details.InvoicePdfUrl = await GenerateInvoicePdfUrl(details);
 
 
 
             return View(details);
         }
 
+        private async Task<string> GenerateInvoicePdfUrl(TravelSummaryViewModel model)
+        {
+            var pdfResult = new Rotativa.AspNetCore.ViewAsPdf("InvoicePdf", model)
+            {
+                FileName = $"Invoice_{model.RideCode}.pdf",
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
+            };
+
+            byte[] pdfBytes = await pdfResult.BuildFile(ControllerContext);
+
+            string folderPath = Path.Combine(_env.WebRootPath, "invoices");
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+           
+            string fileName = $"Invoice_{model.RideCode}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
+            string filePath = Path.Combine(folderPath, fileName);
+            await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
+
+            
+            string invoiceUrl = $"{Request.Scheme}://{Request.Host}/invoices/{fileName}";
+            return invoiceUrl;
+        }
+
+        public async Task<IActionResult> CurrentRide()
+        {
+            var customer = HttpContext.Session.GetObject<CustomerVM>("customer");
+
+            if (customer == null)
+            {
+                return RedirectToAction("Index", "LogIn");
+            }
+            TravelSummaryViewModel bookinglist = await _booking.GetBookingList(customer.Id);
+            bookinglist.TodayRide = bookinglist.Bookings
+    .FirstOrDefault(x =>
+        x.JourneyDate.Date == DateTime.Today &&
+        x.DriverId > 0 && x.Status != "Completed");
+            bookinglist.PendingRide = bookinglist.Bookings
+    .FirstOrDefault(x =>
+        x.JourneyDate.Date == DateTime.Today &&
+        x.DriverId <= 0 && x.Status != "Completed");
+            bookinglist.UserName = customer.FirstName + " " + customer.LastName;
+            return View(bookinglist);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> PaymentsDetails(string selectPayment, string currency, string temperatured, string conversionRate)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PaymentsDetails(string selectPayment, string currency, string temperatured, string conversionRate,decimal AppliedDiscount)
         {
             bool isCard = false;
             bool isWallet = false;
@@ -82,18 +130,28 @@ namespace SardarJi_Cab_Booking.Controllers
 
             decimal totalAmount;
             decimal razorpayAmount;
-
-            if (customer != null && customer.CustomerType == 2)
+            decimal NetTotalAmount;
+            
+            if (AppliedDiscount >0)
             {
-                totalAmount = Math.Round(details.Cost);
-                razorpayAmount = Math.Round(details.Cost);
+                NetTotalAmount = details.Cost - AppliedDiscount;
             }
             else
             {
-                totalAmount = Math.Round(details.Cost);
-                razorpayAmount = Math.Round(details.Cost);
+                NetTotalAmount = details.Cost;
             }
 
+            if (customer != null && customer.CustomerType == 2)
+            {
+                totalAmount = Math.Round(NetTotalAmount);
+                razorpayAmount = Math.Round(NetTotalAmount);
+            }
+            else
+            {
+                totalAmount = Math.Round(NetTotalAmount);
+                razorpayAmount = Math.Round(NetTotalAmount);
+            }
+            details.NetTotalAmount = NetTotalAmount;
             decimal walletAmount = 0;
 
             Random random = new Random();

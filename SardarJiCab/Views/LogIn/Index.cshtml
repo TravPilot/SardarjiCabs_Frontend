@@ -8,7 +8,26 @@
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/SardarJi_Cab_Booking.styles.css?v=E6-pZbSI0HMBSvghvmpoNIgkcXCIfyedYLQFqsgU1xw">
 
+    <style>
+    .logo {
+      
+        max-width: 180px;
+        top: 12px;
+        z-index: 99999;
+        left: 53px;
 
+    }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+            margin-bottom:12px;
+        }
+
+    #login-split .eyebrow{
+        margin-bottom:0;
+    }
+    </style>
     <header b-52bmxasoju="" style="display:none;">
         <nav b-52bmxasoju="" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div b-52bmxasoju="" class="container-fluid"></div>
@@ -329,20 +348,28 @@
             
                 <div class="hero">
                     <div class="hero-left">
+
+
+
+                    <div class="logo"><img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Sardar Ji Cabs"></div>
                         <div class="eyebrow"><span class="dot"></span> Customer Login</div>
                         <h1>Welcome back</h1>
                         <p class="subtitle">Log in to book your next ride.</p>
 
                         <form id="loginForm">
-                            <div class="form-group">
+                           @*  <div class="form-group">
                                 <label for="Email">Email</label>
                                 <input type="email" id="Email" name="Email" class="form-control" placeholder="you@example.com" required>
-                            </div>
+                            </div> *@
+                        <div class="form-group">
+                            <label for="Mobile">Mobile No.</label>
+                            <input type="number" id="mobile" name="mobile" class="form-control" placeholder="8878789980" required>
+                        </div>
                             <div class="form-group">
                                 <label for="Password">Password</label>
                                 <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required>
                             </div>
-                        <div class="form-group">
+                        @* <div class="form-group">
                             <label for="Role">Login As</label>
                             <select id="Role" name="Role" class="form-control" required>
                                 <option value="">-- Select Role --</option>
@@ -350,12 +377,12 @@
                                 <option value="Driver">Driver</option>
                                
                             </select>
-                        </div>
+                        </div> *@
                             <div id="errorMessage" class="text-danger" style="display:none;"></div>
                             <button type="submit" class="btn-primary" id="btnLogin">Login</button>
 
                             <div class="forgot-row">
-                                <a href="/Customer/ForgotPassword" id="forgotPassword">Forgot Password?</a>
+                            <a href="/forgotpassword" id="forgotPassword">Forgot Password?</a>
                             </div>
 
                             <hr>
@@ -456,11 +483,10 @@
                             document.getElementById('loginForm').addEventListener('submit', function (e) {
 
                 e.preventDefault();
-
-                const email = document.getElementById('Email').value;
+                const mobile = document.getElementById('mobile').value;
+                // const email = document.getElementById('Email').value;
                 const password = document.getElementById('Password').value;
-                const role = document.getElementById('Role').value;
-
+                
                 const btn = document.getElementById('btnLogin');
 
                 btn.disabled = true;
@@ -472,9 +498,9 @@
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: new URLSearchParams({
-                        UserName: email,
-                        Password: password,
-                        Role: role
+                        UserName: mobile,
+                        Password: password
+                        
                     })
                 })
                 .then(res => res.json())

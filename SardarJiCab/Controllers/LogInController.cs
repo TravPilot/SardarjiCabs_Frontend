@@ -31,76 +31,9 @@ namespace SardarJi_Cab_Booking.Controllers
         }
 
 
-        //[HttpPost]
-        //public async Task<JsonResult> CustomerLogin(string UserName, string Password ,string Role)
-        //{
-        //    try
-        //    {
-
-        //        if (Role == "Driver")
-        //        {
-        //            return RedirectToAction("Index", "Home", new { area = "Driver" });
-        //        }
-
-        //        if (Role == "Admin")
-        //        {
-        //            return RedirectToAction("Index", "Home", new { area = "Admin" });
-        //        }
-
-
-
-        //        bool IsSuccess = false;
-        //        HttpContext.Session.Remove("customer");
-
-        //        var customer = new CustomerVM
-        //        {
-        //            UserName = UserName,
-        //            Password = Password,
-        //            ClientId = Convert.ToInt64(_config["ClientId"])
-        //        };
-
-        //        CustomerVM cus = await _loginService.customerLogin(customer);
-
-        //        if (cus == null)
-        //        {
-        //            return Json(new
-        //            {
-        //                IsSuccess = false,
-        //                Message = "Invalid username or password"
-        //            });
-        //        }
-        //        if (cus.Id >0)
-        //        {
-        //            IsSuccess = true;
-        //        }
-        //        if (cus.Id > 0)
-        //        {
-        //            HttpContext.Session.SetObject("customer", cus);
-        //        }
-
-        //        return Json(new
-        //        {
-        //            IsSuccess = IsSuccess,
-        //            Message = IsSuccess ? "Login successful." : "Login failed.",
-        //            Data = cus
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-
-        //        return Json(new
-        //        {
-        //            IsSuccess = false,
-        //            Message = "An unexpected error occurred while processing your request.",
-        //            Error = ex.Message 
-        //        });
-        //    }
-        //}
-
 
         [HttpPost]
-        public async Task<IActionResult> CustomerLogin(string UserName, string Password, string Role)
+        public async Task<IActionResult> CustomerLogin(string UserName, string Password)
         {
             try
             {
@@ -128,21 +61,8 @@ namespace SardarJi_Cab_Booking.Controllers
 
                 string redirectUrl = "";
 
-                switch (Role)
-                {
-                    case "Driver":
-                        redirectUrl = "/Driver/Home/Index";
-                        break;
-
-                    case "Admin":
-                        redirectUrl = "/Admin/Home/Index"; ;
-                        break;
-
-                    default:
-                        redirectUrl = Url.Action("Index", "Home");
-                        break;
-                }
-
+              
+                redirectUrl = "/Home/Index";
                 return Json(new
                 {
                     IsSuccess = true,

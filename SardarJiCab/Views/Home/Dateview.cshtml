@@ -1,9 +1,15 @@
 ﻿@{
+
+
+
     Layout = null;
     string pickup = Context.Request.Query["pickup"];
     string drop = Context.Request.Query["drop"];
     string distanceKm = Context.Request.Query["distanceKm"];
+    string totaltime = Context.Request.Query["duration"];
     string categoryId = Context.Request.Query["categoryId"];
+
+    decimal mins = Math.Round(Convert.ToDecimal(totaltime.Replace("s","")) / 60, 2);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -322,6 +328,15 @@
                 display: none;
             }
 
+            .picker-wrap {
+                display: flex;
+                justify-content: center;
+                gap: 24px;
+                margin-bottom: 22px;
+                flex-wrap: nowrap;
+                align-items: flex-start;
+            }
+
             .page {
                 border-radius: 0;
                 margin: 0 auto;
@@ -439,12 +454,12 @@
 <body>
 
     <div class="logo_travel">
-        <div class="logo"><img src="~/Images/LogoSardar.png" alt="Sardar JI"></div>
+        <div class="logo"><img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Sardar JI"></div>
 
     </div>
     <div class="Main_page">
         <div class="phone-frame1">
-            <img src="~/Images/Bann12.png" alt="Sardar Ji Cabs" />
+            <img src="/images/mainnn.png" alt="Sardar Ji Cabs" />
 
             <div class="banner-content">
                 <span class="tag-line">PREMIUM CAB SERVICE</span>
@@ -496,6 +511,7 @@
             pickup: @Html.Raw(Json.Serialize(pickup ?? "")),
             drop: @Html.Raw(Json.Serialize(drop ?? "")),
             distanceKm: @Html.Raw(Json.Serialize(distanceKm ?? "")),
+            totaltime: @Html.Raw(Json.Serialize(mins)),
             categoryId: @Html.Raw(Json.Serialize(categoryId ?? ""))
         };
 
@@ -548,7 +564,7 @@
                 }
             }
 
-            // if it's already past 23:45 today, fall back to showing tomorrow's full day
+
             if (opts.length === 0) {
                 for (let h = 0; h < 24; h++) {
                     for (let m = 0; m < 60; m += 15) {
@@ -609,13 +625,19 @@
         function buildConfirmLink() {
             const d = dateOptions[selectedDateIdx];
             const t = timeOptions[selectedTimeIdx];
-            const isoDate = d.date.toISOString().slice(0, 10);
+            // const isoDate = d.date.toISOString().slice(0, 10);
+                    const year = d.date.getFullYear();
+        const month = String(d.date.getMonth() + 1).padStart(2, '0');
+        const day = String(d.date.getDate()).padStart(2, '0');
+
+        const isoDate = `${year}-${month}-${day}`;
             const time24 = `${String(t.h).padStart(2, '0')}:${String(t.m).padStart(2, '0')}`;
 
             const params = new URLSearchParams({
                 pickup: routeInfo.pickup,
                 drop: routeInfo.drop,
                 distanceKm: routeInfo.distanceKm,
+                 totaltime: routeInfo.totaltime,
                 categoryId: routeInfo.categoryId,
                 date: isoDate,
                 time: time24

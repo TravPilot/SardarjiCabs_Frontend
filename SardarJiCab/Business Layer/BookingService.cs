@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using SardarJi_Cab_Booking.Models;
 using System.Data;
 using System.Linq.Dynamic.Core;
+using static SardarJi_Cab_Booking.Controllers.CustomerController;
 
 namespace SardarJi_Cab_Booking.Business_Layer
 {
@@ -195,22 +196,89 @@ namespace SardarJi_Cab_Booking.Business_Layer
         #endregion  end  Get Booking List   
 
 
-        public async Task<LiveLocation> GetLiveLocation(int bookingId)
+        public async Task<List<LiveLocation>> GetLiveLocation(int bookingId)
         {
             using var conn = new SqlConnection(_connectionString);
 
             var p = new DynamicParameters();
             p.Add("@BookingId", bookingId);
 
-          
-            return await conn.QueryFirstOrDefaultAsync<LiveLocation>(
+            var result = await conn.QueryAsync<LiveLocation>(
                 "dbo.GetDriverLiveLocation",
                 p,
                 commandType: CommandType.StoredProcedure);
+
+            return result.ToList();
+        }
+
+        public async Task<bool> SaveRatingDetails(RideFeedbackDto dto)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@BookingId", dto.BookingId);
+                    p.Add("@Rating", dto.Rating);
+                    p.Add("@Comment", dto.Comment);
+                    p.Add("@UserId", dto.UserId);
+
+                    var result = await conn.QuerySingleAsync<bool>(
+                        "dbo.SaveCustomerCabFeedback",
+                        p,
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    return result;
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
 
+        public async Task<SupportTicketViewModel> SaveTicketDetails(SupportTicketViewModel model)
+        {
+            try
+            {
+                using var conn = new SqlConnection(_connectionString);
+
+                var p = new DynamicParameters();
+                p.Add("@Name", model.Name);
+                p.Add("@Email", model.Email);
+                p.Add("@Phone", model.Phone);
+                p.Add("@Category", model.Category.ToString());
+                p.Add("@Priority", model.Priority.ToString());
+                p.Add("@Subject", model.Subject);
+                p.Add("@Message", model.Message);
+                p.Add("@ReferenceNumber", model.ReferenceNumber);
+                p.Add("@AttachmentFileName", model.AttachmentFileName);
+                p.Add("@AttachmentPath", model.AttachmentPath);
+                p.Add("@UserId", model.customerId);
+                p.Add("@TicketId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                await conn.ExecuteAsync(
+                    "dbo.Sardarji_SupportTicket_Insert",
+                    p,
+                    commandType: CommandType.StoredProcedure);
+
+                model.TicketId = p.Get<int>("@TicketId");
+                return model;
+            }
+            catch (SqlException)
+            {
+                
+                throw;
+            }
+        }
 
     }
 }

@@ -326,12 +326,13 @@ namespace SardarJi_Cab_Booking.Models
     public class LiveLocation
     {
 
-        public int Latitude { get; set; }
-        public int longitute { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public int bookingid { get; set; }
         public decimal driverId { get; set; }
         public string DriverName { get; set; }
-        
+        public DateTime UpdatedAt { get; set; }
+
     }
 }
 

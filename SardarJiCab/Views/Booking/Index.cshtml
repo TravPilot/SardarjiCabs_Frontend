@@ -1,8 +1,6 @@
 ﻿@model TravelSummaryViewModel
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Confirmation & Invoice</title>
@@ -283,8 +281,6 @@
                 font-size: 14px;
             }
     </style>
-</head>
-<body>
 
    
     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&h=560&fit=crop" alt="Road Journey" class="hero-banner">
@@ -293,13 +289,23 @@
             <i class="fa fa-arrow-left"></i> ← Back to Home
         </a>
     </div>
+    <div class="back-container">
+        <a asp-action="CurrentRide" asp-controller="Booking" class="bk-back-link">
+            <i class="fa fa-arrow-left"></i> ← Current Ride
+        </a>
+    </div>
    
     <div class="confirmation-card">
         <h2>Thank you, @Model.PassengerName</h2>
         <p class="conf-number mb-2">Your Ride Booking Code is: <strong>@Model.RideCode</strong></p>
         <p class="text-muted mb-1" style="font-size:.85rem;">Barcode Info: @Model.BarcodeCaption</p>
-
-        <button onclick="window.print()" class="btn btn-sm btn-outline-dark mt-2 mb-3" style="font-size:.85rem;">Print Invoice</button>
+    @if (!string.IsNullOrEmpty(Model.InvoicePdfUrl))
+    {
+        <a href="@Model.InvoicePdfUrl" target="_blank" class="btn btn-sm btn-outline-dark mt-2 mb-3" style="font-size:.85rem;">
+            <i class="fa fa-file-pdf"></i> Download Invoice (PDF)
+        </a>
+    }
+       @*  <button onclick="window.print()" class="btn btn-sm btn-outline-dark mt-2 mb-3" style="font-size:.85rem;">Print Invoice</button> *@
 
         <div class="trip-dates">
             <div class="date-block">
@@ -455,5 +461,3 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

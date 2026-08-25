@@ -1,0 +1,254 @@
+/* =========================================================
+   Support Desk — "Handwritten Note" theme
+   A warm, postcard-inspired look for the contact support form.
+   Palette, type, and the envelope-flap card are intentional
+   choices for a small, human support team — not a generic
+   dashboard skin.
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap');
+
+:root {
+  --charm-paper: #fff8f0;
+  --charm-paper-deep: #fbf0e4;
+  --charm-ink: #332b25;
+  --charm-ink-soft: #6b5f56;
+  --charm-rose: #c4707c;
+  --charm-rose-deep: #a24f5c;
+  --charm-sage: #8fa382;
+  --charm-sage-deep: #6c8060;
+  --charm-gold: #d6a24a;
+  --charm-line: #e6d8c8;
+  --charm-shadow: rgba(90, 62, 40, 0.14);
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Nunito', sans-serif;
+  --font-note: 'Caveat', cursive;
+}
+
+/* ---------- Page shell ---------- */
+
+.support-page {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(196, 112, 124, 0.08), transparent 40%),
+    radial-gradient(circle at 90% 85%, rgba(143, 163, 130, 0.10), transparent 45%),
+    var(--charm-paper);
+  font-family: var(--font-body);
+  color: var(--charm-ink);
+  min-height: 100%;
+  padding-block: 3rem;
+}
+
+.support-page .charm-eyebrow {
+  font-family: var(--font-note);
+  font-size: 1.35rem;
+  color: var(--charm-rose-deep);
+  display: inline-block;
+  transform: rotate(-2deg);
+  margin-bottom: -0.25rem;
+}
+
+.support-page h1.charm-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 2.4rem;
+  color: var(--charm-ink);
+  letter-spacing: -0.01em;
+}
+
+.support-page .charm-subtitle {
+  color: var(--charm-ink-soft);
+  font-size: 1.02rem;
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+/* ---------- The postcard/envelope card ---------- */
+
+.charm-card {
+  position: relative;
+  background: #fffefb;
+  border: 1px solid var(--charm-line);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px -18px var(--charm-shadow);
+  overflow: hidden;
+}
+
+/* The signature element: an "envelope flap" drawn in CSS,
+   sitting across the top of the card like an opened letter,
+   stitched shut with a dashed seam. */
+.charm-card::before {
+  content: "";
+  display: block;
+  height: 84px;
+  background: linear-gradient(135deg, var(--charm-sage) 0%, var(--charm-sage-deep) 100%);
+  clip-path: polygon(0 0, 50% 62%, 100% 0, 100% 100%, 0 100%);
+}
+
+.charm-card .charm-seam {
+  position: absolute;
+  top: 84px;
+  left: 0;
+  right: 0;
+  border-top: 2px dashed rgba(51, 43, 37, 0.18);
+}
+
+/* Little wax-seal stamp badge, tucked into the flap corner */
+.charm-stamp {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--charm-gold), #b8823a 75%);
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.charm-stamp svg {
+  width: 22px;
+  height: 22px;
+  fill: #fff8ea;
+}
+
+.charm-card-body {
+  padding: 2.75rem 2.5rem 2.25rem;
+}
+
+@media (max-width: 576px) {
+  .charm-card-body {
+    padding: 2.25rem 1.35rem 1.75rem;
+  }
+}
+
+/* ---------- Form controls ---------- */
+
+.support-page .form-label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.86rem;
+  letter-spacing: 0.01em;
+  color: var(--charm-ink);
+  margin-bottom: 0.35rem;
+}
+
+.support-page .form-control,
+.support-page .form-select {
+  font-family: var(--font-body);
+  background-color: var(--charm-paper-deep);
+  border: 1.5px solid var(--charm-line);
+  border-radius: 10px;
+  padding: 0.62rem 0.9rem;
+  color: var(--charm-ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.support-page .form-control::placeholder {
+  color: #b6a999;
+}
+
+.support-page .form-control:focus,
+.support-page .form-select:focus {
+  background-color: #fff;
+  border-color: var(--charm-rose);
+  box-shadow: 0 0 0 4px rgba(196, 112, 124, 0.15);
+  outline: none;
+}
+
+.support-page .form-text {
+  color: var(--charm-ink-soft);
+  font-size: 0.82rem;
+}
+
+.support-page .text-danger {
+  color: var(--charm-rose-deep) !important;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.support-page .alert-danger {
+  background: #fbeceb;
+  border: 1.5px dashed var(--charm-rose);
+  color: var(--charm-rose-deep);
+  border-radius: 10px;
+}
+
+.support-page .alert-success {
+  background: #eef3e9;
+  border: 1.5px dashed var(--charm-sage-deep);
+  color: #4d5c41;
+  border-radius: 10px;
+  font-family: var(--font-body);
+}
+
+/* ---------- Buttons ---------- */
+
+.support-page .charm-btn-primary {
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #fff8ea;
+  background: linear-gradient(135deg, var(--charm-rose), var(--charm-rose-deep));
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.85rem;
+  box-shadow: 0 10px 20px -8px rgba(162, 79, 92, 0.55);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.support-page .charm-btn-primary:hover,
+.support-page .charm-btn-primary:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px -8px rgba(162, 79, 92, 0.6);
+  color: #fff8ea;
+}
+
+.support-page .charm-btn-secondary {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--charm-ink-soft);
+  background: transparent;
+  border: 1.5px solid var(--charm-line);
+  border-radius: 999px;
+  padding: 0.7rem 1.6rem;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.support-page .charm-btn-secondary:hover {
+  border-color: var(--charm-sage-deep);
+  color: var(--charm-sage-deep);
+}
+
+/* ---------- Footer note ---------- */
+
+.support-page .charm-footnote {
+  font-family: var(--font-note);
+  font-size: 1.15rem;
+  color: var(--charm-ink-soft);
+}
+
+.support-page .charm-footnote a {
+  color: var(--charm-rose-deep);
+  font-weight: 700;
+}
+
+/* ---------- Accessibility ---------- */
+
+.support-page .charm-btn-primary:focus-visible,
+.support-page .charm-btn-secondary:focus-visible,
+.support-page .form-control:focus-visible,
+.support-page .form-select:focus-visible {
+  outline: 3px solid var(--charm-gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .support-page .charm-btn-primary,
+  .support-page .charm-btn-secondary {
+    transition: none;
+  }
+}

@@ -18,10 +18,12 @@
         public string? FuelType { get; set; }
         public string? CarImage { get; set; }
         public bool IsAvailable { get; set; }
+        public TimeSpan? PeakHourFromTime { get; set; }
+        public TimeSpan? PeakHourToTime { get; set; }
 
-       
         public int? FareId { get; set; }
         public decimal? BaseFare { get; set; }
+        public decimal? PricePerMinute { get; set; }
         public decimal? PricePerKm { get; set; }
         public decimal? DriverAllowance { get; set; }
         public decimal? WaitingCharge { get; set; }
@@ -36,8 +38,12 @@
 
        
         public decimal EstimatedCost { get; set; }
+        public decimal? StateTax { get; set; }
 
-        
+        public decimal? PeakHourCharge { get; set; }
+
+
+
         public bool IsPriced => BaseFare.HasValue || PricePerKm.HasValue;
     }
 

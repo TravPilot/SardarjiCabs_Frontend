@@ -29,7 +29,7 @@ namespace SardarJi_Cab_Booking.Business_Layer
                 p.Add("@Mobile", customer.MobileNo);
 
                 var signup = await conn.QueryFirstOrDefaultAsync<CustomerVM>(
-                    "dbo.customerSignup_TraviYoPortal",
+                    "dbo.customerSignup_sardarJi",  //customerSignup_TraviYoPortal
                     p,
                     commandType: CommandType.StoredProcedure);
 

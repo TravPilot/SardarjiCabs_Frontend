@@ -784,6 +784,10 @@
         display: block;
         }
 
+
+        .mobile-header-action.extt{
+        display:none !important;
+        }
         .bottom-tab-bar {
         display: block;
         }
@@ -990,13 +994,32 @@
         letter-spacing: 0.04em;
         margin: 10px 0 6px;
         }
+
+        .current-location-item {
+        border-bottom: 1px solid #eee;
+        color: #2563eb;
+        }
+
+        .current-location-item .location-item-icon i {
+        color: #2563eb;
+        }
+
+        .sidebar-logo-icon > img {
+        height: 50px;
+        border-radius: 12px;
+        }
+
+        .mobile-header-logo>img{
+        height: 50px;
+        border-radius: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="logo_travel">
-        <div class="logo"><img src="~/images/LogoSardar.png" alt="Sardar Ji Cabs" /></div>
+        <div class="logo"><img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Sardar Ji Cabs" /></div>
 
-        <button class="mobile-header-action" type="button" aria-label="Open menu" onclick="toggleSidebar(true)">
+        <button class="mobile-header-action extt" type="button" aria-label="Open menu" onclick="toggleSidebar(true)">
             <i class="fa-solid fa-bars"></i>
         </button>
 
@@ -1006,7 +1029,7 @@
             <i class="fa-solid fa-xmark"></i>
         </button>
         <div class="sidebar-logo">
-            <div class="sidebar-logo-icon">SJ</div>
+            <div class="sidebar-logo-icon"><img src="https://sardarjidriver.traviyo.in/sardar.png" /></div>
             <div class="sidebar-logo-text">
                 <p class="title">Sardar JI</p>
                 <p class="subtitle">Quick rides, smarter routes</p>
@@ -1014,22 +1037,35 @@
         </div>
         <nav class="sidebar-menu">
             <a href="/Home/Index" class="sidebar-menu-item"><i class="fa-solid fa-house"></i>Home</a>
-            <a href="/CabBookingList" class="sidebar-menu-item"><i class="fa-solid fa-location-dot"></i> Book Ride</a>
-           @*  <a href="#" class="sidebar-menu-item"><i class="fa-solid fa-calendar-check"></i> My Trips</a>
-            *@
+            <a href="/CabBookingList" class="sidebar-menu-item"><i class="fa-solid fa-location-dot"></i> Booked Ride</a>
+            <a href="/CurrentRide" class="sidebar-menu-item"><i class="fa-solid fa-calendar-check"></i> Current Ride</a>
+
             @if (customer != null)
             {
-                 <a href="/Customer/Index" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> Profile</a>
+                <a href="/Customer/Index" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> Profile</a>
                 <a href="/LogIn/CustomerLogout" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> LogOut</a>
             }
-            
+            <a href="/Privacy/Services?seourl=privacypolicy" class="sidebar-menu-item">
+                <i class="fa-solid fa-shield-halved"></i> Privacy & Policy
+            </a>
+
+            <a href="/Privacy/Services?seourl=trmcondition" class="sidebar-menu-item">
+                <i class="fa-solid fa-file-contract"></i> Term & Condition
+            </a>
+            <a href="/Privacy/Services?seourl=refund" class="sidebar-menu-item">
+                <i class="fa-solid fa-file-contract"></i> Refund & Cancellation Policy
+            </a>
+            <a href="/Reports/SupportReview" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> Customer Support</a>
         </nav>
-        <div class="sidebar-footer">Premium support</div>
+        <div class="sidebar-footer">
+            <a href="/premiumsupport">  Premium support</a>
+
+        </div>
     </div>
     <div class="mobile-header">
         <div class="mobile-header-row">
             <div class="mobile-header-brand">
-                <div class="mobile-header-logo">SJ</div>
+                <div class="mobile-header-logo"><img src="https://sardarjidriver.traviyo.in/sardar.png" /></div>
                 <div class="mobile-header-title-wrap">
                     <p class="mobile-header-title">Sardar JI</p>
                     <p class="mobile-header-subtitle">Fast mobile bookings</p>
@@ -1043,7 +1079,7 @@
     </div>
     <div class="Main_page">
         <div class="phone-frame1">
-            <img src="~/images/Bann12.png" alt="Sardar Ji Cabs" />
+            <img src="/images/mainnn.png" alt="Sardar Ji Cabs" />
 
             <div class="banner-content">
                 <span class="tag-line">PREMIUM CAB SERVICE</span>
@@ -1093,9 +1129,9 @@
 
                 <div class="co2-banner">
                     <div class="co2-row">
-                        <div class="small-line">You have saved</div>
-                        <div class="big-line">2.02 Kg CO<sub>2</sub></div>
-                        <div class="rides-line">from 03 Rides</div>
+                        <div class="small-line">Every EV Ride</div>
+                        <div class="big-line">helps reduce</div>
+                        <div class="rides-line">CO₂ emissions 🌱</div>
                     </div>
                     <svg class="co2-illustration" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <ellipse cx="18" cy="72" rx="10" ry="3" fill="#a9dcc4" />
@@ -1111,21 +1147,29 @@
                         <circle cx="90" cy="76" r="8" fill="#26343e" />
                         <circle cx="90" cy="76" r="3" fill="#cfd6da" />
                     </svg>
-                    <div class="learn-more-btn">Learn more &rarr;</div>
+                    <a href="@Url.Action("CarbonImpact", "Home")" class="btn btn-light rounded-pill px-4 py-2 shadow-sm">
+                        Learn More <i class="fa fa-arrow-right"></i>
+                    </a>
+                    @*  <div class="learn-more-btn">Learn more &rarr;</div> *@
                 </div>
 
                 <div class="elevate-title">Elevate your Ride</div>
-                <div class="elevate-scroll">
-                    <div class="elevate-card" style="background-image:url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=300&q=80');">
-                        <div class="elevate-label">Guaranteed<br>Pickup</div>
-                    </div>
-                    <div class="elevate-card" style="background-image:url('https://images.unsplash.com/photo-1560179707-f14e90ef3603?w=300&q=80');">
-                        <div class="elevate-label">Professional<br>Chauffeurs</div>
-                    </div>
-                    <div class="elevate-card" style="background-image:url('https://images.unsplash.com/photo-1502877338535-766e1452684a?w=300&q=80');">
-                        <div class="elevate-label">Amenities<br>Rich</div>
-                    </div>
+   <div class="elevate-scroll">
+                @if (Model.addPageVM != null && Model.addPageVM.Content.Count > 0)
+                {
+                    foreach (var item in Model.addPageVM.Content)
+                    {
+                   
+                     
+                    <div class="elevate-card" style="background-image: url('https://backendportal.traviyo.com/@item.ImagePath.TrimStart('.', '/')');">
+                                <div class="elevate-label">@item.ImageTitle</div>
+                            </div>
+
+                    }
+                }
+
                 </div>
+               
             </div>
         </div>
 
@@ -1148,7 +1192,7 @@
                     <div class="route-field">
                         <div class="route-field-label">Pickup</div>
                         <input id="pickupValue" class="route-field-input" type="text"
-                               placeholder="Choose pickup point" autocomplete="off" />
+                               placeholder="Choose pickup point" autocomplete="off" required />
                     </div>
                 </div>
                 <div class="route-row" id="dropRow">
@@ -1156,7 +1200,7 @@
                     <div class="route-field">
                         <div class="route-field-label">Drop</div>
                         <input id="dropValue" class="route-field-input" type="text"
-                               placeholder="Choose drop point" autocomplete="off" />
+                               placeholder="Choose drop point" autocomplete="off" required />
                     </div>
                 </div>
                 <button class="swap-btn" type="button" onclick="swapLocations(event)" aria-label="Swap pickup and drop">
@@ -1175,7 +1219,6 @@
             <a href="/Home/Dateview" id="sheetCta" class="sheet-cta" type="button" onclick="confirmRoute()">Choose both points to continue</a>
         </div>
     </div>
-
     <script>
 
         let state = { pickup: '', drop: '', active: 'pickup', distanceKm: null, categoryId: null };
@@ -1230,8 +1273,23 @@
                 if (res.ok) {
                     const data = await res.json();
                     state.distanceKm = data.distanceKm;
+                    state.duration = data.duration;
+
+                            const seconds = parseInt(data.duration, 10) || 0;
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+
+        let durationText = '';
+
+        if (hours > 0) {
+            durationText += `${hours} hr `;
+        }
+
+        if (minutes > 0 || hours === 0) {
+            durationText += `${minutes} min`;
+        }
                     distanceInfo.innerHTML =
-                        `<span class="dkm">${data.distanceKm} km</span><span>${data.duration ?? ''}</span>`;
+                        `<span class="dkm">${data.distanceKm} km</span><span>${durationText ?? ''}</span>`;
                     updateCta();
                 } else {
                     distanceInfo.textContent = 'Distance unavailable for this route';
@@ -1259,20 +1317,30 @@
             }
         }
 
-        // Renders suggestions based on whichever field (pickup/drop) is currently active
         function renderList() {
           const activeInput = state.active === 'pickup' ? pickupValue : dropValue;
           const rawQuery = activeInput.value.trim();
 
+          // Current-location option only for pickup field
+          const currentLocationHtml = state.active === 'pickup' ? `
+            <div class="location-item current-location-item" id="useCurrentLocationBtn">
+              <div class="location-item-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+              <div class="location-item-text">
+                <div class="main">Use my current location</div>
+              </div>
+            </div>` : '';
+
           if (rawQuery.length < 3) {
-            locationList.innerHTML = `
+            locationList.innerHTML = currentLocationHtml + `
               <div style="padding:14px 4px;color:#9aa0a8;font-size:0.82rem;">
                 Type at least 3 characters to search a location…
               </div>`;
+            attachCurrentLocationHandler();
             return;
           }
 
-          locationList.innerHTML = '<div id="googlePredictions"></div>';
+          locationList.innerHTML = currentLocationHtml + '<div id="googlePredictions"></div>';
+          attachCurrentLocationHandler();
 
           clearTimeout(placesDebounce);
           placesDebounce = setTimeout(() => {
@@ -1281,7 +1349,14 @@
                 '<div style="padding:8px 4px;color:#9aa0a8;font-size:0.8rem;">Loading Google Maps…</div>';
               return;
             }
-            autocompleteService.getPlacePredictions({ input: rawQuery }, (predictions, status) => {
+
+            // Always restrict suggestions to India only, for both pickup and drop
+            const request = {
+              input: rawQuery,
+              componentRestrictions: { country: 'in' }
+            };
+
+            autocompleteService.getPlacePredictions(request, (predictions, status) => {
               const wrap = document.getElementById('googlePredictions');
               if (!wrap) return;
               if (status !== google.maps.places.PlacesServiceStatus.OK || !predictions) {
@@ -1302,6 +1377,12 @@
             });
           }, 300);
         }
+
+        function attachCurrentLocationHandler() {
+          const btn = document.getElementById('useCurrentLocationBtn');
+          if (btn) btn.addEventListener('click', useCurrentLocation);
+        }
+
 
         function focusField(field) {
           state.active = field;
@@ -1338,13 +1419,14 @@
         }
 
         function updateCta() {
-          if (state.pickup && state.drop) {
+          if (state.pickup && state.drop && state.distanceKm) {
             cta.textContent = 'Confirm route';
             cta.classList.add('ready');
             const params = new URLSearchParams({
               pickup: state.pickup,
               drop: state.drop,
               distanceKm: state.distanceKm ?? '',
+              duration: state.duration ?? '',
               categoryId: state.categoryId ?? ''
             });
             cta.href = `/Home/Dateview?${params.toString()}`;
@@ -1398,7 +1480,7 @@
           if (e.key === 'Escape') closeSheet();
         });
 
-       
+
         pickupValue.addEventListener('focus', () => focusField('pickup'));
         dropValue.addEventListener('focus', () => focusField('drop'));
         pickupValue.addEventListener('input', () => { state.pickup = pickupValue.value; renderList(); });
@@ -1411,9 +1493,62 @@
             openSheet(planName, box.dataset.categoryId);
           });
         });
+        document.querySelector('.book-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+
+
+            const firstPlan = document.querySelector('.plan-box');
+
+            if (firstPlan) {
+                const planName = firstPlan.querySelector('h4').textContent.trim();
+                const categoryId = firstPlan.dataset.categoryId;
+
+                openSheet(planName, categoryId);
+            }
+        });
+    </script>
+    <script>
+        function useCurrentLocation() {
+          const btn = document.getElementById('useCurrentLocationBtn');
+          if (!navigator.geolocation) {
+            if (btn) btn.querySelector('.main').textContent = 'Location not supported on this device';
+            return;
+          }
+
+          if (btn) btn.querySelector('.main').textContent = 'Fetching your location…';
+
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const { latitude, longitude } = pos.coords;
+
+              if (googleReady) {
+                const geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
+                  if (status === 'OK' && results[0]) {
+                    const address = results[0].formatted_address;
+                    if (!/india\s*$/i.test(address.trim())) {
+                      if (btn) btn.querySelector('.main').textContent = 'Your current location is outside India';
+                      return;
+                    }
+                    selectLocation(address);
+                  } else {
+                    if (btn) btn.querySelector('.main').textContent = 'Could not detect your location';
+                  }
+                });
+              } else {
+                if (btn) btn.querySelector('.main').textContent = 'Loading Google Maps…';
+              }
+            },
+            (err) => {
+              if (btn) btn.querySelector('.main').textContent = 'Could not fetch location, allow permission';
+            },
+            { enableHighAccuracy: true, timeout: 8000 }
+          );
+        }
     </script>
 
-    <script async defer
+   
+     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApiKey&libraries=places&callback=initGoogleMaps">
     </script>
 
@@ -1423,15 +1558,15 @@
                 <i class="fa-solid fa-house"></i>
                 <span>Home</span>
             </a>
-            <a href="/Ride.html" class="bottom-tab-item">
+            <a href="/CurrentRide" class="bottom-tab-item">
                 <i class="fa-solid fa-location-dot"></i>
                 <span>Ride</span>
             </a>
-            <a href="#" class="bottom-tab-item">
+            <a href="/CabBookingList" class="bottom-tab-item">
                 <i class="fa-solid fa-calendar-check"></i>
                 <span>Bookings</span>
             </a>
-            <a href="#" class="bottom-tab-item">
+            <a href="/profile" class="bottom-tab-item">
                 <i class="fa-solid fa-user"></i>
                 <span>Profile</span>
             </a>

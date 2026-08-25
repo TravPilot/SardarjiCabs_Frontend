@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Your Ride — trEV</title>
+    <title>Select Your Ride — sardarji EV</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -41,6 +41,11 @@
                 margin: 0;
                 overflow: hidden;
             }
+
+            a .bk-back-link{
+                display:none;
+            }
+
         }
 
         .mono {
@@ -143,7 +148,13 @@
                     background: var(--coral);
                 }
 
-            .route-chip .km-line {
+            /* .route-chip .km-line {
+                margin-top: 4px;
+                font-weight: 700;
+                color: var(--charge);
+            } */
+
+            .route-chip .kmm-line {
                 margin-top: 4px;
                 font-weight: 700;
                 color: var(--charge);
@@ -325,7 +336,47 @@
             .phone-frame1 {
                 display: none;
             }
+
+            .cards-row {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                gap: 10px !important;
+                width: 100% !important;
+            }
+
+                .cards-row .card {
+                    flex: 0 0 auto !important;
+                }
+
+            a.bk-back-link {
+                position: absolute;
+                top: 0;
+                left: 12px;
+                top: 12px;
+                display:block;
+                z-index: 9999;
+                background: #fff;
+                padding: 8px 12px;
+                border-radius: 16px;
+                color: #000;
+                text-transform: none;
+                text-decoration: none;
+            
         }
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         @@media (min-width: 769px) {
             .phone-frame {
@@ -485,12 +536,12 @@
 </head>
 <body>
     <div class="logo_travel">
-        <div class="logo"><img src="~/Images/LogoSardar.png" alt="Sardar JI"></div>
+        <div class="logo"><img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Sardar JI"></div>
 
     </div>
     <div class="Main_page">
         <div class="phone-frame1">
-            <img src="~/Images/Bann12.png" alt="Sardar Ji Cabs" />
+            <img src="/images/mainnn.png" alt="Sardar Ji Cabs" />
 
             <div class="banner-content">
                 <span class="tag-line">PREMIUM CAB SERVICE</span>
@@ -502,20 +553,31 @@
         </div>
         <div class="phone-frame">
             <div class="screen">
-
+                <div class="back-container">
+                    <a class="bk-back-link" href="/Home">
+                        <i class="fa fa-arrow-left"></i> Back to home
+                    </a>
+                </div>
                 <div class="map-panel">
                     <div id="map"></div>
                     <div class="map-overlay"></div>
 
-                    <a href="/" class="back-pill">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12l6-6M5 12l6 6" stroke="#1F7A5C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    <div class="back-row" onclick="goBack()" style="cursor:pointer;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M19 12H5M5 12l6-6M5 12l6 6"
+                                  stroke="#1F7A5C"
+                                  stroke-width="2.2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                        </svg>
                         Go Back
-                    </a>
+                    </div>
+
 
                     <div class="route-chip mono">
                         <div><span class="dot p"></span>@Model.Pickup</div>
                         <div><span class="dot d"></span>@Model.Drop</div>
-                        <div class="km-line">@Model.DistanceKm.ToString("0.0") km</div>
+                        <div class="kmm-line">@Model.DistanceKm km </div>
                     </div>
                 </div>
 
@@ -535,7 +597,7 @@
                                 var isFirst = i == 0;
                                 var imgSrc = string.IsNullOrEmpty(car.Image)
                                 ? "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&q=80"
-                                : "https://adminsardarji.traviyo.in" + "" + car.Image;
+                                : "https://admin.sardarjiev.com" + "" + car.Image;
 
                                 <div class="car-card @(isFirst ? "selected" : "")"
                                      data-car-id="@car.CarId"
@@ -572,8 +634,12 @@
             </div>
         </div>
     </div>
-
    
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
     <script>
         let selectedCard = document.querySelector('.car-card.selected');
@@ -594,7 +660,8 @@
                 time: @Html.Raw(Json.Serialize(Model.RideTime ?? "")),
                 carId: selectedCard.getAttribute('data-car-id'),
                 carName: selectedCard.getAttribute('data-car-name'),
-                cost: selectedCard.getAttribute('data-cost')
+                cost: selectedCard.getAttribute('data-cost'),
+                 statetax: @Html.Raw(Json.Serialize(Model.statetax ?? 0)),
             });
             window.location.href = `/Home/travel_summary_ticket?${params.toString()}`;
         });

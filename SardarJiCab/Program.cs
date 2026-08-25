@@ -1,4 +1,6 @@
 using CabBookingMVC.Helper;
+using Microsoft.AspNetCore.Connections;
+using Rotativa.AspNetCore;
 using SardarJi_Cab_Booking.Business_Layer;
 using SardarJi_Cab_Booking.Helper;
 using SardarjiCab.DB;
@@ -26,7 +28,16 @@ builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<PaymentGatwaySettings>();
 builder.Services.AddScoped<IRazorGatewayRepository, RazorGatewayRepository>();
 builder.Services.AddScoped<IGeocodingService, GeocodingService>();
+builder.Services.AddScoped<IDbConnectionFactory, SqlConnectionFactory>();
+builder.Services.AddScoped<IAddPageRepository, AddPageRepository>();
 
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+
+builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "RequestVerificationToken";
+});
 builder.Services.AddScoped<IDriverDashboardDB, DriverDashboardDB>();
 builder.Services.AddScoped<IDriverDashboardBL, DriverDashboardBL>();
 
@@ -57,7 +68,7 @@ builder.Services.AddHttpClient();
 
 
 var app = builder.Build();
-
+RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa");
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -74,11 +85,38 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "CurrentRide",
+    pattern: "CurrentRide",
+    defaults: new { controller = "Booking", action = "CurrentRide" });
+app.MapControllerRoute(
+    name: "profile",
+    pattern: "profile",
+    defaults: new { controller = "Customer", action = "Index" });
 
 app.MapControllerRoute(
     name: "CabBookingList",
     pattern: "CabBookingList",
     defaults: new { controller = "Reports", action = "CabBookingList" });
+
+app.MapControllerRoute(
+    name: "Noservice",
+    pattern: "Noservice",
+    defaults: new { controller = "Home", action = "CabnotAbaiable" });
+
+app.MapControllerRoute(
+    name: "SupportReview",
+    pattern: "SupportReview",
+    defaults: new { controller = "Reports", action = "SupportReview" });
+
+app.MapControllerRoute(
+    name: "forgotpassword",
+    pattern: "forgotpassword",
+    defaults: new { controller = "Customer", action = "ForgotPassword" });
+app.MapControllerRoute(
+    name: "premiumsupport",
+    pattern: "premiumsupport",
+    defaults: new { controller = "Customer", action = "Contactus" });
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=LogIn}/{action=Index}/{id?}");
