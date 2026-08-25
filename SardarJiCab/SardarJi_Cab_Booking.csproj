@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data Layer\**" />
+    <Content Remove="Data Layer\**" />
+    <EmbeddedResource Remove="Data Layer\**" />
+    <None Remove="Data Layer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\css\Style.css" />
     <Content Remove="wwwroot\images\Arctic-Blue_6688ba.avif" />
     <Content Remove="wwwroot\images\ban1.png" />
@@ -81,10 +88,6 @@
     <PackageReference Include="RestSharp" Version="114.0.0" />
     <PackageReference Include="Rotativa.AspNetCore" Version="1.4.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data Layer\" />
   </ItemGroup>
 
   <ItemGroup>

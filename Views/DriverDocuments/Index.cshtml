@@ -1,0 +1,1078 @@
+﻿@using SardarJiCab.Model
+@model DriverDocuments
+@{
+    ViewData["Title"] = "My Documents";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Documents | Sardar Ji EV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --navy: #16265A;
+            --terracotta: #D6491F;
+            --terracotta-2: #EF7A3C;
+            --bg: #F5F4F1;
+            --card: #FFFFFF;
+            --ink: #171B24;
+            --muted: #767C8A;
+            --line: #E7E5E0;
+            --ev-green: #1E8F5F;
+            --ev-green-bg: #E9F7EF;
+            --warn: #C0392B;
+            --warn-bg: #FCEBEA;
+            --gold: #B8860B;
+            --gold-bg: #FBF3DF;
+            --focus-ring: rgba(214,73,31,0.22);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: "Inter",sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+            padding-bottom: 88px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: "Space Grotesk",sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: "Inter",sans-serif;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .visual-pane {
+            display: none;
+            position: relative;
+            flex: 0 0 34%;
+            max-width: 420px;
+            background: linear-gradient(165deg, rgba(11,21,51,0.90) 0%, rgba(22,38,90,0.78) 45%, rgba(214,73,31,0.55) 100%), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1000&q=80') center/cover no-repeat;
+            overflow: hidden;
+            padding: 40px 32px;
+        }
+
+        .visual-pane-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .visual-pane .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+            .visual-pane .brand .mark {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 700;
+                font-size: 15px;
+                flex-shrink: 0;
+            }
+
+            .visual-pane .brand .word {
+                color: #fff;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 1.1;
+            }
+
+                .visual-pane .brand .word small {
+                    display: block;
+                    color: rgba(255,255,255,0.6);
+                    font-weight: 600;
+                    font-size: 0.62rem;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    margin-top: 2px;
+                }
+
+        .visual-pane-quote {
+            max-width: 280px;
+        }
+
+            .visual-pane-quote .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(255,255,255,0.85);
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+            }
+
+                .visual-pane-quote .eyebrow i {
+                    color: var(--terracotta-2);
+                }
+
+            .visual-pane-quote h2 {
+                color: #fff;
+                font-size: 1.5rem;
+                line-height: 1.28;
+                font-weight: 700;
+                margin: 0;
+            }
+
+        .visual-pane-foot {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.76rem;
+        }
+
+        .content-pane {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        @@media (min-width:992px) {
+            .visual-pane {
+                display: block;
+            }
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+
+        /* ---------------- TOP BAR ---------------- */
+        .topbar {
+            background: var(--navy);
+            padding: 16px 0 44px;
+        }
+
+        .topbar-inner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .topbar h1 {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .topbar p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.78rem;
+            margin: 2px 0 0;
+        }
+
+        /* ---------------- OVERALL STATUS BANNER ---------------- */
+        .overall-banner {
+            background: var(--card);
+            border-radius: 18px;
+            padding: 18px;
+            margin: -30px 0 18px;
+            position: relative;
+            z-index: 5;
+            box-shadow: 0 14px 34px rgba(11,21,51,0.1);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+            .overall-banner .oi {
+                width: 44px;
+                height: 44px;
+                border-radius: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.1rem;
+                flex-shrink: 0;
+            }
+
+            .overall-banner.approved .oi {
+                background: var(--ev-green-bg);
+                color: var(--ev-green);
+            }
+
+            .overall-banner.pending .oi {
+                background: var(--gold-bg);
+                color: var(--gold);
+            }
+
+            .overall-banner.rejected .oi, .overall-banner.incomplete .oi {
+                background: var(--warn-bg);
+                color: var(--warn);
+            }
+
+            .overall-banner .ot .t {
+                font-weight: 700;
+                font-size: 0.94rem;
+                color: var(--ink);
+            }
+
+            .overall-banner .ot .s {
+                font-size: 0.8rem;
+                color: var(--muted);
+                margin-top: 2px;
+            }
+
+        .progress-track {
+            height: 6px;
+            background: var(--line);
+            border-radius: 99px;
+            overflow: hidden;
+            margin: 14px 0 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg,var(--terracotta),var(--terracotta-2));
+            border-radius: 99px;
+            transition: width .3s ease;
+        }
+
+        .progress-label {
+            font-size: 0.76rem;
+            color: var(--muted);
+            margin: -12px 0 20px;
+            text-align: right;
+        }
+
+        /* ---------------- DOCUMENT CARD ---------------- */
+        .doc-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 20px rgba(11,21,51,0.05);
+            display: flex;
+            gap: 14px;
+        }
+
+        .doc-thumb {
+            width: 76px;
+            height: 76px;
+            border-radius: 12px;
+            background: #F1F0EC;
+            flex-shrink: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 1.3rem;
+        }
+
+            .doc-thumb img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .doc-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .doc-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .doc-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .doc-status {
+            font-size: 0.64rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 99px;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+            .doc-status.uploaded {
+                background: var(--ev-green-bg);
+                color: var(--ev-green);
+            }
+
+            .doc-status.missing {
+                background: var(--warn-bg);
+                color: var(--warn);
+            }
+
+            .doc-status.expiring {
+                background: var(--gold-bg);
+                color: var(--gold);
+            }
+
+        .doc-sub {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .doc-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-weight: 700;
+            font-size: 0.76rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+            .doc-btn.primary {
+                background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+                color: #fff;
+            }
+
+            .doc-btn.ghost {
+                background: #F1F0EC;
+                color: var(--ink);
+            }
+
+        /* ---------------- MODAL ---------------- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11,21,51,0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity .2s ease;
+        }
+
+            .modal-overlay.show {
+                display: flex;
+                opacity: 1;
+            }
+
+        .modal-sheet {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 24px 24px 0 0;
+            padding: 22px 22px 26px;
+            transform: translateY(100%);
+            transition: transform .3s cubic-bezier(.25,.8,.35,1);
+            box-shadow: 0 -14px 40px rgba(0,0,0,0.2);
+            max-height: 88vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.show .modal-sheet {
+            transform: translateY(0);
+        }
+
+        .modal-handle {
+            width: 36px;
+            height: 4px;
+            border-radius: 99px;
+            background: var(--line);
+            margin: 0 auto 18px;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #F3F4F6;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+            .field label {
+                display: block;
+                font-size: 0.74rem;
+                font-weight: 700;
+                color: var(--ink);
+                margin-bottom: 6px;
+            }
+
+        .input-shell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #FBFAF8;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 0 13px;
+            height: 46px;
+            transition: border-color .16s ease, box-shadow .16s ease;
+        }
+
+            .input-shell:focus-within {
+                border-color: var(--terracotta);
+                box-shadow: 0 0 0 4px var(--focus-ring);
+            }
+
+            .input-shell.error {
+                border-color: var(--warn);
+                box-shadow: 0 0 0 4px rgba(192,57,43,0.12);
+            }
+
+            .input-shell i {
+                color: var(--muted);
+                font-size: 0.82rem;
+                width: 15px;
+                text-align: center;
+            }
+
+            .input-shell input {
+                border: none;
+                outline: none;
+                background: transparent;
+                flex: 1;
+                font-family: "Inter",sans-serif;
+                font-size: 0.88rem;
+                font-weight: 500;
+                color: var(--ink);
+                height: 100%;
+            }
+
+        .upload-drop {
+            border: 1.5px dashed var(--line);
+            border-radius: 13px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color .15s ease, background .15s ease;
+            margin-bottom: 6px;
+        }
+
+            .upload-drop:hover {
+                border-color: var(--terracotta);
+                background: #FFF8F5;
+            }
+
+            .upload-drop i {
+                font-size: 1.4rem;
+                color: var(--muted);
+                margin-bottom: 8px;
+                display: block;
+            }
+
+            .upload-drop .t {
+                font-size: 0.84rem;
+                font-weight: 700;
+                color: var(--ink);
+            }
+
+            .upload-drop .s {
+                font-size: 0.72rem;
+                color: var(--muted);
+                margin-top: 2px;
+            }
+
+        .upload-preview {
+            display: none;
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+            .upload-preview img {
+                width: 100%;
+                max-height: 160px;
+                object-fit: cover;
+                border-radius: 13px;
+            }
+
+            .upload-preview .remove-btn {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: rgba(11,21,51,0.7);
+                color: #fff;
+                border: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+
+        .field-msg {
+            font-size: 0.74rem;
+            color: var(--warn);
+            margin: -6px 0 14px;
+            display: none;
+            align-items: center;
+            gap: 5px;
+        }
+
+            .field-msg.show {
+                display: flex;
+            }
+
+        .modal-save-btn {
+            width: 100%;
+            border: none;
+            border-radius: 13px;
+            padding: 15px;
+            background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+            color: #fff;
+            font-family: "Space Grotesk",sans-serif;
+            font-weight: 700;
+            font-size: 0.94rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            box-shadow: 0 12px 24px rgba(214,73,31,0.28);
+        }
+
+            .modal-save-btn:disabled {
+                opacity: 0.65;
+                cursor: not-allowed;
+            }
+
+            .modal-save-btn .fa-spinner {
+                animation: spin .7s linear infinite;
+            }
+
+        @@keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ---------------- TOAST ---------------- */
+        .toast-stack {
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: calc(100% - 32px);
+            max-width: 400px;
+        }
+
+        .toast {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #fff;
+            border-radius: 13px;
+            padding: 13px 14px;
+            box-shadow: 0 14px 34px rgba(11,21,51,0.18);
+            border-left: 4px solid var(--navy);
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--ink);
+            opacity: 0;
+            transform: translateY(-14px);
+            animation: toastIn .28s ease forwards;
+        }
+
+            .toast.success {
+                border-left-color: var(--ev-green);
+            }
+
+            .toast.error {
+                border-left-color: var(--warn);
+            }
+
+            .toast i.toast-icon {
+                margin-top: 1px;
+            }
+
+            .toast.success i.toast-icon {
+                color: var(--ev-green);
+            }
+
+            .toast.error i.toast-icon {
+                color: var(--warn);
+            }
+
+            .toast .toast-msg {
+                flex: 1;
+                line-height: 1.4;
+            }
+
+        @@keyframes toastIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---------------- BOTTOM TAB BAR ---------------- */
+        .bottom-tab-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1100;
+            background: #fff;
+            border-top: 1px solid var(--line);
+            box-shadow: 0 -10px 26px rgba(0,0,0,0.06);
+            padding: 8px 0;
+        }
+
+        .bottom-tab-row {
+            max-width: 480px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 4px;
+            padding: 0 10px;
+        }
+
+        .bottom-tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.68rem;
+            color: var(--muted);
+            padding: 8px 0;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+        .brand > img {
+            height: 38px;
+            border-radius: 12px;
+        }
+            .bottom-tab-item i {
+                font-size: 16px;
+            }
+
+            .bottom-tab-item.active {
+                color: var(--terracotta);
+                background: #FFF1E7;
+            }
+
+        @@media (min-width:768px) {
+            .bottom-tab-bar {
+                display: none;
+            }
+
+            body {
+                padding-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast-stack" id="toastStack"></div>
+
+    <div class="app-shell">
+
+        <div class="visual-pane">
+            <div class="visual-pane-content">
+                <div class="brand">
+                    <img src="~/sardar.png" />
+                    <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
+                </div>
+                <div class="visual-pane-quote">
+                    <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Documents</div>
+                    <h2>Keep your KYC and vehicle documents current and verified.</h2>
+                </div>
+                <div class="visual-pane-foot">&copy; Sardar Ji EV &middot; Driver Partner Network</div>
+            </div>
+        </div>
+
+        <div class="content-pane">
+
+            <div class="topbar">
+                <div class="container topbar-inner">
+                    <a href="@Url.Action("Index", "DriverProfile")" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <div>
+                        <h1>My Documents</h1>
+                        <p>Required for approval and continued access</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+
+                <!-- ===================== OVERALL STATUS ===================== -->
+                <div class="overall-banner @Model.OverallStatusCss">
+                    <div class="oi">
+                        <i class="fa-solid @(Model.OverallStatusCss == "approved" ? "fa-circle-check" : Model.OverallStatusCss == "pending" ? "fa-clock" : "fa-triangle-exclamation")"></i>
+                    </div>
+                    <div class="ot">
+                        <div class="t">@Model.OverallStatusTitle</div>
+                        <div class="s">@Model.OverallStatusMessage</div>
+                    </div>
+                </div>
+
+                <div class="progress-track"><div class="progress-fill" style="width:@Model.CompletionPercent%;"></div></div>
+                <div class="progress-label">@Model.DocumentsUploadedCount of @Model.TotalDocumentsRequired documents uploaded</div>
+
+                <!-- ===================== DRIVING LICENSE ===================== -->
+                <div class="doc-card">
+                    <div class="doc-thumb">
+                        @if (!string.IsNullOrEmpty(Model.LicensePhotoUrl))
+                        {
+                            <img src="@Model.LicensePhotoUrl" alt="License">
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-id-badge"></i>
+                        }
+                    </div>
+                    <div class="doc-main">
+                        <div class="doc-head">
+                            <div class="doc-title">Driving License</div>
+                            <span class="doc-status @Model.LicenseStatusCss">@Model.LicenseStatusLabel</span>
+                        </div>
+                        <div class="doc-sub">
+                            @(string.IsNullOrEmpty(Model.LicenseNumber) ? "No license number on file" : $"No. {Model.LicenseNumber}")
+                            @(Model.LicenseExpiryDate.HasValue ? $" · Expires {Model.LicenseExpiryDate:dd MMM yyyy}" : "")
+                        </div>
+                        <div class="doc-actions">
+                            <button type="button" class="doc-btn primary" onclick="openDocModal('license')">
+                                <i class="fa-solid fa-upload"></i> @(string.IsNullOrEmpty(Model.LicensePhotoUrl) ? "Upload" : "Replace")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== AADHAAR ===================== -->
+                <div class="doc-card">
+                    <div class="doc-thumb">
+                        @if (!string.IsNullOrEmpty(Model.AadhaarPhotoUrl))
+                        {
+                            <img src="@Model.AadhaarPhotoUrl" alt="Aadhaar">
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-fingerprint"></i>
+                        }
+                    </div>
+                    <div class="doc-main">
+                        <div class="doc-head">
+                            <div class="doc-title">Aadhaar Card</div>
+                            <span class="doc-status @Model.AadhaarStatusCss">@Model.AadhaarStatusLabel</span>
+                        </div>
+                        <div class="doc-sub">
+                            @(string.IsNullOrEmpty(Model.AadhaarNumberMasked) ? "No Aadhaar number on file" : $"No. {Model.AadhaarNumberMasked}")
+                        </div>
+                        <div class="doc-actions">
+                            <button type="button" class="doc-btn primary" onclick="openDocModal('aadhaar')">
+                                <i class="fa-solid fa-upload"></i> @(string.IsNullOrEmpty(Model.AadhaarPhotoUrl) ? "Upload" : "Replace")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== VEHICLE RC ===================== -->
+                <div class="doc-card">
+                    <div class="doc-thumb">
+                        @if (!string.IsNullOrEmpty(Model.RcPhotoUrl))
+                        {
+                            <img src="@Model.RcPhotoUrl" alt="RC">
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-file-lines"></i>
+                        }
+                    </div>
+                    <div class="doc-main">
+                        <div class="doc-head">
+                            <div class="doc-title">Vehicle RC</div>
+                            <span class="doc-status @Model.RcStatusCss">@Model.RcStatusLabel</span>
+                        </div>
+                        <div class="doc-sub">
+                            @(string.IsNullOrEmpty(Model.RcNumber) ? "No RC number on file" : $"No. {Model.RcNumber}")
+                        </div>
+                        <div class="doc-actions">
+                            <button type="button" class="doc-btn primary" onclick="openDocModal('rc')">
+                                <i class="fa-solid fa-upload"></i> @(string.IsNullOrEmpty(Model.RcPhotoUrl) ? "Upload" : "Replace")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.OverallStatusCss == "rejected" && !string.IsNullOrEmpty(Model.RejectionReason))
+                {
+                    <div class="doc-card" style="background:var(--warn-bg);box-shadow:none;">
+                        <div style="display:flex;gap:10px;align-items:flex-start;">
+                            <i class="fa-solid fa-circle-exclamation" style="color:var(--warn);margin-top:2px;"></i>
+                            <div style="font-size:0.85rem;color:var(--warn);font-weight:600;">@Model.RejectionReason</div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div><!-- /.content-pane -->
+    </div><!-- /.app-shell -->
+
+    <div class="bottom-tab-bar">
+        <div class="bottom-tab-row">
+            <a href="@Url.Action("Index", "DriverDashboard")" class="bottom-tab-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="@Url.Action("Index", "DriverTrips")" class="bottom-tab-item"><i class="fa-solid fa-calendar-check"></i><span>Trips</span></a>
+            <a href="@Url.Action("Index", "DriverEarnings")" class="bottom-tab-item"><i class="fa-solid fa-wallet"></i><span>Earnings</span></a>
+            <a href="@Url.Action("Index", "DriverProfile")" class="bottom-tab-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </div>
+    </div>
+
+    <!-- ===================== DOCUMENT UPLOAD MODAL ===================== -->
+    <div class="modal-overlay" id="docModalOverlay">
+        <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="docModalTitle">
+            <div class="modal-handle"></div>
+            <div class="modal-header">
+                <h3 class="modal-title" id="docModalTitle">Upload document</h3>
+                <button type="button" class="modal-close" onclick="closeDocModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            @Html.AntiForgeryToken()
+
+            <div class="upload-drop" id="uploadDrop" onclick="document.getElementById('docFileInput').click()">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <div class="t">Tap to select a photo</div>
+                <div class="s">JPG or PNG, up to 5MB</div>
+            </div>
+            <div class="upload-preview" id="uploadPreview">
+                <img id="uploadPreviewImg" src="" alt="Preview">
+                <button type="button" class="remove-btn" onclick="clearUploadPreview()" aria-label="Remove"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <input type="file" id="docFileInput" accept="image/*" style="display:none" onchange="onFileSelected(this)">
+
+            <div id="docNumberField" class="field">
+                <label id="docNumberLabel" for="docNumberInput">Document number</label>
+                <div class="input-shell"><i class="fa-solid fa-hashtag"></i><input id="docNumberInput" placeholder="Enter number"></div>
+            </div>
+
+            <div id="docExpiryField" class="field" style="display:none;">
+                <label for="docExpiryInput">Expiry date</label>
+                <div class="input-shell"><i class="fa-solid fa-calendar"></i><input id="docExpiryInput" type="date"></div>
+            </div>
+
+            <div class="field-msg" id="docModalError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+
+            <button type="button" class="modal-save-btn" id="docSaveBtn" onclick="saveDocument()">
+                <span id="docSaveLabel">Save document</span> <i class="fa-solid fa-check" id="docSaveIcon"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let activeDocType = null;
+        let selectedFile = null;
+
+        const DOC_CONFIG = {
+          license: { title: 'Update driving license', numberLabel: 'License number', showExpiry: true },
+          aadhaar: { title: 'Update Aadhaar card', numberLabel: 'Aadhaar number', showExpiry: false },
+          rc:      { title: 'Update vehicle RC', numberLabel: 'RC number', showExpiry: false }
+        };
+
+        function showToast(message, type = 'info') {
+          const stack = document.getElementById('toastStack');
+          const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', info: 'fa-circle-info' };
+          const toast = document.createElement('div');
+          toast.className = `toast ${type}`;
+          toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} toast-icon"></i><div class="toast-msg">${message}</div>`;
+          stack.appendChild(toast);
+          setTimeout(() => toast.remove(), 4500);
+        }
+
+        function getToken() {
+          return document.querySelector('#docModalOverlay input[name="__RequestVerificationToken"]').value;
+        }
+
+        function openDocModal(docType) {
+          activeDocType = docType;
+          selectedFile = null;
+          const cfg = DOC_CONFIG[docType];
+
+          document.getElementById('docModalTitle').textContent = cfg.title;
+          document.getElementById('docNumberLabel').textContent = cfg.numberLabel;
+          document.getElementById('docNumberInput').value = '';
+          document.getElementById('docExpiryField').style.display = cfg.showExpiry ? 'block' : 'none';
+          document.getElementById('docExpiryInput').value = '';
+          document.getElementById('docModalError').classList.remove('show');
+          clearUploadPreview();
+
+          document.getElementById('docModalOverlay').classList.add('show');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeDocModal() {
+          document.getElementById('docModalOverlay').classList.remove('show');
+          document.body.style.overflow = '';
+          activeDocType = null;
+        }
+
+        function onFileSelected(input) {
+          if (!input.files || !input.files[0]) return;
+          selectedFile = input.files[0];
+
+          if (selectedFile.size > 5 * 1024 * 1024) {
+            showToast('File must be under 5MB.', 'error');
+            selectedFile = null;
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = e => {
+            document.getElementById('uploadPreviewImg').src = e.target.result;
+            document.getElementById('uploadPreview').style.display = 'block';
+            document.getElementById('uploadDrop').style.display = 'none';
+          };
+          reader.readAsDataURL(selectedFile);
+        }
+
+        function clearUploadPreview() {
+          selectedFile = null;
+          document.getElementById('docFileInput').value = '';
+          document.getElementById('uploadPreview').style.display = 'none';
+          document.getElementById('uploadDrop').style.display = 'block';
+        }
+
+        async function saveDocument() {
+          const errEl = document.getElementById('docModalError');
+          errEl.classList.remove('show');
+
+          if (!selectedFile) {
+            errEl.querySelector('span').textContent = 'Please select a photo to upload.';
+            errEl.classList.add('show');
+            return;
+          }
+
+          const btn = document.getElementById('docSaveBtn');
+          const label = document.getElementById('docSaveLabel');
+          const icon = document.getElementById('docSaveIcon');
+          btn.disabled = true;
+          label.textContent = 'Uploading…';
+          icon.className = 'fa-solid fa-spinner';
+
+          const formData = new FormData();
+          formData.append('docType', activeDocType);
+          formData.append('documentNumber', document.getElementById('docNumberInput').value.trim());
+          formData.append('expiryDate', document.getElementById('docExpiryInput').value);
+          formData.append('file', selectedFile);
+          formData.append('__RequestVerificationToken', getToken());
+
+          try {
+            const res = await fetch('@Url.Action("UploadDocument", "DriverDocuments")', {
+              method: 'POST',
+              headers: { 'RequestVerificationToken': getToken() },
+              body: formData
+            });
+            const data = await res.json();
+
+            if (data.success) {
+              showToast('Document uploaded. Pending review.', 'success');
+              setTimeout(() => window.location.reload(), 700);
+            } else {
+              errEl.querySelector('span').textContent = data.message || 'Could not upload document.';
+              errEl.classList.add('show');
+              showToast(data.message || 'Could not upload document.', 'error');
+            }
+          } catch {
+            errEl.querySelector('span').textContent = 'Network error — please try again.';
+            errEl.classList.add('show');
+          } finally {
+            btn.disabled = false;
+            label.textContent = 'Save document';
+            icon.className = 'fa-solid fa-check';
+          }
+        }
+
+        document.getElementById('docModalOverlay').addEventListener('click', function (e) {
+          if (e.target === this) closeDocModal();
+        });
+    </script>
+
+</body>
+</html>

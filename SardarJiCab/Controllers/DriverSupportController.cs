@@ -3,34 +3,34 @@ using SardarJiCab.BL.Interface;
 
 namespace SardarJi_Cab_Booking.Controllers
 {
-    public class DriverDashboardController : Controller
+    public class DriverSupportController : Controller
     {
-        private readonly IDriverDashboardBL _dashboardBL;
+        private readonly IDriverSupportBL _driverSupportBL;
 
-        public DriverDashboardController(IDriverDashboardBL dashboardBL)
+        public DriverSupportController(IDriverSupportBL driverSupportBL)
         {
-            _dashboardBL = dashboardBL;
+            _driverSupportBL = driverSupportBL;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var driverId = HttpContext.Session.GetInt32("DriverId");
-            if (driverId == null)
-                return RedirectToAction("Index", "DriverLogIn");
+            if (driverId == null) return RedirectToAction("Index", "DriverLogIn");
 
-            var model = await _dashboardBL.GetDashboardAsync(driverId.Value);
+            var model = await _driverSupportBL.GetSupportPageAsync(driverId.Value);
             return View(model);
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetOnlineStatus(bool isOnline)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubmitTicket(string category, string subject, string message)
         {
             var driverId = HttpContext.Session.GetInt32("DriverId");
             if (driverId == null)
                 return Json(new { success = false, message = "Session expired. Please log in again." });
 
-            var result = await _dashboardBL.SetOnlineStatusAsync(driverId.Value, isOnline);
+            var result = await _driverSupportBL.SubmitTicketAsync(driverId.Value, category, subject, message);
             return Json(new { success = result.Success, message = result.Message });
         }
     }
