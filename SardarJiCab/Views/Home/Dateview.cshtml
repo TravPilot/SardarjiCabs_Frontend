@@ -1,9 +1,15 @@
 ﻿@{
+
+
+
     Layout = null;
     string pickup = Context.Request.Query["pickup"];
     string drop = Context.Request.Query["drop"];
     string distanceKm = Context.Request.Query["distanceKm"];
+    string totaltime = Context.Request.Query["duration"];
     string categoryId = Context.Request.Query["categoryId"];
+
+    decimal mins = Math.Round(Convert.ToDecimal(totaltime.Replace("s","")) / 60, 2);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -270,7 +276,7 @@
                 max-width: 45%;
                 width: 100%;
                 height: 100vh;
-                overflow-y: hidden;
+                overflow-y: scroll;
             }
 
             .sheet {
@@ -330,6 +336,7 @@
                 flex-wrap: nowrap;
                 align-items: flex-start;
             }
+
             .page {
                 border-radius: 0;
                 margin: 0 auto;
@@ -486,86 +493,16 @@
                         <div class="picker-col" id="timeCol"></div>
                     </div>
                 </div>
-                <div class="fixed_both">
+
                 <div class="selected-summary">
                     <p class="label">You've selected</p>
                     <p class="value" id="summaryValue">Today · 19:15</p>
                 </div>
 
                 <a href="#" id="confirmBtn" class="confirm-btn">Confirm Date &amp; Time</a>
-                </div>
             </main>
         </div>
-        <style>
-            @@media (min-width: 769px) {
-    .phone-frame {
-        max-width: 45%;
-        width: 100%;
-        height: 100vh;
-        overflow-y: auto;
-    }
 
-    .page {
-        min-height: 100%;
-        padding-bottom: 110px;
-    }
-
-    a.confirm-btn {
-        position: sticky !important;
-        display: block !important;
-
-        left: auto !important;
-        bottom: 22px !important;
-
-        transform: none !important;
-
-        width: calc(100% - 44px) !important;
-        max-width: 560px !important;
-
-        margin: 24px auto 0 !important;
-        z-index: 999999 !important;
-    }
-    .fixed_both {
-    position: fixed !important;
-    left: 50% !important;
-  bottom: 74px !important;
-
-    transform: translateX(-50%) !important;
-
-    width: 100% !important;
-    max-width: 620px !important;
-
-    padding: 12px 22px 18px !important;
-
-    background: rgba(255, 255, 255, 0.97) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-
-    z-index: 999999 !important;
-}
-
-.fixed_both .selected-summary {
-    margin: 0 0 10px !important;
-}
-
-.fixed_both .confirm-btn {
-    position: static !important;
-    left: auto !important;
-    bottom: auto !important;
-    transform: none !important;
-
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-}
-}
-
-
-        </style>
     </div>
 
     <script>
@@ -574,6 +511,7 @@
             pickup: @Html.Raw(Json.Serialize(pickup ?? "")),
             drop: @Html.Raw(Json.Serialize(drop ?? "")),
             distanceKm: @Html.Raw(Json.Serialize(distanceKm ?? "")),
+            totaltime: @Html.Raw(Json.Serialize(mins)),
             categoryId: @Html.Raw(Json.Serialize(categoryId ?? ""))
         };
 
@@ -626,7 +564,7 @@
                 }
             }
 
-           
+
             if (opts.length === 0) {
                 for (let h = 0; h < 24; h++) {
                     for (let m = 0; m < 60; m += 15) {
@@ -699,6 +637,7 @@
                 pickup: routeInfo.pickup,
                 drop: routeInfo.drop,
                 distanceKm: routeInfo.distanceKm,
+                 totaltime: routeInfo.totaltime,
                 categoryId: routeInfo.categoryId,
                 date: isoDate,
                 time: time24

@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Your Ride — trEV</title>
+    <title>Select Your Ride — sardarji EV</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -148,7 +148,13 @@
                     background: var(--coral);
                 }
 
-            .route-chip .km-line {
+            /* .route-chip .km-line {
+                margin-top: 4px;
+                font-weight: 700;
+                color: var(--charge);
+            } */
+
+            .route-chip .kmm-line {
                 margin-top: 4px;
                 font-weight: 700;
                 color: var(--charge);
@@ -194,18 +200,11 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            display: flex !important;
-            flex-wrap: nowrap !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            gap: 10px !important;
-            width: 100% !important;
-
         }
 
         .car-card {
             flex: 1;
-            min-width: 170px;
+            min-width: 150px;
             background: var(--card);
             border: 1px solid var(--line);
             border-radius: 14px 14px 10px 10px;
@@ -216,26 +215,9 @@
             transition: box-shadow 0.15s ease, border-color 0.15s ease;
         }
 
-        .cards-row::-webkit-scrollbar {
-
-
-                display:none !important;
-
-            }
-               
-
             .car-card.selected {
                 border-color: var(--charge);
-                box-shadow: 0 8px 24px rgba(31, 122, 92, 0.18);
-                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-                border: 3px dashed;
-            }
-
-            .car-card:hover{
-                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-                border: 3px dashed;
-                border-color: var(--charge);
-
+                box-shadow: 0 8px 24px rgba(31,122,92,0.18);
             }
 
         .perf-top {
@@ -595,7 +577,7 @@
                     <div class="route-chip mono">
                         <div><span class="dot p"></span>@Model.Pickup</div>
                         <div><span class="dot d"></span>@Model.Drop</div>
-                        <div class="km-line">@Model.DistanceKm.ToString("0.0") km</div>
+                        <div class="kmm-line">@Model.DistanceKm km </div>
                     </div>
                 </div>
 
@@ -615,7 +597,7 @@
                                 var isFirst = i == 0;
                                 var imgSrc = string.IsNullOrEmpty(car.Image)
                                 ? "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&q=80"
-                                : "https://adminsardarji.traviyo.in" + "" + car.Image;
+                                : "https://admin.sardarjiev.com" + "" + car.Image;
 
                                 <div class="car-card @(isFirst ? "selected" : "")"
                                      data-car-id="@car.CarId"
@@ -652,8 +634,7 @@
             </div>
         </div>
     </div>
-
-
+   
     <script>
         function goBack() {
             window.history.back();

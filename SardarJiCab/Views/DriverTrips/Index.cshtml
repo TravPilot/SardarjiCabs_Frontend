@@ -877,7 +877,7 @@
 
             <div class="topbar">
                 <div class="container topbar-inner">
-                    <a href="@Url.Action("Index", "DriverDashboard")" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <a href="@Url.Action("index", "driverdashboard")" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
                     <div>
                         <h1>My Trips</h1>
                         <p>All your assigned rides in one place</p>
@@ -1130,10 +1130,10 @@
             <!-- ===================== BOTTOM TAB BAR (mobile) ===================== -->
             <div class="bottom-tab-bar">
                 <div class="bottom-tab-row">
-                    <a href="@Url.Action("Index", "DriverDashboard")" class="bottom-tab-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
-                    <a href="@Url.Action("Index", "DriverTrips")" class="bottom-tab-item active"><i class="fa-solid fa-calendar-check"></i><span>Trips</span></a>
-                    <a href="@Url.Action("Index", "DriverEarnings")" class="bottom-tab-item"><i class="fa-solid fa-wallet"></i><span>Earnings</span></a>
-                    <a href="@Url.Action("Index", "DriverProfile")" class="bottom-tab-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+                    <a href="@Url.Action("index", "driverdashboard")" class="bottom-tab-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+                    <a href="@Url.Action("index", "drivertrips")" class="bottom-tab-item active"><i class="fa-solid fa-calendar-check"></i><span>Trips</span></a>
+                    <a href="@Url.Action("index", "driverearnings")" class="bottom-tab-item"><i class="fa-solid fa-wallet"></i><span>Earnings</span></a>
+                    <a href="@Url.Action("index", "driverprofile")" class="bottom-tab-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
                 </div>
             </div>
 
@@ -1259,7 +1259,7 @@
             if (payload.success) {
               document.getElementById('modalVerifyLabel').textContent = 'Trip started…';
               setTimeout(() => {
-                window.location.href = payload.redirectUrl || '@Url.Action("Index", "DriverTrips")';
+                window.location.href = payload.redirectUrl || '@Url.Action("index", "drivertrips")';
               }, 500);
             } else {
               setModalLoading(false);

@@ -1,0 +1,629 @@
+﻿@using SardarJiCab.Model
+@model DriverEarnings
+@{
+    ViewData["Title"] = "Earnings";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earnings | Sardar Ji EV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --navy: #16265A;
+            --terracotta: #D6491F;
+            --terracotta-2: #EF7A3C;
+            --bg: #F5F4F1;
+            --card: #FFFFFF;
+            --ink: #171B24;
+            --muted: #767C8A;
+            --line: #E7E5E0;
+            --ev-green: #1E8F5F;
+            --ev-green-bg: #E9F7EF;
+            --gold: #B8860B;
+            --gold-bg: #FBF3DF;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: "Inter",sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+            padding-bottom: 88px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: "Space Grotesk",sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: "Inter",sans-serif;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .visual-pane {
+            display: none;
+            position: relative;
+            flex: 0 0 34%;
+            max-width: 420px;
+            background: linear-gradient(165deg, rgba(11,21,51,0.90) 0%, rgba(22,38,90,0.78) 45%, rgba(214,73,31,0.55) 100%), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1000&q=80') center/cover no-repeat;
+            overflow: hidden;
+            padding: 40px 32px;
+        }
+
+        .visual-pane-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .visual-pane .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+            .visual-pane .brand .mark {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 700;
+                font-size: 15px;
+                flex-shrink: 0;
+            }
+
+            .visual-pane .brand .word {
+                color: #fff;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 1.1;
+            }
+
+                .visual-pane .brand .word small {
+                    display: block;
+                    color: rgba(255,255,255,0.6);
+                    font-weight: 600;
+                    font-size: 0.62rem;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    margin-top: 2px;
+                }
+
+        .visual-pane-quote {
+            max-width: 280px;
+        }
+
+            .visual-pane-quote .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(255,255,255,0.85);
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+            }
+
+                .visual-pane-quote .eyebrow i {
+                    color: var(--terracotta-2);
+                }
+
+            .visual-pane-quote h2 {
+                color: #fff;
+                font-size: 1.5rem;
+                line-height: 1.28;
+                font-weight: 700;
+                margin: 0;
+            }
+
+        .visual-pane-foot {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.76rem;
+        }
+
+        .content-pane {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        @@media (min-width:992px) {
+            .visual-pane {
+                display: block;
+            }
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+
+        /* ---------------- TOP BAR ---------------- */
+        .topbar {
+            background: var(--navy);
+            padding: 16px 0 44px;
+        }
+
+        .topbar-inner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .topbar h1 {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .topbar p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.78rem;
+            margin: 2px 0 0;
+        }
+
+        /* ---------------- PERIOD TABS ---------------- */
+        .period-tabs {
+            display: flex;
+            background: var(--card);
+            border-radius: 14px;
+            padding: 5px;
+            margin: -30px 0 18px;
+            box-shadow: 0 10px 26px rgba(11,21,51,0.08);
+            position: relative;
+            z-index: 5;
+            gap: 2px;
+        }
+
+        .period-tab {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 11px 0;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            color: var(--muted);
+            cursor: pointer;
+            text-align: center;
+            transition: all .18s ease;
+        }
+
+            .period-tab.active {
+                background: var(--navy);
+                color: #fff;
+            }
+
+        /* ---------------- EARNINGS HERO ---------------- */
+        .earnings-hero {
+            background: linear-gradient(135deg,var(--navy),#223a7a);
+            border-radius: 20px;
+            padding: 22px;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+            .earnings-hero .lbl {
+                font-size: 0.76rem;
+                color: rgba(255,255,255,0.65);
+                margin-bottom: 6px;
+            }
+
+            .earnings-hero .amt {
+                font-family: "Space Grotesk",sans-serif;
+                font-weight: 700;
+                font-size: 2.1rem;
+                line-height: 1;
+            }
+
+            .earnings-hero .sub-row {
+                display: flex;
+                gap: 22px;
+                margin-top: 16px;
+            }
+
+                .earnings-hero .sub-row .item .n {
+                    font-family: "Space Grotesk",sans-serif;
+                    font-weight: 700;
+                    font-size: 1.05rem;
+                }
+
+                .earnings-hero .sub-row .item .l {
+                    font-size: 0.68rem;
+                    color: rgba(255,255,255,0.6);
+                    margin-top: 2px;
+                }
+
+        /* ---------------- SUMMARY GRID ---------------- */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 8px 20px rgba(11,21,51,0.05);
+        }
+
+            .stat-card .stat-icon {
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+
+            .stat-card.cash .stat-icon {
+                background: var(--gold-bg);
+                color: var(--gold);
+            }
+
+            .stat-card.online .stat-icon {
+                background: var(--ev-green-bg);
+                color: var(--ev-green);
+            }
+
+            .stat-card.trips .stat-icon {
+                background: #EEF1FA;
+                color: var(--navy);
+            }
+
+            .stat-card.avg .stat-icon {
+                background: #FFF1E7;
+                color: var(--terracotta);
+            }
+
+            .stat-card .num {
+                font-family: "Space Grotesk",sans-serif;
+                font-weight: 700;
+                font-size: 1.2rem;
+                color: var(--ink);
+            }
+
+            .stat-card .lbl {
+                font-size: 0.74rem;
+                color: var(--muted);
+                margin-top: 3px;
+            }
+
+        /* ---------------- SECTION ---------------- */
+        .section-title {
+            font-size: 0.96rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0 0 12px;
+        }
+
+        /* ---------------- TRIP EARNING ROW ---------------- */
+        .trip-list {
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(11,21,51,0.05);
+            margin-bottom: 26px;
+        }
+
+        .trip-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+        }
+
+            .trip-row + .trip-row {
+                border-top: 1px solid var(--line);
+            }
+
+            .trip-row .icon {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                background: #F6F6F3;
+                color: var(--navy);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                flex-shrink: 0;
+            }
+
+            .trip-row .info {
+                flex: 1;
+                min-width: 0;
+            }
+
+                .trip-row .info .route {
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: var(--ink);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .trip-row .info .meta {
+                    font-size: 0.72rem;
+                    color: var(--muted);
+                    margin-top: 2px;
+                    display: flex;
+                    gap: 6px;
+                    align-items: center;
+                }
+
+        .brand > img {
+            height: 38px;
+            border-radius: 12px;
+        }
+        .pay-chip {
+            font-size: 0.64rem;
+            font-weight: 800;
+            padding: 1px 7px;
+            border-radius: 99px;
+            text-transform: uppercase;
+        }
+
+            .pay-chip.cash {
+                background: var(--gold-bg);
+                color: var(--gold);
+            }
+
+            .pay-chip.online {
+                background: var(--ev-green-bg);
+                color: var(--ev-green);
+            }
+
+        .trip-row .amount {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+            .trip-row .amount .amt {
+                font-weight: 700;
+                font-size: 0.92rem;
+                color: var(--ink);
+            }
+
+            .trip-row .amount .fare-gross {
+                font-size: 0.7rem;
+                color: var(--muted);
+                margin-top: 1px;
+            }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--muted);
+        }
+
+            .empty-state i {
+                font-size: 1.8rem;
+                color: var(--line);
+                margin-bottom: 10px;
+            }
+
+            .empty-state p {
+                font-size: 0.88rem;
+                margin: 0;
+            }
+
+        /* ---------------- BOTTOM TAB BAR ---------------- */
+        .bottom-tab-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1100;
+            background: #fff;
+            border-top: 1px solid var(--line);
+            box-shadow: 0 -10px 26px rgba(0,0,0,0.06);
+            padding: 8px 0;
+        }
+
+        .bottom-tab-row {
+            max-width: 480px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 4px;
+            padding: 0 10px;
+        }
+
+        .bottom-tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.68rem;
+            color: var(--muted);
+            padding: 8px 0;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+            .bottom-tab-item i {
+                font-size: 16px;
+            }
+
+            .bottom-tab-item.active {
+                color: var(--terracotta);
+                background: #FFF1E7;
+            }
+
+        @@media (min-width:768px) {
+            .bottom-tab-bar {
+                display: none;
+            }
+
+            body {
+                padding-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-shell">
+
+        <div class="visual-pane">
+            <div class="visual-pane-content">
+                <div class="brand">
+                    <img src="~/sardar.png" />
+                    <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
+                </div>
+                <div class="visual-pane-quote">
+                    <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Earnings</div>
+                    <h2>Track what you've earned, trip by trip.</h2>
+                </div>
+                <div class="visual-pane-foot">&copy; Sardar Ji EV &middot; Driver Partner Network</div>
+            </div>
+        </div>
+
+        <div class="content-pane">
+
+            <div class="topbar">
+                <div class="container topbar-inner">
+                    <a href="@Url.Action("Index", "DriverDashboard")" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <div>
+                        <h1>Earnings</h1>
+                        <p>Your income from completed trips</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+
+                <!-- ===================== PERIOD TABS ===================== -->
+                <div class="period-tabs">
+                    <a href="@Url.Action("index", "driverEarnings", new { period = "today" })" class="period-tab @(Model.SelectedPeriod == "today" ? "active" : "")">Today</a>
+                    <a href="@Url.Action("index", "driverEarnings", new { period = "week" })" class="period-tab @(Model.SelectedPeriod == "week" ? "active" : "")">This Week</a>
+                    <a href="@Url.Action("index", "driverEarnings", new { period = "month" })" class="period-tab @(Model.SelectedPeriod == "month" ? "active" : "")">This Month</a>
+                    <a href="@Url.Action("index", "driverEarnings", new { period = "all" })" class="period-tab @(Model.SelectedPeriod == "all" ? "active" : "")">All Time</a>
+                </div>
+
+                <!-- ===================== EARNINGS HERO ===================== -->
+                <div class="earnings-hero">
+                    <div class="lbl">@Model.PeriodLabel earnings</div>
+                    <div class="amt">₹ @Model.TotalEarnings.ToString("N0")</div>
+                    <div class="sub-row">
+                        <div class="item"><div class="n">@Model.TotalTrips</div><div class="l">Trips completed</div></div>
+                        <div class="item"><div class="n">₹ @Model.TotalFare.ToString("N0")</div><div class="l">Gross fare</div></div>
+                        <div class="item"><div class="n">₹ @Model.AverageEarningPerTrip.ToString("N0")</div><div class="l">Avg / trip</div></div>
+                    </div>
+                </div>
+
+                <!-- ===================== PAYMENT BREAKDOWN ===================== -->
+                <div class="stat-grid">
+                    <div class="stat-card cash">
+                        <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                        <div class="num">₹ @Model.CashEarnings.ToString("N0")</div>
+                        <div class="lbl">Cash collected</div>
+                    </div>
+                    <div class="stat-card online">
+                        <div class="stat-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                        <div class="num">₹ @Model.OnlineEarnings.ToString("N0")</div>
+                        <div class="lbl">Paid online</div>
+                    </div>
+                </div>
+
+                <!-- ===================== TRIP LIST ===================== -->
+                <div class="section-title">@Model.PeriodLabel trip earnings</div>
+                <div class="trip-list">
+                    @if (Model.Trips.Any())
+                    {
+                        foreach (var trip in Model.Trips)
+                        {
+                            <div class="trip-row">
+                                <div class="icon"><i class="fa-solid fa-car"></i></div>
+                                <div class="info">
+                                    <div class="route">#@trip.BookingNo &middot; @trip.PickupArea &rarr; @trip.DropArea</div>
+                                    <div class="meta">
+                                        <span>@trip.CompletedOn?.ToString("dd MMM, hh:mm tt")</span>
+                                        <span class="pay-chip @(trip.PaymentMethod == "Cash" ? "cash" : "online")">@trip.PaymentMethod</span>
+                                    </div>
+                                </div>
+                                <div class="amount">
+                                    <div class="amt">₹ @trip.NetPayable.ToString("N0")</div>
+                                    <div class="fare-gross">Fare ₹@trip.TotalFare.ToString("N0")</div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa-solid fa-wallet"></i>
+                            <p>No completed trips in this period yet.</p>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div><!-- /.content-pane -->
+    </div><!-- /.app-shell -->
+
+    <div class="bottom-tab-bar">
+        <div class="bottom-tab-row">
+            <a href="@Url.Action("index", "driverdashboard")" class="bottom-tab-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="@Url.Action("index", "drivertrips")" class="bottom-tab-item"><i class="fa-solid fa-calendar-check"></i><span>Trips</span></a>
+            <a href="@Url.Action("index", "driverearnings")" class="bottom-tab-item active"><i class="fa-solid fa-wallet"></i><span>Earnings</span></a>
+            <a href="@Url.Action("index", "driverprofile")" class="bottom-tab-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </div>
+    </div>
+
+</body>
+</html>

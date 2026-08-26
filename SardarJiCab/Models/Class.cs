@@ -25,6 +25,7 @@
         public List<CabCategory> Categories { get; set; } = new();
         //public List<LocationMaster> Locations { get; set; } = new();
         public string GoogleMapsApiKey { get; set; }
+        public AddPageVM addPageVM { get; set; } = new();
     }
     public class SelectRideViewModel
     {

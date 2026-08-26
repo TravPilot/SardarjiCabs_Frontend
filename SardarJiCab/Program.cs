@@ -1,5 +1,6 @@
 using CabBookingMVC.Helper;
 using Microsoft.AspNetCore.Connections;
+using Rotativa.AspNetCore;
 using SardarJi_Cab_Booking.Business_Layer;
 using SardarJi_Cab_Booking.Helper;
 using SardarjiCab.DB;
@@ -28,6 +29,7 @@ builder.Services.AddScoped<PaymentGatwaySettings>();
 builder.Services.AddScoped<IRazorGatewayRepository, RazorGatewayRepository>();
 builder.Services.AddScoped<IGeocodingService, GeocodingService>();
 builder.Services.AddScoped<IDbConnectionFactory, SqlConnectionFactory>();
+builder.Services.AddScoped<IAddPageRepository, AddPageRepository>();
 
 builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 
@@ -44,6 +46,19 @@ builder.Services.AddScoped<IDriverTripsBL, DriverTripsBL>();
 
 builder.Services.AddScoped<IDriverLoginDB, DriverLoginDB>();
 builder.Services.AddScoped<IDriverLoginBL, DriverLoginBL>();
+
+builder.Services.AddScoped<IDriverProfileDB, DriverProfileDB>();
+builder.Services.AddScoped<IDriverProfileBL, DriverProfileBL>();
+
+builder.Services.AddScoped<IDriverEarningsDB, DriverEarningsDB>();
+builder.Services.AddScoped<IDriverEarningsBL, DriverEarningsBL>();
+
+builder.Services.AddScoped<IDriverDocumentsDB, DriverDocumentsDB>();
+builder.Services.AddScoped<IDriverDocumentsBL, DriverDocumentsBL>();
+
+builder.Services.AddScoped<IDriverSupportDB, DriverSupportDB>();
+builder.Services.AddScoped<IDriverSupportBL, DriverSupportBL>();
+
 builder.Services.AddMemoryCache();
 //builder.Services.AddScoped<ISmsSender, YourSmsSenderImplementation>();
 
@@ -66,7 +81,7 @@ builder.Services.AddHttpClient();
 
 
 var app = builder.Build();
-
+RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa");
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -96,6 +111,16 @@ app.MapControllerRoute(
     name: "CabBookingList",
     pattern: "CabBookingList",
     defaults: new { controller = "Reports", action = "CabBookingList" });
+
+app.MapControllerRoute(
+    name: "Noservice",
+    pattern: "Noservice",
+    defaults: new { controller = "Home", action = "CabnotAbaiable" });
+
+app.MapControllerRoute(
+    name: "SupportReview",
+    pattern: "SupportReview",
+    defaults: new { controller = "Reports", action = "SupportReview" });
 
 app.MapControllerRoute(
     name: "forgotpassword",

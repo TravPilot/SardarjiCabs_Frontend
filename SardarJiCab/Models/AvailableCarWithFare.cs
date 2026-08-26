@@ -23,6 +23,7 @@
 
         public int? FareId { get; set; }
         public decimal? BaseFare { get; set; }
+        public decimal? PricePerMinute { get; set; }
         public decimal? PricePerKm { get; set; }
         public decimal? DriverAllowance { get; set; }
         public decimal? WaitingCharge { get; set; }

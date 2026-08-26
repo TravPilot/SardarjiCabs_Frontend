@@ -1,4 +1,6 @@
-﻿namespace SardarJi_Cab_Booking.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SardarJi_Cab_Booking.Models
 {
     public class TravelSummaryViewModel
     {
@@ -17,7 +19,7 @@
         public string CarName { get; set; }
         public decimal Cost { get; set; }
         public string UserName { get; set; }
-
+        public string InvoicePdfUrl { get; set; }
         public string CarImage { get; set; }
         public string CarModelName { get; set; }
         public string FuelType { get; set; }
@@ -148,5 +150,75 @@
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public int TotalPages => PageSize == 0 ? 0 : (int)Math.Ceiling(TotalRecords / (double)PageSize);
+    }
+
+
+    public enum TicketCategory
+    {
+        [Display(Name = "Billing")]
+        Billing,
+        [Display(Name = "Technical Issue")]
+        Technical,
+        [Display(Name = "Account")]
+        Account,
+        [Display(Name = "General Question")]
+        General,
+        [Display(Name = "Other")]
+        Other
+    }
+
+    public enum TicketPriority
+    {
+        Low,
+        Normal,
+        High,
+        Urgent
+    }
+
+    public class SupportTicketViewModel
+    {
+        [Required(ErrorMessage = "Please enter your name.")]
+        [StringLength(100)]
+        [Display(Name = "Full Name")]
+        public string Name { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please enter your email.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [Display(Name = "Email Address")]
+        public string Email { get; set; } = string.Empty;
+
+        [Phone(ErrorMessage = "Please enter a valid phone number.")]
+        [Display(Name = "Phone (optional)")]
+        public string? Phone { get; set; }
+
+        [Required(ErrorMessage = "Please select a category.")]
+        [Display(Name = "Category")]
+        public TicketCategory Category { get; set; }
+
+        [Display(Name = "Priority")]
+        public TicketPriority Priority { get; set; } = TicketPriority.Normal;
+
+        [Required(ErrorMessage = "Please enter a subject.")]
+        [StringLength(150, ErrorMessage = "Subject must be under 150 characters.")]
+        [Display(Name = "Subject")]
+        public string Subject { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please describe your issue.")]
+        [StringLength(2000, MinimumLength = 20, ErrorMessage = "Please provide at least 20 characters describing the issue.")]
+        [Display(Name = "Message")]
+        public string Message { get; set; } = string.Empty;
+
+        [Display(Name = "Order / Reference Number (optional)")]
+        public string? ReferenceNumber { get; set; }
+
+        [Display(Name = "Attachment (optional)")]
+        public IFormFile? Attachment { get; set; }
+
+
+        public string AttachmentPath { get; set; } = string.Empty;
+
+        public string AttachmentFileName { get; set; } = string.Empty;
+        public int TicketId { get; set; }
+        public long customerId { get; set; }
     }
 }

@@ -3,12 +3,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Summary — Ride Pass</title>
-   
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
+<style>
+    :root {
         --paper: #F6F1E6;
         --card: #FFFDF7;
         --ink: #1E2A28;
@@ -16,44 +12,42 @@
         --coral: #C1502E;
         --line: #C9C0AE;
         --muted: #8B8378;
-        }
+    }
 
-        * {
+    * {
         box-sizing: border-box;
-        }
+    }
 
-        html, body {
+    html, body {
         font-family: 'Inter',sans-serif;
         color: var(--ink);
         margin: 0;
+    }
 
-        }
-        @@media (min-width:768px){
+    @@media (min-width:768px) {
 
         html, body {
-        overflow:hidden;
+            overflow: hidden;
         }
+    }
 
-
-        }
-
-        .mono {
+    .mono {
         font-family: 'Space Mono', monospace;
-        }
+    }
 
-        .phone-frame {
+    .phone-frame {
         background: var(--paper);
         box-shadow: 0 24px 70px rgba(20,20,10,0.25);
         overflow: hidden;
-        }
+    }
 
-        .screen {
+    .screen {
         padding: 10px;
         min-height: 840px;
-        }
+    }
 
-        /* header */
-        .back-row {
+    /* header */
+    .back-row {
         display: flex;
         align-items: center;
         gap: 6px;
@@ -61,130 +55,130 @@
         font-weight: 600;
         font-size: 0.85rem;
         cursor: pointer;
-        }
+    }
 
-        .ride-code {
+    .ride-code {
         font-size: 0.7rem;
         letter-spacing: 0.08em;
         color: var(--muted);
-        }
+    }
 
-        .top-bar {
+    .top-bar {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 16px;
-        }
+    }
 
-        .page-title {
+    .page-title {
         font-weight: 800;
         font-size: 1rem;
         letter-spacing: 0.16em;
         text-transform: uppercase;
         color: var(--ink);
         margin-bottom: 2px;
-        }
+    }
 
-        .page-sub {
+    .page-sub {
         font-size: 0.72rem;
         color: var(--muted);
         letter-spacing: 0.04em;
         margin-bottom: 16px;
-        }
+    }
 
-        /* Ticket card */
-        .ticket {
+    /* Ticket card */
+    .ticket {
         background: var(--card);
         border: 1px solid var(--line);
         border-radius: 14px;
         position: relative;
         overflow: visible;
-        }
+    }
 
-        .stub {
+    .stub {
         padding: 18px 20px;
-        }
+    }
 
-        /* route strip */
-        .route-row {
+    /* route strip */
+    .route-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 4px;
-        }
+    }
 
-        .route-code {
+    .route-code {
         font-size: 1.7rem;
         font-weight: 700;
-        }
+    }
 
-        .route-city {
+    .route-city {
         font-size: 0.68rem;
         color: var(--muted);
         letter-spacing: 0.03em;
         max-width: 100px;
-        }
+    }
 
-        .route-path {
+    .route-path {
         flex: 1;
         position: relative;
         height: 18px;
         margin: 0 10px;
         display: flex;
         align-items: center;
-        }
+    }
 
         .route-path .dash {
-        width: 100%;
-        border-top: 2px dashed var(--line);
+            width: 100%;
+            border-top: 2px dashed var(--line);
         }
 
         .route-path svg {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-52%);
-        background: var(--card);
-        padding: 0 4px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-52%);
+            background: var(--card);
+            padding: 0 4px;
         }
 
-        .route-time {
+    .route-time {
         text-align: center;
         font-size: 0.72rem;
         color: var(--charge);
         font-weight: 700;
         letter-spacing: 0.04em;
         margin-bottom: 18px;
-        }
+    }
 
-        .divider-label {
+    .divider-label {
         font-size: 0.66rem;
         letter-spacing: 0.14em;
         color: var(--muted);
         text-transform: uppercase;
         margin-bottom: 2px;
-        }
+    }
 
-        .passenger-grid {
+    .passenger-grid {
         display: flex;
         justify-content: space-between;
         margin-top: 14px;
-        }
+    }
 
         .passenger-grid .val {
-        font-size: 0.92rem;
-        font-weight: 600;
+            font-size: 0.92rem;
+            font-weight: 600;
         }
 
-        /* perforation */
-        .perforation {
+    /* perforation */
+    .perforation {
         position: relative;
         height: 0;
         border-top: 2px dashed var(--line);
         margin: 0 -1px;
-        }
+    }
 
-        .notch {
+    .notch {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -192,42 +186,42 @@
         height: 20px;
         background: var(--paper);
         border-radius: 50%;
-        }
+    }
 
         .notch.left {
-        left: -10px;
+            left: -10px;
         }
 
         .notch.right {
-        right: -10px;
+            right: -10px;
         }
 
-        /* car block */
-        .car-block {
+    /* car block */
+    .car-block {
         display: flex;
         gap: 12px;
         align-items: center;
         margin-bottom: 18px;
-        }
+    }
 
         .car-block img {
-        width: 118px;
-        flex-shrink: 0;
+            width: 118px;
+            flex-shrink: 0;
         }
 
-        .car-name {
+    .car-name {
         font-weight: 800;
         font-size: 1.05rem;
         line-height: 1.15;
-        }
+    }
 
-        .car-sub {
+    .car-sub {
         font-size: 0.8rem;
         color: var(--muted);
         margin-bottom: 8px;
-        }
+    }
 
-        .pill {
+    .pill {
         display: inline-block;
         border: 1px solid var(--charge);
         color: var(--charge);
@@ -237,35 +231,35 @@
         padding: 3px 9px;
         border-radius: 20px;
         margin-right: 5px;
-        }
+    }
 
-        /* detail rows */
-        .detail-row {
+    /* detail rows */
+    .detail-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 10px 0;
         border-bottom: 1px solid #ECE6D8;
-        }
+    }
 
         .detail-row:last-of-type {
-        border-bottom: none;
+            border-bottom: none;
         }
 
-        .detail-label {
+    .detail-label {
         font-size: 0.66rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--muted);
         margin-bottom: 2px;
-        }
+    }
 
-        .detail-value {
+    .detail-value {
         font-size: 0.95rem;
         font-weight: 600;
-        }
+    }
 
-        .change-link {
+    .change-link {
         font-family: 'Space Mono',monospace;
         font-size: 0.7rem;
         font-weight: 700;
@@ -273,17 +267,17 @@
         text-decoration: none;
         border-bottom: 1px solid var(--charge);
         white-space: nowrap;
-        }
+    }
 
-        .note-text {
+    .note-text {
         color: var(--muted);
         font-size: 0.72rem;
         line-height: 1.6;
         margin-top: 12px;
-        }
+    }
 
-        /* promo */
-        .promo {
+    /* promo */
+    .promo {
         margin-top: 16px;
         border: 1.5px dashed var(--coral);
         border-radius: 10px;
@@ -292,100 +286,100 @@
         align-items: center;
         gap: 10px;
         background: #FBEDE7;
-        }
+    }
 
-        .promo-tag {
+    .promo-tag {
         font-family: 'Space Mono',monospace;
         color: var(--coral);
         font-weight: 700;
         font-size: 0.8rem;
-        }
+    }
 
-        .promo-sub {
+    .promo-sub {
         font-size: 0.68rem;
         color: var(--muted);
-        }
+    }
 
-        .apply-link {
+    .apply-link {
         margin-left: auto;
         font-weight: 700;
         font-size: 0.82rem;
         color: var(--charge);
-        }
+    }
 
-        /* fare breakdown - dotted leaders */
-        .fare-line {
+    /* fare breakdown - dotted leaders */
+    .fare-line {
         display: flex;
         align-items: baseline;
         font-size: 0.88rem;
         padding: 6px 0;
-        }
+    }
 
         .fare-line .label {
-        color: var(--muted);
-        white-space: nowrap;
+            color: var(--muted);
+            white-space: nowrap;
         }
 
         .fare-line .leader {
-        flex: 1;
-        border-bottom: 1.5px dotted var(--line);
-        margin: 0 6px 3px;
+            flex: 1;
+            border-bottom: 1.5px dotted var(--line);
+            margin: 0 6px 3px;
         }
 
         .fare-line .amt {
-        font-family: 'Space Mono',monospace;
-        white-space: nowrap;
+            font-family: 'Space Mono',monospace;
+            white-space: nowrap;
         }
 
         .fare-line.discount .amt {
-        color: var(--charge);
+            color: var(--charge);
         }
 
-        .total-line {
+    .total-line {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-top: 10px;
         padding-top: 12px;
         border-top: 2px solid var(--ink);
-        }
+    }
 
         .total-line .label {
-        font-size: 0.7rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--muted);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
         }
 
         .total-line .amt {
-        font-family: 'Space Mono',monospace;
-        font-weight: 700;
-        font-size: 1.35rem;
+            font-family: 'Space Mono',monospace;
+            font-weight: 700;
+            font-size: 1.35rem;
         }
 
-        /* barcode */
-        .barcode {
+    /* barcode */
+    .barcode {
         height: 34px;
         margin-top: 18px;
         background-image: repeating-linear-gradient( 90deg, var(--ink) 0px, var(--ink) 2px, transparent 2px, transparent 4px, var(--ink) 4px, var(--ink) 5px, transparent 5px, transparent 9px, var(--ink) 9px, var(--ink) 12px, transparent 12px, transparent 14px );
         opacity: 0.85;
-        }
+    }
 
-        .barcode-caption {
+    .barcode-caption {
         text-align: center;
         font-family: 'Space Mono',monospace;
         font-size: 0.65rem;
         letter-spacing: 0.3em;
         color: var(--muted);
         margin-top: 6px;
-        }
+    }
 
-        /* CTA */
-        .cta-wrap {
+    /* CTA */
+    .cta-wrap {
         margin-top: 20px;
-        }
+    }
 
-        .confirm-btn {
+    .confirm-btn {
         width: 100%;
         background: linear-gradient(135deg,#264796,#0b1c42);
         color: #F6F1E6;
@@ -397,13 +391,13 @@
         padding: 15px;
         margin-bottom: 10px;
         text-transform: uppercase;
-        }
+    }
 
         .confirm-btn span {
-        color: var(--charge);
+            color: var(--charge);
         }
 
-        .cancel-btn {
+    .cancel-btn {
         width: 100%;
         background: transparent;
         color: var(--muted);
@@ -412,9 +406,9 @@
         border: none;
         padding: 8px;
         text-decoration: underline;
-        }
+    }
 
-        .mobile-header {
+    .mobile-header {
         display: none;
         width: 100%;
         margin: 14px 0;
@@ -422,22 +416,22 @@
         background: #fff;
         border-radius: 28px;
         box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-        }
+    }
 
-        .mobile-header-row {
+    .mobile-header-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        }
+    }
 
-        .mobile-header-brand {
+    .mobile-header-brand {
         display: flex;
         align-items: center;
         gap: 12px;
-        }
+    }
 
-        .mobile-header-logo {
+    .mobile-header-logo {
         width: 42px;
         height: 42px;
         border-radius: 16px;
@@ -448,13 +442,13 @@
         color: #fff;
         font-size: 18px;
         font-weight: 800;
-        }
+    }
 
-        .mobile-header-title-wrap {
+    .mobile-header-title-wrap {
         min-width: 0;
-        }
+    }
 
-        .mobile-header-title {
+    .mobile-header-title {
         font-size: 1rem;
         font-weight: 800;
         color: var(--ink);
@@ -462,15 +456,15 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        }
+    }
 
-        .mobile-header-subtitle {
+    .mobile-header-subtitle {
         font-size: 0.78rem;
         color: #8B8378;
         margin: 4px 0 0;
-        }
+    }
 
-        .mobile-header-action {
+    .mobile-header-action {
         width: 40px;
         height: 40px;
         background: #f3f4f6;
@@ -482,9 +476,9 @@
         font-size: 18px;
         border: none;
         cursor: pointer;
-        }
+    }
 
-        .bottom-tab-bar {
+    .bottom-tab-bar {
         display: none;
         position: fixed;
         left: 0;
@@ -495,18 +489,18 @@
         border-top: 1px solid rgba(38,71,150,.12);
         box-shadow: 0 -12px 30px rgba(0,0,0,0.08);
         padding: 10px 0;
-        }
+    }
 
-        .bottom-tab-row {
+    .bottom-tab-row {
         max-width: 420px;
         margin: 0 auto;
         display: grid;
         grid-template-columns: repeat(4,1fr);
         gap: 6px;
         padding: 0 10px;
-        }
+    }
 
-        .bottom-tab-item {
+    .bottom-tab-item {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -518,99 +512,99 @@
         padding: 10px 0;
         border-radius: 18px;
         transition: background .2s, color .2s;
-        }
+    }
 
         .bottom-tab-item:hover {
-        background: rgba(38,71,150,.06);
-        color: #264796;
+            background: rgba(38,71,150,.06);
+            color: #264796;
         }
 
         .bottom-tab-item i {
-        font-size: 18px;
+            font-size: 18px;
         }
 
         .bottom-tab-item.active {
-        color: #264796;
-        background: rgba(38,71,150,.12);
+            color: #264796;
+            background: rgba(38,71,150,.12);
         }
 
-        .bottom-tab-item.active i {
-        color: #264796;
-        }
+            .bottom-tab-item.active i {
+                color: #264796;
+            }
 
-        @@media (max-width: 768px) {
+    @@media (max-width: 768px) {
         .mobile-header {
-        display: block;
+            display: block;
         }
 
         .bottom-tab-bar {
-        display: block;
+            display: block;
         }
 
         body {
-        padding-bottom: 92px;
+            padding-bottom: 92px;
         }
-        }
+    }
 
-        @@media (min-width: 769px) {
+    @@media (min-width: 769px) {
         .phone-frame {
-        max-width: 45%;
-        width: 100%;
-        height: 100vh;
-        overflow-y: scroll;
+            max-width: 45%;
+            width: 100%;
+            height: 100vh;
+            overflow-y: scroll;
         }
 
         .sheet {
-        width: 100%;
-        max-width: 520px;
+            width: 100%;
+            max-width: 520px;
         }
 
         .sheet-overlay.active {
-        justify-content: flex-end;
+            justify-content: flex-end;
         }
 
         .Main_page {
-        display: flex;
-        justify-content: space-between;
+            display: flex;
+            justify-content: space-between;
         }
 
         .phone-frame1 {
-        max-width: 65%;
-        width: 65%;
+            max-width: 65%;
+            width: 65%;
         }
 
-        .phone-frame1 img {
-        width: 100%;
-        height: 100vh;
-        }
-        }
+            .phone-frame1 img {
+                width: 100%;
+                height: 100vh;
+            }
+    }
 
-        @@media (max-width: 768px) {
+    @@media (max-width: 768px) {
         .phone-frame1 {
-        display: none;
+            display: none;
         }
-        }
+    }
 
 
-        .phone-frame1 {
+    .phone-frame1 {
         position: relative;
         overflow: hidden;
         border-radius: 0px;
-        }
+    }
 
         .phone-frame1 img {
-        width: 100%;
-        display: block;
+            width: 100%;
+            display: block;
         }
 
         .phone-frame1::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient( 90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0) 70% );
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient( 90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0) 70% );
         }
 
-        .banner-content {
+    .banner-content {
         position: absolute;
         top: 50%;
         left: 60px;
@@ -618,9 +612,9 @@
         color: #fff;
         z-index: 2;
         max-width: 420px;
-        }
+    }
 
-        .tag-line {
+    .tag-line {
         display: inline-block;
         background: rgba(255,255,255,0.15);
         backdrop-filter: blur(8px);
@@ -629,23 +623,23 @@
         font-size: 13px;
         letter-spacing: 2px;
         margin-bottom: 20px;
-        }
+    }
 
-        .banner-content h1 {
+    .banner-content h1 {
         font-size: 56px;
         font-weight: 700;
         line-height: 1.1;
         margin-bottom: 15px;
         text-transform: uppercase;
-        }
+    }
 
-        .banner-content p {
+    .banner-content p {
         font-size: 18px;
         color: rgba(255,255,255,0.9);
         margin-bottom: 30px;
-        }
+    }
 
-        .book-btn {
+    .book-btn {
         display: inline-block;
         background: #0B1F5A;
         color: #fff;
@@ -654,86 +648,86 @@
         text-decoration: none;
         font-weight: 600;
         transition: .3s;
-        }
+    }
 
         .book-btn:hover {
-        background: #15338b;
-        color: #fff;
+            background: #15338b;
+            color: #fff;
         }
 
-        .logo {
+    .logo {
         position: absolute;
         max-width: 180px;
         top: 12px;
         z-index: 99999;
         left: 53px;
-        }
+    }
 
         .logo img {
-        width: 100%;
-        height: auto;
+            width: 100%;
+            height: auto;
         }
 
 
 
-        @@media(max-width:768px) {
+    @@media(max-width:768px) {
         .banner-content {
-        left: 25px;
-        right: 25px;
+            left: 25px;
+            right: 25px;
         }
 
         .logo {
-        display: none;
+            display: none;
         }
 
 
         .banner-content h1 {
-        font-size: 36px;
+            font-size: 36px;
         }
 
         .banner-content p {
-        font-size: 15px;
+            font-size: 15px;
         }
-        }
+    }
 
-        #walletmodel .modal-dialog {
+    #walletmodel .modal-dialog {
         max-width: 420px;
-        }
+    }
 
-        #walletmodel .modal-content {
+    #walletmodel .modal-content {
         border: none;
         border-radius: 18px;
         overflow: hidden;
         box-shadow: 0 24px 60px rgba(20,20,10,.28);
         font-family: 'Inter', sans-serif;
         color: var(--ink);
-        }
+    }
 
-        #walletmodel .modalpop-forms {
+    #walletmodel .modalpop-forms {
         background: var(--card);
-        }
+    }
 
-        #walletmodel .modalpop-header {
+    #walletmodel .modalpop-header {
         padding: 24px 28px 4px;
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        }
+    }
 
         #walletmodel .modalpop-header .heading .header {
-        font-size: 19px;
-        font-weight: 700;
-        color: var(--ink);
-        letter-spacing: -0.01em;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.01em;
         }
 
         #walletmodel .modalpop-header .heading .subheader {
-        margin-top: 6px;
-        font-size: 13px;
-        color: var(--muted);
+            margin-top: 6px;
+            font-size: 13px;
+            color: var(--muted);
         }
 
-        #walletmodel .modal-close-x {
+    #walletmodel .modal-close-x {
         border: none;
         background: transparent;
         color: var(--muted);
@@ -741,124 +735,124 @@
         line-height: 1;
         padding: 2px 4px;
         cursor: pointer;
-        }
+    }
 
-        #walletmodel .form-modal-padding {
+    #walletmodel .form-modal-padding {
         padding: 20px 28px 8px;
-        }
+    }
 
-        #walletmodel .select-cards {
+    #walletmodel .select-cards {
         display: flex;
         flex-direction: column;
         gap: 12px;
-        }
+    }
 
         #walletmodel .select-cards .select {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 14px 16px;
-        border: 1.5px solid var(--line);
-        border-radius: 14px;
-        cursor: pointer;
-        background: var(--card);
-        transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border: 1.5px solid var(--line);
+            border-radius: 14px;
+            cursor: pointer;
+            background: var(--card);
+            transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
         }
 
-        #walletmodel .select-cards .select:hover {
-        border-color: #B9B198;
-        background: var(--paper);
-        }
+            #walletmodel .select-cards .select:hover {
+                border-color: #B9B198;
+                background: var(--paper);
+            }
 
-        #walletmodel .select-cards .select.active {
-        border-color: var(--charge);
-        background: #EAF5EF;
-        box-shadow: 0 0 0 3px rgba(31,122,92,.12);
-        }
+            #walletmodel .select-cards .select.active {
+                border-color: var(--charge);
+                background: #EAF5EF;
+                box-shadow: 0 0 0 3px rgba(31,122,92,.12);
+            }
 
-        #walletmodel .select-cards .select .check-box {
-        flex: 0 0 auto;
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--card);
-        border: 1px solid var(--line);
-        }
+            #walletmodel .select-cards .select .check-box {
+                flex: 0 0 auto;
+                width: 44px;
+                height: 44px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--card);
+                border: 1px solid var(--line);
+            }
 
-        #walletmodel .select-cards .select.active .check-box {
-        background: var(--charge);
-        border-color: var(--charge);
-        }
+            #walletmodel .select-cards .select.active .check-box {
+                background: var(--charge);
+                border-color: var(--charge);
+            }
 
-        #walletmodel .select-cards .select .check-box svg {
-        width: 22px;
-        height: 22px;
-        }
+            #walletmodel .select-cards .select .check-box svg {
+                width: 22px;
+                height: 22px;
+            }
 
-        #walletmodel .select-cards .select.active .check-box svg path {
-        fill: #fff;
-        }
+            #walletmodel .select-cards .select.active .check-box svg path {
+                fill: #fff;
+            }
 
-        #walletmodel .select-cards .select .titles {
-        flex: 1 1 auto;
-        min-width: 0;
-        }
+            #walletmodel .select-cards .select .titles {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
 
-        #walletmodel .select-cards .select .titles h4 {
-        margin: 0;
-        font-size: 15px;
-        font-weight: 600;
-        color: var(--ink);
-        }
+                #walletmodel .select-cards .select .titles h4 {
+                    margin: 0;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: var(--ink);
+                }
 
-        #walletmodel .select-cards .select .titles h5 {
-        margin: 2px 0 0;
-        font-size: 12.5px;
-        font-weight: 400;
-        color: var(--muted);
-        }
+                #walletmodel .select-cards .select .titles h5 {
+                    margin: 2px 0 0;
+                    font-size: 12.5px;
+                    font-weight: 400;
+                    color: var(--muted);
+                }
 
-        /* checkmark drawn purely in CSS so no extra markup is needed */
-        #walletmodel .select-cards .select::after {
-        content: "";
-        flex: 0 0 auto;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 1.5px solid #D3D8E2;
-        background: var(--card);
-        }
+            /* checkmark drawn purely in CSS so no extra markup is needed */
+            #walletmodel .select-cards .select::after {
+                content: "";
+                flex: 0 0 auto;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                border: 1.5px solid #D3D8E2;
+                background: var(--card);
+            }
 
-        #walletmodel .select-cards .select.active::after {
-        border-color: var(--charge);
-        background-color: var(--charge);
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 13l4 4L19 7' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 11px 11px;
-        }
+            #walletmodel .select-cards .select.active::after {
+                border-color: var(--charge);
+                background-color: var(--charge);
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 13l4 4L19 7' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 11px 11px;
+            }
 
-        #walletmodel .modal-footer {
+    #walletmodel .modal-footer {
         border-top: 1px solid #ECE6D8;
         padding: 22px 28px 26px;
-        }
+    }
 
         #walletmodel .modal-footer .row {
-        display: flex;
-        gap: 12px;
-        margin: 0;
+            display: flex;
+            gap: 12px;
+            margin: 0;
         }
 
         #walletmodel .modal-footer .col-xs-6 {
-        flex: 1;
-        padding: 0;
+            flex: 1;
+            padding: 0;
         }
 
-        #walletmodel .btn {
+    #walletmodel .btn {
         width: 100%;
         border: none;
         border-radius: 12px;
@@ -867,88 +861,91 @@
         font-weight: 600;
         cursor: pointer;
         transition: transform .08s ease, filter .15s ease, background .15s ease;
-        }
+    }
 
         #walletmodel .btn:active {
-        transform: scale(0.98);
+            transform: scale(0.98);
         }
 
-        #walletmodel .btn-secondary {
+    #walletmodel .btn-secondary {
         background: var(--paper);
         color: var(--ink);
-        }
+    }
 
         #walletmodel .btn-secondary:hover {
-        background: #ECE6D8;
+            background: #ECE6D8;
         }
 
-        #walletmodel .btn-theme {
+    #walletmodel .btn-theme {
         background: linear-gradient(135deg, var(--navy), var(--navy-dark));
         /* color: #fff; */
         box-shadow: 0 6px 16px rgba(38,71,150,.35);
-        }
+    }
 
         #walletmodel .btn-theme:hover {
-        filter: brightness(1.06);
+            filter: brightness(1.06);
         }
 
-        .fare-note {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #6c757d;
-            line-height: 1.5;
-            background: #f8f9fa;
-            padding: 8px 10px;
-            border-left: 3px solid #0d6efd;
-            border-radius: 4px;
+    .fare-note {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #6c757d;
+        line-height: 1.5;
+        background: #f8f9fa;
+        padding: 8px 10px;
+        border-left: 3px solid #0d6efd;
+        border-radius: 4px;
+    }
+
+        .fare-note i {
+            color: #0d6efd;
+            margin-right: 5px;
         }
 
-            .fare-note i {
-                color: #0d6efd;
-                margin-right: 5px;
-            }
 
-     
 
-        .coupon-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: .2s;
-        }
+    .coupon-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: .2s;
+    }
 
         .coupon-card:hover {
             border-color: #ff6b00;
             background: #fffaf5;
         }
 
-        .coupon-code {
-            font-size: 18px;
-            font-weight: bold;
-            color: #ff6b00;
-        }
+    .coupon-code {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ff6b00;
+    }
 
-        .coupon-desc {
-            font-size: 13px;
-            color: #666;
-            margin-top: 5px;
-        }
+    .coupon-desc {
+        font-size: 13px;
+        color: #666;
+        margin-top: 5px;
+    }
 
-        .coupon-label {
-            font-size: 12px;
-            color: green;
-            margin-top: 5px;
-        }
+    .coupon-label {
+        font-size: 12px;
+        color: green;
+        margin-top: 5px;
+    }
 
-    </style>
+</style>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <div class="logo_travel">
-        <div class="logo"><img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Sardar JI"></div>
+    <div class="logo"><a href="/Home/Index"><img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Sardar JI"></a></div>
     </div>
 
     <div class="mobile-header">
@@ -996,7 +993,7 @@
                 </div>
 
                 <div class="page-title">Travel Summary</div>
-                <div class="page-sub">trEV · electric ride pass</div>
+                <div class="page-sub">SardarJi EV · electric ride pass</div>
 
                 <div class="ticket">
 
@@ -1085,7 +1082,7 @@
 
                         <div class="note-text">
                             * No cancellation fee for now.<br>
-                            * Beyond 30+ mins waiting, trEV may cancel the ride.
+                        * Beyond 30+ mins waiting, SardarJi EV may cancel the ride.
                         </div>
                         <div class="promo">
                             <div class="promo-tag mono">% PROMO</div>
@@ -1232,6 +1229,11 @@
                     <input type="hidden" id="appliedCouponCode" name="AppliedCouponCode" value="" />
                     <input type="hidden" id="appliedDiscount" name="AppliedDiscount" value="0" />
                     <input type="hidden" id="totalAmt" name="totalAmt" value="@Model.Total" />
+                <input type="hidden" id="IsCard" name="IsCard" value="" />
+                <input type="hidden" id="IsWallet" name="IsWallet" value="" />
+
+                <input type="hidden" id="rzp_paymentid" name="rzp_paymentid" value="" />
+                <input type="hidden" id="rzp_orderid" name="rzp_orderid" value="" />
                     <div class="modalpop-header">
                         <div class="heading">
                             <div class="header" id="walletModalTitle">Proceed to confirm your booking</div>
@@ -1266,7 +1268,7 @@
                                         </div>
                                     </div>
 
-                                    <div data-val="Wallet" class="select">
+                                    <div data-val="Wallet" class="select" style="display:none">
                                         <input type="radio" hidden name="selectPaymentMode" value="Wallet" id="walletSelected">
                                         <div class="check-box">
                                             <i slot="icon" class="svelte-ezinrw">
@@ -1306,12 +1308,16 @@
             </div>
         </div>
     </div>
+<div id="payuformsub"></div>
 
-   
-   
+<!-- Razorpay loader -->
+<div id="loadermainbooking" class="hidden"></div>
 
-
-
+<!-- Razorpay response trigger -->
+<button type="button"
+        id="rzp-paymentresponse"
+        style="display:none;">
+</button>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
@@ -1322,124 +1328,445 @@
 
     $(document).ready(function () {
 
-        document.getElementById('selectPayment').value = 'Card';
+        // Default payment method
+        var selectPayment = document.getElementById('selectPayment');
 
-      
+        if (selectPayment) {
+            selectPayment.value = 'Card';
+        }
+
+
+        // Payment method selection
         $(document).on('click', '#walletmodel .select-cards .select', function () {
-            $('#walletmodel .select-cards .select').removeClass('active').attr('data-selected', 'false');
-            $(this).addClass('active').attr('data-selected', 'true');
-            $(this).find('input[type=radio]').prop('checked', true);
-            document.getElementById('selectPayment').value = $(this).data('val');
+
+            $('#walletmodel .select-cards .select')
+                .removeClass('active')
+                .attr('data-selected', 'false');
+
+            $(this)
+                .addClass('active')
+                .attr('data-selected', 'true');
+
+            $(this)
+                .find('input[type=radio]')
+                .prop('checked', true);
+
+            var selectedPayment = $(this).data('val');
+
+            var paymentElement =
+                document.getElementById('selectPayment');
+
+            if (paymentElement) {
+                paymentElement.value = selectedPayment;
+            }
         });
 
-       
+
+        // When payment modal opens
         $('#walletmodel').on('show.bs.modal', function () {
-            $('#walletmodel .select-cards .select').removeClass('active').attr('data-selected', 'false');
-            $('#walletmodel .select-cards .select[data-val="Card"]').addClass('active').attr('data-selected', 'true');
+
+            $('#walletmodel .select-cards .select')
+                .removeClass('active')
+                .attr('data-selected', 'false');
+
+            $('#walletmodel .select-cards .select[data-val="Card"]')
+                .addClass('active')
+                .attr('data-selected', 'true');
+
             $('#cardSelected').prop('checked', true);
-            document.getElementById('selectPayment').value = 'Card';
+
+            var paymentElement =
+                document.getElementById('selectPayment');
+
+            if (paymentElement) {
+                paymentElement.value = 'Card';
+            }
         });
 
-       
+
+        // Payment form submit
         $('#walletDetailsForm').on('submit', function (e) {
+
             e.preventDefault();
 
             var $payBtn = $('#pbtn');
-            $payBtn.prop('disabled', true).text('Processing...');
+
+            $payBtn
+                .prop('disabled', true)
+                .text('Processing...');
 
             var formData = $(this).serialize();
 
             $.ajax({
+
                 url: '/Booking/PaymentsDetails',
+
                 type: 'POST',
+
                 data: formData,
+
                 success: function (data) {
+
+                    console.log("Payment response:", data);
+
                     OnPopUpSuccess(data);
                 },
+
                 error: function (xhr, status, error) {
+
+                    console.error("Payment error:", error);
+
                     OnPopFailure(xhr);
                 },
+
                 complete: function () {
-                    $payBtn.prop('disabled', false).text('Pay');
+
+                    $payBtn
+                        .prop('disabled', false)
+                        .text('Pay');
                 }
             });
+
         });
 
     });
 
+
+    // =========================================================
+    // PAYMENT SUCCESS
+    // =========================================================
+
     function OnPopUpSuccess(data) {
-        
-        if (data.IsSuccess == true && data.IsCard == true) {
 
-             if (data.order.URI != null & data.order.URI != "") {
+        console.log("OnPopUpSuccess:", data);
+
+        if (!data) {
+
+            Swal.fire({
+                text: "Invalid payment response."
+            });
+
+            return;
+        }
+
+
+        // =====================================================
+        // CARD PAYMENT
+        // =====================================================
+
+        if (data.IsSuccess === true && data.IsCard === true) {
+
+
+            // -----------------------------------------------
+            // Payment Gateway URI
+            // -----------------------------------------------
+
+            if (data.order &&
+                data.order.URI &&
+                data.order.URI !== "") {
+
                 window.location.href = data.order.URI;
-            } else if (data.order != null && data.order.strformPayU != null && data.order.strformPayU != "") {
 
-                document.getElementById("payuformsub").innerHTML = data.order.strformPayU;
-                $("#PostForm").submit();
-
-            
-
-            } else if (data.order.orderModel != null && data.order.orderModel.orderId != null && data.order.orderModel.orderId != "") {
-
-                document.getElementById('IsCard').value = data.IsCard;
-                document.getElementById('IsWallet').value = data.IsWallet;
-
-                var options = {
-                    "key": "" + data.order.orderModel.razorpayKey + "",
-                    "amount": "" + data.order.orderModel.amount + "",
-                    "currency": "" + data.order.orderModel.currency + "",
-                    "name": "" + data.order.orderModel.companyname + "",
-                    "description": "" + data.order.orderModel.description + "",
-                    "image": "" + data.order.orderModel.logo + "",
-                    "order_id": "" + data.order.orderModel.orderId + "",
-                    "handler": function (response) {
-                        document.getElementById('rzp_paymentid').value = response.razorpay_payment_id;
-                        document.getElementById('rzp_orderid').value = response.razorpay_order_id;
-
-                        var element = document.getElementById("loadermainbooking");
-                        element.classList.remove("hidden");
-                        document.getElementById('rzp-paymentresponse').click();
-                    },
-                    "prefill": {
-                        "name": "" + data.order.orderModel.name + "",
-                        "email": "" + data.order.orderModel.email + "",
-                        "contact": "" + data.order.orderModel.contactNumber + ""
-                    },
-                    "theme": { "color": "#264796" }
-                };
-                var rzp1 = new Razorpay(options);
-                rzp1.open();
-
-            } else {
-                swal({ text: "Something went wrong while initiating payment. Please try again." });
+                return;
             }
 
-        } else if (data.IsSuccess == true && data.IsCard == false && data.IsWallet == true) {
-            window.location.href = '/FlightBooking/FlightComplete?orderId=' + data.order.orderId;
 
-        } else {
-            swal.fire({ text: data.Message });
+            // -----------------------------------------------
+            // PayU
+            // -----------------------------------------------
+
+            if (data.order &&
+                data.order.strformPayU &&
+                data.order.strformPayU !== "") {
+
+                var payuContainer =
+                    document.getElementById("payuformsub");
+
+                if (!payuContainer) {
+
+                    console.error(
+                        "payuformsub element not found."
+                    );
+
+                    Swal.fire({
+                        text: "Payment form container is missing."
+                    });
+
+                    return;
+                }
+
+
+                payuContainer.innerHTML =
+                    data.order.strformPayU;
+
+
+                var postForm =
+                    document.getElementById("PostForm");
+
+
+                if (postForm) {
+
+                    postForm.submit();
+
+                }
+                else {
+
+                    console.error(
+                        "PostForm not found after PayU form injection."
+                    );
+
+                    Swal.fire({
+                        text: "Payment form could not be submitted."
+                    });
+                }
+
+                return;
+            }
+
+
+            // -----------------------------------------------
+            // Razorpay
+            // -----------------------------------------------
+
+            if (data.order &&
+                data.order.orderModel &&
+                data.order.orderModel.orderId) {
+
+
+                // Set hidden values
+                var isCard =
+                    document.getElementById("IsCard");
+
+                var isWallet =
+                    document.getElementById("IsWallet");
+
+
+                if (isCard) {
+                    isCard.value = data.IsCard;
+                }
+
+                if (isWallet) {
+                    isWallet.value = data.IsWallet;
+                }
+
+
+                var orderModel =
+                    data.order.orderModel;
+
+
+                var options = {
+
+                    key: orderModel.razorpayKey,
+
+                    amount: orderModel.amount,
+
+                    currency: orderModel.currency,
+
+                    name: orderModel.companyname,
+
+                    description: orderModel.description,
+
+                    image: orderModel.logo,
+
+                    order_id: orderModel.orderId,
+
+
+                    // ---------------------------------------
+                    // Razorpay success
+                    // ---------------------------------------
+
+                    handler: function (response) {
+
+                        console.log(
+                            "Razorpay response:",
+                            response
+                        );
+
+
+                        var paymentId =
+                            document.getElementById(
+                                "rzp_paymentid"
+                            );
+
+                        var orderId =
+                            document.getElementById(
+                                "rzp_orderid"
+                            );
+
+
+                        if (paymentId) {
+
+                            paymentId.value =
+                                response.razorpay_payment_id;
+                        }
+
+
+                        if (orderId) {
+
+                            orderId.value =
+                                response.razorpay_order_id;
+                        }
+
+
+                        // Loader
+                        var loader =
+                            document.getElementById(
+                                "loadermainbooking"
+                            );
+
+
+                        if (loader) {
+
+                            loader.classList.remove("hidden");
+                        }
+
+
+                        // Trigger payment response
+                        var responseButton =
+                            document.getElementById(
+                                "rzp-paymentresponse"
+                            );
+
+
+                        if (responseButton) {
+
+                            responseButton.click();
+                        }
+                        else {
+
+                            console.error(
+                                "rzp-paymentresponse element not found."
+                            );
+                        }
+
+                    },
+
+
+                    prefill: {
+
+                        name: orderModel.name,
+
+                        email: orderModel.email,
+
+                        contact: orderModel.contactNumber
+                    },
+
+
+                    theme: {
+
+                        color: "#264796"
+                    }
+
+                };
+
+
+                try {
+
+                    var rzp1 =
+                        new Razorpay(options);
+
+                    rzp1.open();
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "Razorpay error:",
+                        error
+                    );
+
+                    Swal.fire({
+                        text: "Unable to open payment gateway."
+                    });
+                }
+
+
+                return;
+            }
+
+
+            // No payment gateway response
+            Swal.fire({
+                text: "Something went wrong while initiating payment. Please try again."
+            });
+
+            return;
         }
+
+
+        // =====================================================
+        // WALLET PAYMENT
+        // =====================================================
+
+        if (data.IsSuccess === true &&
+            data.IsCard === false &&
+            data.IsWallet === true) {
+
+
+            if (data.order &&
+                data.order.orderId) {
+
+                window.location.href =
+                    '/FlightBooking/FlightComplete?orderId=' +
+                    encodeURIComponent(data.order.orderId);
+
+            }
+            else {
+
+                Swal.fire({
+                    text: "Wallet payment order was not created."
+                });
+            }
+
+            return;
+        }
+
+
+        // =====================================================
+        // PAYMENT FAILED
+        // =====================================================
+
+        Swal.fire({
+
+            text:
+                data.Message ||
+                data.message ||
+                "Payment failed. Please try again."
+
+        });
+
     }
+
+
+    // =========================================================
+    // PAYMENT FAILURE
+    // =========================================================
 
     function OnPopFailure(xhr) {
-        swal.fire({ text: "Something went wrong. Please try again." });
-    }
-</script>
 
+        console.error(
+            "Payment request failed:",
+            xhr
+        );
+
+        Swal.fire({
+            text: "Something went wrong. Please try again."
+        });
+    }
+
+</script>
 <script>
-       const basePrice = @Model.BasePrice;
+
+    const basePrice = @Model.BasePrice;
     const tollCharges = @Model.TollCharges;
 
+        $("#showCoupons").on("click", function (e) {
 
-
-    $("#showCoupons").click(function () {
+        e.preventDefault();
 
         $.ajax({
 
             url: "/Coupon/AvailableCoupons",
-
             type: "GET",
 
             data: {
@@ -1451,220 +1778,407 @@
 
                 let html = "";
 
-                if (coupons.length == 0) {
+                if (!coupons || coupons.length === 0) {
 
-                    html = "<p>No Coupon Available</p>";
+                    html = `
+                        <div class="coupon-empty">
+                            <div class="coupon-empty-icon">🎟️</div>
+                            <h5>No Coupons Available</h5>
+                            <p>There are no coupons available for this booking right now.</p>
+                        </div>
+                    `;
 
-                }
-                else {
+                } else {
 
                     coupons.forEach(function (c) {
 
                         html += `
-                        <div class="coupon-card">
+                            <div class="coupon-card">
 
-                            <div>
+                                <div class="coupon-left">
 
-                                <div class="coupon-code">
-                                    ${c.Code}
+                                    <div class="coupon-icon">
+                                        %
+                                    </div>
+
+                                    <div class="coupon-content">
+
+                                        <div class="coupon-code">
+                                            ${c.Code}
+                                        </div>
+
+                                        <div class="coupon-desc">
+                                            ${c.Description ?? ""}
+                                        </div>
+
+                                        ${c.DisplayLabel
+                                            ? `<span class="coupon-label">
+                                                    ${c.DisplayLabel}
+                                               </span>`
+                                            : ""
+                                        }
+
+                                    </div>
+
                                 </div>
 
-                                <div class="coupon-desc">
-                                    ${c.Description ?? ""}
-                                </div>
+                                <div class="coupon-action">
 
-                                <div class="coupon-label">
-                                    ${c.DisplayLabel}
+                                    <button
+                                        type="button"
+                                        class="applyCoupon"
+                                        data-code="${c.Code}">
+                                        Apply
+                                    </button>
+
                                 </div>
 
                             </div>
-
-                            <button
-                                class="btn btn-success btn-sm applyCoupon"
-                                data-code="${c.Code}">
-                                Apply
-                            </button>
-
-                        </div>`;
+                        `;
                     });
-
                 }
 
                 $("#couponList").html(html);
 
-                $("#couponModal").modal("show");
+                // Bootstrap 5 Modal
+                var modalElement = document.getElementById("couponModal");
 
+                if (modalElement) {
+
+                    var modal =
+                        bootstrap.Modal.getOrCreateInstance(modalElement);
+
+                    modal.show();
+                }
+
+            },
+
+            error: function (xhr) {
+
+                console.error("Coupon loading error:", xhr);
+
+                $("#couponList").html(`
+                    <div class="coupon-empty">
+                        <div class="coupon-empty-icon">⚠️</div>
+                        <h5>Oops!</h5>
+                        <p>Unable to load coupons. Please try again.</p>
+                    </div>
+                `);
             }
 
         });
 
     });
+    // $("#showCoupons").on("click", function (e) {
+
+    //     e.preventDefault();
+
+    //     $.ajax({
+
+    //         url: "/Coupon/AvailableCoupons",
+
+    //         type: "GET",
+
+    //         data: {
+
+    //             fareAmount: basePrice,
+
+    //             rideType: null
+    //         },
+
+    //         success: function (coupons) {
+
+    //             let html = "";
+
+
+    //             if (!coupons || coupons.length === 0) {
+
+    //                 html =
+    //                     "<p>No Coupon Available</p>";
+    //             }
+    //             else {
+
+    //                 coupons.forEach(function (c) {
+
+    //                     html += `
+
+    //                         <div class="coupon-card">
+
+    //                             <div>
+
+    //                                 <div class="coupon-code">
+    //                                     ${c.Code}
+    //                                 </div>
+
+    //                                 <div class="coupon-desc">
+    //                                     ${c.Description ?? ""}
+    //                                 </div>
+
+    //                                 <div class="coupon-label">
+    //                                     ${c.DisplayLabel ?? ""}
+    //                                 </div>
+
+    //                             </div>
+
+    //                             <button
+    //                                 type="button"
+    //                                 class="btn btn-success btn-sm applyCoupon"
+    //                                 data-code="${c.Code}">
+    //                                 Apply
+    //                             </button>
+
+    //                         </div>
+
+    //                     `;
+    //                 });
+    //             }
+
+
+    //             $("#couponList").html(html);
+
+
+    //             // Bootstrap 5
+    //             var modalElement =
+    //                 document.getElementById("couponModal");
+
+    //             if (modalElement) {
+
+    //                 var modal =
+    //                     bootstrap.Modal.getOrCreateInstance(
+    //                         modalElement
+    //                     );
+
+    //                 modal.show();
+    //             }
+
+    //         },
+
+    //         error: function (xhr) {
+
+    //             console.error(
+    //                 "Coupon loading error:",
+    //                 xhr
+    //             );
+
+    //             $("#couponList").html(
+    //                 "<p>Unable to load coupons.</p>"
+    //             );
+    //         }
+
+    //     });
+
+    // });
 
 
 
-    $(document).on("click", ".applyCoupon", async function () {
+    $(document).on(
+        "click",
+        ".applyCoupon",
+        async function () {
 
-        const code = $(this).data("code");
+            const code =
+                $(this).data("code");
 
-        const msgEl = document.getElementById("couponMessage");
 
-        try {
+            const msgEl =
+                document.getElementById("couponMessage");
 
-            const res = await fetch("/Coupon/ApplyAjax", {
 
-                method: "POST",
+            if (!msgEl) {
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    code: code,
-
-                    fareAmount: basePrice,
-
-                    rideType: null
-
-                })
-
-            });
-
-            const data = await res.json();
-
-            if (data.IsValid || data.isValid) {
-
-                const discount = data.DiscountAmount ?? data.discountAmount;
-
-                const message = data.Message ?? data.message;
-
-                const couponCode = data.CouponCode ?? data.couponCode;
-
-                $("#couponModal").modal("hide");
-
-                msgEl.innerHTML =
-                    "<span style='color:green'>" +
-                    message +
-                    "<br/>Coupon : <b>" +
-                    couponCode +
-                    "</b><br/>You saved ₹" +
-                    discount +
-                    "</span>";
-
-                $("#discountAmt").html("-₹" + discount);
-
-                $("#totalAmt").html(
-                    "₹" +
-                    (basePrice - discount + tollCharges).toFixed(2)
+                console.error(
+                    "couponMessage element not found."
                 );
 
-                $("#appliedCouponCode").val(couponCode);
+                return;
+            }
 
-                $("#appliedDiscount").val(discount);
 
-                $("#couponDefaultText").html(
-                    "<div style='font-weight:bold;color:green;'>✓ " +
-                    couponCode +
-                    " Applied</div>"
-                );
+            try {
 
-                $("#showCoupons").text("Change");
+                const res =
+                    await fetch(
+                        "/Coupon/ApplyAjax",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                code: code,
+
+                                fareAmount: basePrice,
+
+                                rideType: null
+                            })
+                        }
+                    );
+
+
+                if (!res.ok) {
+
+                    throw new Error(
+                        "Coupon request failed."
+                    );
+                }
+
+
+                const data =
+                    await res.json();
+
+
+                const isValid =
+                    data.IsValid ??
+                    data.isValid;
+
+
+                if (isValid) {
+
+
+                    const discount =
+                        Number(
+                            data.DiscountAmount ??
+                            data.discountAmount ??
+                            0
+                        );
+
+
+                    const message =
+                        data.Message ??
+                        data.message ??
+                        "Coupon applied successfully.";
+
+
+                    const couponCode =
+                        data.CouponCode ??
+                        data.couponCode ??
+                        code;
+
+
+                    // Close coupon modal
+                    var couponModal =
+                        document.getElementById(
+                            "couponModal"
+                        );
+
+
+                    if (couponModal) {
+
+                        var modal =
+                            bootstrap.Modal
+                                .getOrCreateInstance(
+                                    couponModal
+                                );
+
+                        modal.hide();
+                    }
+
+
+                    // Message
+                    msgEl.innerHTML =
+                        "<span style='color:green'>" +
+
+                        message +
+
+                        "<br/>Coupon : <b>" +
+
+                        couponCode +
+
+                        "</b><br/>You saved ₹" +
+
+                        discount.toFixed(2) +
+
+                        "</span>";
+
+
+                    // Discount
+                    $("#discountAmt")
+                        .html(
+                            "-₹" +
+                            discount.toFixed(2)
+                        );
+
+
+                    // New total
+                    const newTotal =
+                        basePrice -
+                        discount +
+                        tollCharges;
+
+
+                    $("#totalAmt")
+                        .html(
+                            "₹" +
+                            newTotal.toFixed(2)
+                        );
+
+
+                    // IMPORTANT:
+                    // Update hidden payment total
+                    $("#bookingTotalAmt")
+                        .val(
+                            newTotal.toFixed(2)
+                        );
+
+
+                    // Hidden coupon fields
+                    $("#appliedCouponCode")
+                        .val(couponCode);
+
+
+                    $("#appliedDiscount")
+                        .val(discount);
+
+
+                    // Coupon text
+                    $("#couponDefaultText")
+                        .html(
+                            "<div style='font-weight:bold;color:green;'>" +
+                            "✓ " +
+                            couponCode +
+                            " Applied</div>"
+                        );
+
+
+                    $("#showCoupons")
+                        .text("Change");
+
+                }
+                else {
+
+                    msgEl.innerHTML =
+                        "<span style='color:red'>" +
+
+                        (
+                            data.Message ??
+                            data.message ??
+                            "Invalid coupon."
+                        ) +
+
+                        "</span>";
+                }
 
             }
-            else {
+            catch (error) {
+
+                console.error(
+                    "Coupon error:",
+                    error
+                );
 
                 msgEl.innerHTML =
                     "<span style='color:red'>" +
-                    (data.Message ?? data.message) +
+                    "Something went wrong. Please try again." +
                     "</span>";
             }
 
         }
-        catch {
+    );
 
-            msgEl.innerHTML =
-                "<span style='color:red'>Something went wrong.</span>";
-        }
-
-    });
-
-
-     document.addEventListener("DOMContentLoaded", function () {
-
-        var showCouponBox = document.getElementById("showCouponBox");
-
-        if (showCouponBox) {
-            showCouponBox.addEventListener("click", function (e) {
-                e.preventDefault();
-
-                document.getElementById("NewcouponBox").style.display = "block";
-                this.style.display = "none";
-            });
-        }
-
-    });
-
-
-    document.getElementById('applyCouponBtn').addEventListener('click', async function () {
-        debugger
-        const code = document.getElementById('couponCode').value.trim();
-        const msgEl = document.getElementById('couponMessage');
-
-        if (!code) {
-            msgEl.textContent = 'Please enter a coupon code.';
-            msgEl.style.color = '#B3261E';
-            return;
-        }
-
-        try {
-
-            const res = await fetch('/Coupon/ApplyAjax', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    code: code,
-                    fareAmount: basePrice,
-                    rideType: null
-                })
-            });
-
-            if (!res.ok) {
-                throw new Error("Request failed");
-            }
-
-            const data = await res.json();
-
-               if (data.IsValid || data.isValid) {
-
-        const discount = data.DiscountAmount ?? data.discountAmount;
-        const message = data.Message ?? data.message;
-        const couponCode = data.CouponCode ?? data.couponCode;
-
-        msgEl.innerHTML = message + " You saved ₹" + discount;
-        msgEl.style.color = "green";
-
-        document.getElementById("discountAmt").innerHTML = "-₹" + discount;
-
-        document.getElementById("totalAmt").innerHTML =
-            "₹" + (basePrice - discount + tollCharges).toFixed(2);
-
-        document.getElementById("appliedCouponCode").value = couponCode;
-        document.getElementById("appliedDiscount").value = discount;
-
-    } else {
-
-                msgEl.textContent = data.message;
-                msgEl.style.color = '#B3261E';
-            }
-
-        } catch (err) {
-            console.error(err);
-            msgEl.textContent = 'Something went wrong. Please try again.';
-            msgEl.style.color = '#B3261E';
-        }
-    });
 </script>
 
 

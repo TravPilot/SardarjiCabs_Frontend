@@ -811,9 +811,8 @@
         <div class="visual-pane">
             <div class="visual-pane-content">
                 <div class="brand">
-                    <img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Logo" />
-                    @* <div class="mark">SJ</div>
-                    <div class="word">Sardar Ji EV<small style="display:block;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:2px;">Driver Partner Network</small></div> *@
+                    <img src="~/sardar.png" />
+                    <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
                 </div>
                 <div class="visual-pane-quote">
                     <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Driver Home</div>
@@ -841,7 +840,7 @@
                                 <span class="dot"></span>
                             }
                         </button>
-                        <a href="@Url.Action("Index", "DriverProfile")" class="avatar-btn" aria-label="Profile">
+                        <a href="@Url.Action("index", "driverprofile")" class="avatar-btn" aria-label="Profile">
                             @if (!string.IsNullOrEmpty(Model.ProfilePhotoUrl))
                             {
                                 <img src="@Model.ProfilePhotoUrl" alt="@Model.FullName" />
@@ -867,7 +866,7 @@
                         </div>
                     </div>
                     <label class="switch">
-                        <input type="checkbox" id="onlineToggle" @(Model.IsOnline ? "checked" : "") @(Model.ApprovalStatus != "Approved" ? "disabled" : "")>
+                        <input type="checkbox" id="onlineToggle" @(Model.IsOnline ? "checked" : "") @(!string.Equals(Model.ApprovalStatus, "Approved", StringComparison.OrdinalIgnoreCase) ? "disabled" : "")>
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -946,23 +945,23 @@
                 <!-- ===================== QUICK ACTIONS ===================== -->
                 <div class="section-title">Quick actions</div>
                 <div class="action-row">
-                    <a href="@Url.Action("Index", "DriverTrips")" class="action-chip">
+                    <a href="@Url.Action("index", "drivertrips")" class="action-chip">
                         <div class="ic"><i class="fa-solid fa-calendar-check"></i></div>
                         <span>My Trips</span>
                     </a>
-                    <a href="@Url.Action("Index", "DriverEarnings")" class="action-chip">
+                    <a href="@Url.Action("index", "driverearnings")" class="action-chip">
                         <div class="ic"><i class="fa-solid fa-wallet"></i></div>
                         <span>Earnings</span>
                     </a>
-                    <a href="@Url.Action("Index", "DriverDocuments")" class="action-chip">
+                    <a href="@Url.Action("index", "driverdocuments")" class="action-chip">
                         <div class="ic"><i class="fa-solid fa-id-card"></i></div>
                         <span>Documents</span>
                     </a>
-                    <a href="@Url.Action("Index", "DriverSupport")" class="action-chip">
+                    <a href="@Url.Action("index", "driversupport")" class="action-chip">
                         <div class="ic"><i class="fa-solid fa-headset"></i></div>
                         <span>Support</span>
                     </a>
-                    <a href="@Url.Action("Index", "DriverProfile")" class="action-chip">
+                    <a href="@Url.Action("index", "driverprofile")" class="action-chip">
                         <div class="ic"><i class="fa-solid fa-user"></i></div>
                         <span>Profile</span>
                     </a>
@@ -1011,16 +1010,16 @@
             <!-- ===================== BOTTOM TAB BAR (mobile) ===================== -->
             <div class="bottom-tab-bar">
                 <div class="bottom-tab-row">
-                    <a href="@Url.Action("Index", "DriverDashboard")" class="bottom-tab-item active">
+                    <a href="@Url.Action("index", "driverdashboard")" class="bottom-tab-item active">
                         <i class="fa-solid fa-house"></i><span>Home</span>
                     </a>
-                    <a href="@Url.Action("Index", "DriverTrips")" class="bottom-tab-item">
+                    <a href="@Url.Action("index", "drivertrips")" class="bottom-tab-item">
                         <i class="fa-solid fa-calendar-check"></i><span>Trips</span>
                     </a>
-                    <a href="@Url.Action("Index", "DriverEarnings")" class="bottom-tab-item">
+                    <a href="@Url.Action("index", "driverearnings")" class="bottom-tab-item">
                         <i class="fa-solid fa-wallet"></i><span>Earnings</span>
                     </a>
-                    <a href="@Url.Action("Index", "DriverProfile")" class="bottom-tab-item">
+                    <a href="@Url.Action("index", "driverprofile")" class="bottom-tab-item">
                         <i class="fa-solid fa-user"></i><span>Profile</span>
                     </a>
                 </div>

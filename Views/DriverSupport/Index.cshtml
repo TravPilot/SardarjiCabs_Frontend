@@ -1,0 +1,971 @@
+﻿@using SardarJiCab.Model
+@model DriverSupport
+@{
+    ViewData["Title"] = "Support";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support | Sardar Ji EV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --navy: #16265A;
+            --terracotta: #D6491F;
+            --terracotta-2: #EF7A3C;
+            --bg: #F5F4F1;
+            --card: #FFFFFF;
+            --ink: #171B24;
+            --muted: #767C8A;
+            --line: #E7E5E0;
+            --ev-green: #1E8F5F;
+            --ev-green-bg: #E9F7EF;
+            --warn: #C0392B;
+            --warn-bg: #FCEBEA;
+            --gold: #B8860B;
+            --gold-bg: #FBF3DF;
+            --focus-ring: rgba(214,73,31,0.22);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: "Inter",sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+            padding-bottom: 88px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: "Space Grotesk",sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: "Inter",sans-serif;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .visual-pane {
+            display: none;
+            position: relative;
+            flex: 0 0 34%;
+            max-width: 420px;
+            background: linear-gradient(165deg, rgba(11,21,51,0.90) 0%, rgba(22,38,90,0.78) 45%, rgba(214,73,31,0.55) 100%), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1000&q=80') center/cover no-repeat;
+            overflow: hidden;
+            padding: 40px 32px;
+        }
+
+        .visual-pane-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .visual-pane .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+            .visual-pane .brand .mark {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 700;
+                font-size: 15px;
+                flex-shrink: 0;
+            }
+
+            .visual-pane .brand .word {
+                color: #fff;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 1.1;
+            }
+
+                .visual-pane .brand .word small {
+                    display: block;
+                    color: rgba(255,255,255,0.6);
+                    font-weight: 600;
+                    font-size: 0.62rem;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    margin-top: 2px;
+                }
+
+        .visual-pane-quote {
+            max-width: 280px;
+        }
+
+            .visual-pane-quote .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(255,255,255,0.85);
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+            }
+
+                .visual-pane-quote .eyebrow i {
+                    color: var(--terracotta-2);
+                }
+
+            .visual-pane-quote h2 {
+                color: #fff;
+                font-size: 1.5rem;
+                line-height: 1.28;
+                font-weight: 700;
+                margin: 0;
+            }
+
+        .visual-pane-foot {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.76rem;
+        }
+
+        .content-pane {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        @@media (min-width:992px) {
+            .visual-pane {
+                display: block;
+            }
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+
+        /* ---------------- TOP BAR ---------------- */
+        .topbar {
+            background: var(--navy);
+            padding: 16px 0 44px;
+        }
+
+        .topbar-inner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .topbar h1 {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .topbar p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.78rem;
+            margin: 2px 0 0;
+        }
+
+        /* ---------------- QUICK CONTACT ---------------- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 10px;
+            margin: -30px 0 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .contact-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px 10px;
+            text-align: center;
+            box-shadow: 0 12px 28px rgba(11,21,51,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .contact-card .ci {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.95rem;
+            }
+
+            .contact-card.call .ci {
+                background: var(--ev-green-bg);
+                color: var(--ev-green);
+            }
+
+            .contact-card.whatsapp .ci {
+                background: #E7F6E9;
+                color: #2FA84F;
+            }
+
+            .contact-card.email .ci {
+                background: #EEF1FA;
+                color: var(--navy);
+            }
+
+            .contact-card span {
+                font-size: 0.74rem;
+                font-weight: 700;
+                color: var(--ink);
+            }
+
+        /* ---------------- SECTION ---------------- */
+        .section-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(11,21,51,0.05);
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+            .section-head h3 {
+                font-size: 0.94rem;
+                font-weight: 700;
+                color: var(--ink);
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+                .section-head h3 i {
+                    color: var(--terracotta);
+                    font-size: 0.86rem;
+                }
+
+        /* ---------------- FAQ ACCORDION ---------------- */
+        .faq-item {
+            border-bottom: 1px solid var(--line);
+        }
+
+            .faq-item:last-child {
+                border-bottom: none;
+            }
+
+        .faq-q {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 0;
+            cursor: pointer;
+            gap: 10px;
+        }
+
+            .faq-q span {
+                font-size: 0.86rem;
+                font-weight: 600;
+                color: var(--ink);
+            }
+
+            .faq-q i {
+                color: var(--muted);
+                font-size: 0.8rem;
+                transition: transform .2s ease;
+                flex-shrink: 0;
+            }
+
+        .faq-item.open .faq-q i {
+            transform: rotate(180deg);
+        }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .25s ease;
+        }
+
+        .faq-a-inner {
+            padding: 0 0 14px;
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ---------------- TICKET FORM ---------------- */
+        .field {
+            margin-bottom: 14px;
+        }
+
+            .field label {
+                display: block;
+                font-size: 0.74rem;
+                font-weight: 700;
+                color: var(--ink);
+                margin-bottom: 6px;
+            }
+
+        .input-shell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #FBFAF8;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 0 13px;
+            height: 46px;
+            transition: border-color .16s ease, box-shadow .16s ease;
+        }
+
+            .input-shell:focus-within {
+                border-color: var(--terracotta);
+                box-shadow: 0 0 0 4px var(--focus-ring);
+            }
+
+            .input-shell.error {
+                border-color: var(--warn);
+                box-shadow: 0 0 0 4px rgba(192,57,43,0.12);
+            }
+
+            .input-shell i {
+                color: var(--muted);
+                font-size: 0.82rem;
+                width: 15px;
+                text-align: center;
+            }
+
+            .input-shell input, .input-shell select {
+                border: none;
+                outline: none;
+                background: transparent;
+                flex: 1;
+                font-family: "Inter",sans-serif;
+                font-size: 0.88rem;
+                font-weight: 500;
+                color: var(--ink);
+                height: 100%;
+            }
+
+        .textarea-shell {
+            background: #FBFAF8;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 12px 13px;
+            transition: border-color .16s ease, box-shadow .16s ease;
+        }
+
+            .textarea-shell:focus-within {
+                border-color: var(--terracotta);
+                box-shadow: 0 0 0 4px var(--focus-ring);
+            }
+
+            .textarea-shell.error {
+                border-color: var(--warn);
+                box-shadow: 0 0 0 4px rgba(192,57,43,0.12);
+            }
+
+            .textarea-shell textarea {
+                border: none;
+                outline: none;
+                background: transparent;
+                width: 100%;
+                resize: vertical;
+                min-height: 88px;
+                font-family: "Inter",sans-serif;
+                font-size: 0.88rem;
+                font-weight: 500;
+                color: var(--ink);
+            }
+
+        .field-msg {
+            font-size: 0.74rem;
+            color: var(--warn);
+            margin-top: 5px;
+            display: none;
+            align-items: center;
+            gap: 5px;
+        }
+
+            .field-msg.show {
+                display: flex;
+            }
+
+        .btn-primary {
+            border: none;
+            border-radius: 12px;
+            padding: 13px 20px;
+            background: linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+            .btn-primary:disabled {
+                opacity: 0.65;
+                cursor: not-allowed;
+            }
+
+            .btn-primary .fa-spinner {
+                animation: spin .7s linear infinite;
+            }
+
+        @@keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ---------------- TICKET LIST ---------------- */
+        .ticket-row {
+            padding: 13px 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+            .ticket-row + .ticket-row {
+                border-top: 1px solid var(--line);
+            }
+
+        .ticket-left {
+            flex: 1;
+            min-width: 0;
+        }
+
+            .ticket-left .subj {
+                font-size: 0.86rem;
+                font-weight: 700;
+                color: var(--ink);
+                margin-bottom: 3px;
+            }
+
+            .ticket-left .cat {
+                font-size: 0.74rem;
+                color: var(--muted);
+            }
+
+            .ticket-left .msg {
+                font-size: 0.78rem;
+                color: var(--muted);
+                margin-top: 6px;
+                line-height: 1.5;
+            }
+
+            .ticket-left .reply {
+                margin-top: 8px;
+                background: var(--ev-green-bg);
+                border-radius: 10px;
+                padding: 9px 11px;
+                font-size: 0.78rem;
+                color: #155C3F;
+            }
+
+                .ticket-left .reply .rl {
+                    font-weight: 800;
+                    font-size: 0.68rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                    display: block;
+                    margin-bottom: 3px;
+                    color: var(--ev-green);
+                }
+
+        .ticket-meta {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .ticket-status {
+            font-size: 0.64rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 99px;
+            white-space: nowrap;
+        }
+
+            .ticket-status.open {
+                background: var(--gold-bg);
+                color: var(--gold);
+            }
+
+            .ticket-status.inprogress {
+                background: #EEF1FA;
+                color: var(--navy);
+            }
+
+            .ticket-status.resolved {
+                background: var(--ev-green-bg);
+                color: var(--ev-green);
+            }
+
+        .ticket-meta .date {
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 32px 10px;
+            color: var(--muted);
+        }
+
+            .empty-state i {
+                font-size: 1.6rem;
+                color: var(--line);
+                margin-bottom: 8px;
+            }
+
+            .empty-state p {
+                font-size: 0.84rem;
+                margin: 0;
+            }
+
+        /* ---------------- TOAST ---------------- */
+        .toast-stack {
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: calc(100% - 32px);
+            max-width: 400px;
+        }
+
+        .brand > img {
+            height: 38px;
+            border-radius: 12px;
+        }
+        .toast {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #fff;
+            border-radius: 13px;
+            padding: 13px 14px;
+            box-shadow: 0 14px 34px rgba(11,21,51,0.18);
+            border-left: 4px solid var(--navy);
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--ink);
+            opacity: 0;
+            transform: translateY(-14px);
+            animation: toastIn .28s ease forwards;
+        }
+
+            .toast.success {
+                border-left-color: var(--ev-green);
+            }
+
+            .toast.error {
+                border-left-color: var(--warn);
+            }
+
+            .toast i.toast-icon {
+                margin-top: 1px;
+            }
+
+            .toast.success i.toast-icon {
+                color: var(--ev-green);
+            }
+
+            .toast.error i.toast-icon {
+                color: var(--warn);
+            }
+
+            .toast .toast-msg {
+                flex: 1;
+                line-height: 1.4;
+            }
+
+        @@keyframes toastIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---------------- BOTTOM TAB BAR ---------------- */
+        .bottom-tab-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1100;
+            background: #fff;
+            border-top: 1px solid var(--line);
+            box-shadow: 0 -10px 26px rgba(0,0,0,0.06);
+            padding: 8px 0;
+        }
+
+        .bottom-tab-row {
+            max-width: 480px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 4px;
+            padding: 0 10px;
+        }
+
+        .bottom-tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.68rem;
+            color: var(--muted);
+            padding: 8px 0;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+            .bottom-tab-item i {
+                font-size: 16px;
+            }
+
+            .bottom-tab-item.active {
+                color: var(--terracotta);
+                background: #FFF1E7;
+            }
+
+        @@media (min-width:768px) {
+            .bottom-tab-bar {
+                display: none;
+            }
+
+            body {
+                padding-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast-stack" id="toastStack"></div>
+
+    <div class="app-shell">
+
+        <div class="visual-pane">
+            <div class="visual-pane-content">
+                <div class="brand">
+                    <img src="~/sardar.png" />
+                    <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
+                </div>
+                <div class="visual-pane-quote">
+                    <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Support</div>
+                    <h2>We're here to help, whenever you need it.</h2>
+                </div>
+                <div class="visual-pane-foot">&copy; Sardar Ji EV &middot; Driver Partner Network</div>
+            </div>
+        </div>
+
+        <div class="content-pane">
+
+            <div class="topbar">
+                <div class="container topbar-inner">
+                    <a href="@Url.Action("Index", "DriverDashboard")" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <div>
+                        <h1>Support</h1>
+                        <p>Get help or raise a ticket</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+
+                <!-- ===================== QUICK CONTACT ===================== -->
+                <div class="contact-grid">
+                    <a href="tel:@Model.SupportPhone" class="contact-card call">
+                        <div class="ci"><i class="fa-solid fa-phone"></i></div>
+                        <span>Call Us</span>
+                    </a>
+                    <a href="https://wa.me/@Model.SupportWhatsAppNumber" target="_blank" class="contact-card whatsapp">
+                        <div class="ci"><i class="fa-brands fa-whatsapp"></i></div>
+                        <span>WhatsApp</span>
+                    </a>
+                    <a href="mailto:@Model.SupportEmail" class="contact-card email">
+                        <div class="ci"><i class="fa-solid fa-envelope"></i></div>
+                        <span>Email</span>
+                    </a>
+                </div>
+
+                <!-- ===================== FAQ ===================== -->
+                <div class="section-card">
+                    <div class="section-head"><h3><i class="fa-solid fa-circle-question"></i> Frequently asked questions</h3></div>
+                    <div id="faqList">
+                        @foreach (var faq in Model.Faqs)
+                        {
+                            <div class="faq-item">
+                                <div class="faq-q" onclick="toggleFaq(this)">
+                                    <span>@faq.Question</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                                <div class="faq-a">
+                                    <div class="faq-a-inner">@faq.Answer</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- ===================== RAISE A TICKET ===================== -->
+                <div class="section-card">
+                    <div class="section-head"><h3><i class="fa-solid fa-headset"></i> Raise a ticket</h3></div>
+
+                    @Html.AntiForgeryToken()
+
+                    <div class="field">
+                        <label for="ticketCategory">Category</label>
+                        <div class="input-shell" id="categoryShell">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <select id="ticketCategory">
+                                <option value="">Select a category</option>
+                                <option value="Payment">Payment issue</option>
+                                <option value="Trip">Trip issue</option>
+                                <option value="Documents">Document issue</option>
+                                <option value="App">App issue</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="ticketSubject">Subject</label>
+                        <div class="input-shell" id="subjectShell">
+                            <i class="fa-solid fa-heading"></i>
+                            <input id="ticketSubject" placeholder="Briefly describe the issue" maxlength="150">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="ticketMessage">Details</label>
+                        <div class="textarea-shell" id="messageShell">
+                            <textarea id="ticketMessage" placeholder="Explain what happened, including booking number if relevant" maxlength="1000"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field-msg" id="ticketError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+
+                    <button type="button" class="btn-primary" id="submitTicketBtn" onclick="submitTicket()">
+                        <span id="submitTicketLabel">Submit ticket</span> <i class="fa-solid fa-paper-plane" id="submitTicketIcon"></i>
+                    </button>
+                </div>
+
+                <!-- ===================== TICKET HISTORY ===================== -->
+                <div class="section-card">
+                    <div class="section-head"><h3><i class="fa-solid fa-ticket"></i> Your tickets</h3></div>
+                    <div id="ticketList">
+                        @if (Model.Tickets.Any())
+                        {
+                            foreach (var t in Model.Tickets)
+                            {
+                                <div class="ticket-row">
+                                    <div class="ticket-left">
+                                        <div class="subj">@t.Subject</div>
+                                        <div class="cat">@t.Category</div>
+                                        <div class="msg">@t.Message</div>
+                                        @if (!string.IsNullOrEmpty(t.AdminReply))
+                                        {
+                                            <div class="reply"><span class="rl">Support reply</span>@t.AdminReply</div>
+                                        }
+                                    </div>
+                                    <div class="ticket-meta">
+                                        <span class="ticket-status @t.StatusCss">@t.Status</span>
+                                        <div class="date">@t.CreatedAt.ToString("dd MMM")</div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="empty-state">
+                                <i class="fa-solid fa-inbox"></i>
+                                <p>No tickets raised yet.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- /.content-pane -->
+    </div><!-- /.app-shell -->
+
+    <div class="bottom-tab-bar">
+        <div class="bottom-tab-row">
+            <a href="@Url.Action("Index", "DriverDashboard")" class="bottom-tab-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="@Url.Action("Index", "DriverTrips")" class="bottom-tab-item"><i class="fa-solid fa-calendar-check"></i><span>Trips</span></a>
+            <a href="@Url.Action("Index", "DriverEarnings")" class="bottom-tab-item"><i class="fa-solid fa-wallet"></i><span>Earnings</span></a>
+            <a href="@Url.Action("Index", "DriverProfile")" class="bottom-tab-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </div>
+    </div>
+
+    <script>
+        function toggleFaq(headerEl) {
+          const item = headerEl.parentElement;
+          const answer = item.querySelector('.faq-a');
+          const isOpen = item.classList.contains('open');
+
+          document.querySelectorAll('.faq-item.open').forEach(openItem => {
+            if (openItem !== item) {
+              openItem.classList.remove('open');
+              openItem.querySelector('.faq-a').style.maxHeight = null;
+            }
+          });
+
+          if (isOpen) {
+            item.classList.remove('open');
+            answer.style.maxHeight = null;
+          } else {
+            item.classList.add('open');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+          }
+        }
+
+        function showToast(message, type = 'info') {
+          const stack = document.getElementById('toastStack');
+          const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', info: 'fa-circle-info' };
+          const toast = document.createElement('div');
+          toast.className = `toast ${type}`;
+          toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} toast-icon"></i><div class="toast-msg">${message}</div>`;
+          stack.appendChild(toast);
+          setTimeout(() => toast.remove(), 4500);
+        }
+
+        function getToken() {
+          return document.querySelector('input[name="__RequestVerificationToken"]').value;
+        }
+
+        function setShellError(id, hasError) {
+          document.getElementById(id).classList.toggle('error', hasError);
+        }
+
+        async function submitTicket() {
+          const category = document.getElementById('ticketCategory').value;
+          const subject = document.getElementById('ticketSubject').value.trim();
+          const message = document.getElementById('ticketMessage').value.trim();
+          const errEl = document.getElementById('ticketError');
+          errEl.classList.remove('show');
+          setShellError('categoryShell', false);
+          setShellError('subjectShell', false);
+          setShellError('messageShell', false);
+
+          if (!category) {
+            setShellError('categoryShell', true);
+            errEl.querySelector('span').textContent = 'Please select a category.';
+            errEl.classList.add('show');
+            return;
+          }
+          if (!subject) {
+            setShellError('subjectShell', true);
+            errEl.querySelector('span').textContent = 'Please enter a subject.';
+            errEl.classList.add('show');
+            return;
+          }
+          if (!message || message.length < 10) {
+            setShellError('messageShell', true);
+            errEl.querySelector('span').textContent = 'Please describe your issue in a bit more detail.';
+            errEl.classList.add('show');
+            return;
+          }
+
+          const btn = document.getElementById('submitTicketBtn');
+          const label = document.getElementById('submitTicketLabel');
+          const icon = document.getElementById('submitTicketIcon');
+          btn.disabled = true;
+          label.textContent = 'Submitting…';
+          icon.className = 'fa-solid fa-spinner';
+
+          try {
+            const res = await fetch('@Url.Action("SubmitTicket", "DriverSupport")', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': getToken() },
+              body: new URLSearchParams({ category, subject, message, __RequestVerificationToken: getToken() })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+              showToast('Ticket submitted. We\'ll get back to you soon.', 'success');
+              setTimeout(() => window.location.reload(), 700);
+            } else {
+              errEl.querySelector('span').textContent = data.message || 'Could not submit ticket.';
+              errEl.classList.add('show');
+              showToast(data.message || 'Could not submit ticket.', 'error');
+            }
+          } catch {
+            errEl.querySelector('span').textContent = 'Network error — please try again.';
+            errEl.classList.add('show');
+          } finally {
+            btn.disabled = false;
+            label.textContent = 'Submit ticket';
+            icon.className = 'fa-solid fa-paper-plane';
+          }
+        }
+    </script>
+
+</body>
+</html>

@@ -50,6 +50,7 @@
 
             [StringLength(20)]
             public string AadhaarNumber { get; set; }
+            public string AadhaarPhotoUrl { get; set; }
 
             public bool IsVerified { get; set; } = false;
 

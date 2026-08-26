@@ -1,0 +1,189 @@
+﻿@model SupportTicketViewModel
+@{
+    ViewData["Title"] = "Contact Support";
+}
+
+<link rel="stylesheet" href="~/css/support-charming.css" />
+
+<div class="support-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <div class="text-center mb-4">
+                    <span class="charm-eyebrow">a little help goes a long way</span>
+                    <h1 class="charm-title mb-2">Contact Customer Support</h1>
+                    <p class="charm-subtitle mx-auto">
+                        Tell us what's going on and our team will write back personally —
+                        usually within one business day.
+                    </p>
+                </div>
+
+                @if (TempData["SupportSuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["SupportSuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <div class="charm-card">
+                    <span class="charm-seam"></span>
+                    <div class="charm-stamp" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.4 2L12 12.4 19.6 7H4.4zM4 8.9V17h16V8.9l-7.4 5.34a1 1 0 0 1-1.2 0L4 8.9z" /></svg>
+                    </div>
+                    <div class="charm-card-body">
+
+                        <form id="ticketForm" asp-controller="Reports" asp-action="Create" method="post"
+                              enctype="multipart/form-data" novalidate>
+
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"
+                                 id="validationSummary"></div>
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label asp-for="Name" class="form-label"></label>
+                                    <input asp-for="Name" class="form-control" placeholder="Jane Doe" required />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input asp-for="Email" class="form-control" placeholder="jane@example.com" required />
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="Phone" class="form-label"></label>
+                                    <input asp-for="Phone" class="form-control" placeholder="(optional)" required />
+                                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="ReferenceNumber" class="form-label"></label>
+                                    <input asp-for="ReferenceNumber" class="form-control" placeholder="(optional)" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="Category" class="form-label"></label>
+                                    <select asp-for="Category" class="form-select"
+                                            asp-items="Html.GetEnumSelectList<TicketCategory>()" required>
+                                        <option value="">-- Select a category --</option>
+                                    </select>
+                                    <span asp-validation-for="Category" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="Priority" class="form-label"></label>
+                                    <select asp-for="Priority" class="form-select"
+                                            asp-items="Html.GetEnumSelectList<TicketPriority>()" required>
+                                    </select>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="Subject" class="form-label"></label>
+                                    <input asp-for="Subject" class="form-control" placeholder="Brief summary of your issue" required />
+                                    <span asp-validation-for="Subject" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="Message" class="form-label"></label>
+                                    <textarea asp-for="Message" class="form-control" rows="6" id="Message" placeholder="Please describe your issue in detail..."></textarea>
+                                    <div class="d-flex justify-content-between">
+                                        <span asp-validation-for="Message" class="text-danger small"></span>
+                                        <span class="text-muted small">Minimum 20 characters</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="Attachment" class="form-label"></label>
+                                    <input asp-for="Attachment" type="file" class="form-control" id="Attachment" accept=".png,.jpg,.jpeg,.pdf,.docx,.txt" />
+                                    <span asp-validation-for="Attachment" class="text-danger small"></span>
+                                    <div class="form-text">
+                                        Optional. Max size 5 MB (screenshots, documents, etc.).
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="d-grid d-md-flex justify-content-md-end gap-2 mt-4">
+                                <a asp-controller="Home" asp-action="Index" class="charm-btn-secondary text-center text-decoration-none">
+                                    Cancel
+                                </a>
+                                <button type="submit" class="charm-btn-primary">
+                                    Send Ticket
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+                <p class="text-center charm-footnote mt-4">
+                    or just email us at
+                    <a href="mailto:jsingh5880@gmail.com">jsingh5880@gmail.com</a> — we read everything
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var summary = document.getElementById('validationSummary');
+            if (summary && summary.querySelectorAll('li').length > 0) {
+                summary.classList.remove('d-none');
+            }
+
+            var form = document.getElementById("ticketForm");
+
+            form.addEventListener("submit", function (e) {
+                var errors = [];
+
+                function val(id) {
+                    var el = document.getElementById(id);
+                    return el ? el.value.trim() : "";
+                }
+
+                if (!val("Name")) errors.push("Name is required.");
+                if (!val("Email")) errors.push("Email is required.");
+                if (!val("Category")) errors.push("Please select a category.");
+                if (!val("Subject")) errors.push("Subject is required.");
+
+                var message = val("Message");
+                if (message.length < 20) {
+                    errors.push("Message must be at least 20 characters.");
+                }
+
+                var attachment = document.getElementById("Attachment");
+                if (attachment && attachment.files.length > 0) {
+                    var maxBytes = 5 * 1024 * 1024;
+                    if (attachment.files[0].size > maxBytes) {
+                        errors.push("Attachment must be 5 MB or smaller.");
+                    }
+                }
+
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    alert(errors.join("\n"));
+
+                    if (!val("Name")) document.getElementById("Name").focus();
+                    else if (!val("Email")) document.getElementById("Email").focus();
+                    else if (!val("Category")) document.getElementById("Category").focus();
+                    else if (!val("Subject")) document.getElementById("Subject").focus();
+                    else document.getElementById("Message").focus();
+
+                    return false;
+                }
+
+                return true;
+            });
+        });
+    </script>
+}

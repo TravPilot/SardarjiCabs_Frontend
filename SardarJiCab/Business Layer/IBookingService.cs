@@ -1,5 +1,6 @@
 ﻿using SardarJi_Cab_Booking.Models;
 using System.Linq.Dynamic.Core;
+using static SardarJi_Cab_Booking.Controllers.CustomerController;
 
 namespace SardarJi_Cab_Booking.Business_Layer
 {
@@ -13,6 +14,9 @@ namespace SardarJi_Cab_Booking.Business_Layer
         Task UpdateStatusAsync(long newBookingId, string status);
         Task<TravelSummaryViewModel> GetBookingList(long Id);
         Task<List<LiveLocation>> GetLiveLocation(int bookingId);
+         Task<bool> SaveRatingDetails(RideFeedbackDto dto);
+
+        Task<SupportTicketViewModel> SaveTicketDetails(SupportTicketViewModel model);
 
     }
 }

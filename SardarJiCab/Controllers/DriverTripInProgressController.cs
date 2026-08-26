@@ -18,7 +18,7 @@ namespace SardarJi_Cab_Booking.Controllers
         public async Task<IActionResult> Index(long bookingId)
         {
             var driverId = HttpContext.Session.GetInt32("DriverId");
-            if (driverId == null) return RedirectToAction("Index", "DriverLogIn");
+            if  (driverId == null) return RedirectToAction("Index", "DriverLogIn");
 
             var model = await _driverTripsBL.GetActiveTripAsync(bookingId, driverId.Value);
             model.GoogleMapsApiKey = _config["GoogleMapsApiKey"];

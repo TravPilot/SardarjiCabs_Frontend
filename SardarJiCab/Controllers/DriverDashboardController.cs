@@ -23,7 +23,7 @@ namespace SardarJi_Cab_Booking.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> SetOnlineStatus(bool isOnline)
         {
             var driverId = HttpContext.Session.GetInt32("DriverId");

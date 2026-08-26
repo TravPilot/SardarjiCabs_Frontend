@@ -1,16 +1,14 @@
-using System.Data;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using CabBookingMVC.Helper;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
-using MimeKit;
 using Newtonsoft.Json;
 using SardarJi_Cab_Booking.Business_Layer;
 using SardarJi_Cab_Booking.Helper;
 using SardarJi_Cab_Booking.Models;
+using System.Data;
+using System.Diagnostics;
+using System.Text;
+using System.Text.Json;
 
 namespace SardarJi_Cab_Booking.Controllers
 {
@@ -20,13 +18,16 @@ namespace SardarJi_Cab_Booking.Controllers
         private readonly DapperContext _db;
         private readonly IConfiguration _config;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IAddPageRepository _adpg;
 
-        public HomeController(DapperContext db, IConfiguration config, IHttpClientFactory httpClientFactory, ICarService carService)
+
+        public HomeController(DapperContext db, IConfiguration config, IHttpClientFactory httpClientFactory, ICarService carService, IAddPageRepository adpg)
         {
             _db = db;
             _config = config;
             _httpClientFactory = httpClientFactory;
-            _carService = carService; ;
+            _carService = carService; 
+            _adpg = adpg; 
         }
       
 
@@ -39,7 +40,6 @@ namespace SardarJi_Cab_Booking.Controllers
 
             var activeCategories = allCategories
                 .Where(c => c.IsActive)
-                .OrderBy(c => c.CategoryId)
                 .ToList();
 
             var uploadsBaseUrl = _config["AdminUploadsBaseUrl"] ?? "https://adminsardarji.traviyo.in";
@@ -50,12 +50,18 @@ namespace SardarJi_Cab_Booking.Controllers
                     cat.Icon = uploadsBaseUrl.TrimEnd('/') + cat.Icon;
                 }
             }
+            Int64 ClientId = Convert.ToInt64(_config["ClientId"]);
+            AddPageVM ap = new AddPageVM();
+            ap.SeoUrl = "HomeImages";
+            ap.ClientId = ClientId;
 
-          
+            var details = await _adpg.GetAddPageDetailAsync(ap);
+
             var vm = new HomeIndexViewModel
             {
                 Categories = activeCategories,
-                GoogleMapsApiKey = _config["GoogleMapsApiKey"]
+                GoogleMapsApiKey = _config["GoogleMapsApiKey"],
+                addPageVM = details
             };
 
             return View(vm);
@@ -68,13 +74,13 @@ namespace SardarJi_Cab_Booking.Controllers
         }
  
         [HttpGet]
-        public async Task<IActionResult> select_ride_map(string pickup, string drop, string distanceKm, string date, string time, int? categoryId)
+        public async Task<IActionResult> select_ride_map(string pickup, string drop, string distanceKm,string totaltime, string date, string time, int? categoryId)
         {
 
             string pickupState = await GetStateFromAddress(pickup);
             string dropState = await GetStateFromAddress(drop);
             double.TryParse(distanceKm, out double distKm);
-
+           decimal journeytime = Convert.ToDecimal(totaltime);
             DateTime? journeyDateTime = null;
             if (!string.IsNullOrWhiteSpace(date) && !string.IsNullOrWhiteSpace(time)
                 && DateTime.TryParse($"{date} {time}", out var parsed))
@@ -91,10 +97,16 @@ namespace SardarJi_Cab_Booking.Controllers
             var cars = (await conn.QueryAsync<AvailableCarWithFare>(
                 "dbo.usp_CarMaster_GetAvailableByCategory", p, commandType: CommandType.StoredProcedure)).ToList();
 
+            if (cars.Count <= 0)
+            {
+                return Redirect("/Noservice");
+            }
+
+
             foreach (var car in cars)
             {
                 decimal stateTax = pickupState.Equals(dropState, StringComparison.OrdinalIgnoreCase) ? 0 : (car.StateTax ?? 0);
-                decimal estimatedCost = (car.PricePerKm ?? 0) * (decimal)distKm;
+                decimal estimatedCost =(car.BaseFare ?? 0) +(car.PricePerMinute ?? 0) * journeytime + (car.PricePerKm ?? 0) * (decimal)distKm;
                 TimeSpan bookingTime = DateTime.Now.TimeOfDay;
                 if (bookingTime >= car.PeakHourFromTime &&
                     bookingTime <= car.PeakHourToTime)
@@ -114,7 +126,7 @@ namespace SardarJi_Cab_Booking.Controllers
                 Pickup = pickup,
                 Drop = drop,
                 GoogleMapsApiKey = _config["GoogleMapsApiKey"],
-                statetax = cars.Count > 0 ? cars[0].StateTax : 0,
+                statetax= cars[0].StateTax,
                 DistanceKm = distKm,
                 RideDate = date,
                 RideTime = time,
@@ -264,7 +276,7 @@ namespace SardarJi_Cab_Booking.Controllers
                RegistrationNo=car.RegistrationNo,
                 CarImage = string.IsNullOrEmpty(car?.Image)
                     ? "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&q=80"
-                    : "https://adminsardarji.traviyo.in" + car.Image,
+                    : "https://admin.sardarjiev.com" + car.Image,
                 CarModelName = car?.Model,
                 FuelType = car?.FuelType,
                 Color = car?.Color,
@@ -326,6 +338,13 @@ namespace SardarJi_Cab_Booking.Controllers
         }
 
         public IActionResult CarbonImpact()
+        {
+
+            return View();
+        }
+
+
+        public IActionResult CabnotAbaiable()
         {
 
             return View();

@@ -103,6 +103,7 @@ namespace SardarJi_Cab_Booking.Models
         public string PinCode { get; set; }
         public bool Success { get; set; }
         public string Message { get; set; }
+        public IFormFile ProfileImageFile { get; set; }
     }
     public class ProfileUpdateResult
     {
@@ -135,7 +136,10 @@ namespace SardarJi_Cab_Booking.Models
         public string? CarImage { get; set; }
         public double? PickupLatitude { get; set; }
         public double? PickupLongitude { get; set; }
+        public double? DropLatitude { get; set; }   // NEW
+        public double? DropLongitude { get; set; }  // NEW
 
+        public string RidePhase { get; set; } = "toPickup";
         public double DropLat { get; set; }
         public double DropLng { get; set; }
 
@@ -311,5 +315,38 @@ namespace SardarJi_Cab_Booking.Models
         }
     }
 
-    
+    public class AddPageVM
+    {
+        public long Id { get; set; }
+        public string? Header { get; set; }
+        public string? SeoUrl { get; set; }
+        public string? MetaKeyword { get; set; }
+        public string? Overview { get; set; }
+        public string? ImagePath { get; set; }
+        public string? Title { get; set; }
+        public long ClientId { get; set; }
+
+        public List<AddPage_Banner> Banner { get; set; } = new();
+        public List<AddPage_Content> Content { get; set; } = new();
+        public List<AddPageVM> AddpageContent { get; set; } = new();
+    }
+
+    public class AddPage_Banner
+    {
+        public string? AltTag { get; set; }
+        public string? ImageTitle { get; set; }
+        public string? ImagePath { get; set; }
+    }
+
+    public class AddPage_Content
+    {
+        public string? ImageName { get; set; }
+        public string? ImagePath { get; set; }
+        public string? ImageTitle { get; set; }
+        public string? BlogContent { get; set; }
+    }
+    public class AddPageCategory
+    {
+        public string? AddPage { get; set; }
+    }
 }

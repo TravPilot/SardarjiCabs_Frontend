@@ -26,28 +26,6 @@
         --page-bg: #ffffff;
         }
 
-        @@media (min-width:768px) {
-            .logo img {
-                background: #fff;
-                padding: 5px;
-                border-radius: 8px;
-            }
-        }
-
-        .sheet-header {
-            background-image: linear-gradient( 90deg, rgba(248, 251, 255, 0.98), rgba(235, 243, 255, 0.55) ), url("https://i.ibb.co/6RNtttqG/yp-LFp-Dtg4d-Q5dwsul-KU-Jo2-EQd-ZQNw-PD69wd-J3-Phr-VCSGgwz2-Rr17t-nnsods6-Qwk-GXre4k0s-QZw-ITLa-UKSWqn-D.png") !important;
-            background-size: cover !important;
-            background-position: center !important;
-        }
-
-        .sheet-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 4px;
-            padding: 25px 16px;
-            border-radius: 0 0 20px 20px;
-        }
         html, body {
         background: #efeff1;
         font-family: "Montserrat", sans-serif;
@@ -258,7 +236,7 @@
         max-width: 390px;
         background: #fff;
         border-radius: 24px 24px 0 0;
-        padding:0;
+        padding: 10px 20px 22px;
         transform: translateY(100%);
         transition: transform .32s cubic-bezier(.25,.8,.35,1);
         box-shadow: 0 -12px 40px rgba(0,0,0,0.18);
@@ -266,16 +244,15 @@
 
         .sheet-overlay.active .sheet {
         transform: translateY(0);
-        background:#F4F7FD;
         }
 
 
         .sheet-handle {
         width: 36px;
-        height: 0px;
+        height: 4px;
         border-radius: 99px;
         background: #e2e4e8;
-        margin: 0;
+        margin: 6px auto 16px;
         }
 
         .sheet-header {
@@ -437,7 +414,6 @@
         color: #6b7280;
         cursor: pointer;
         margin-bottom: 24px;
-        float:right;
         }
 
         .sidebar-logo {
@@ -473,7 +449,7 @@
         }
 
         .sidebar-logo-text .subtitle {
-        font-size: 0.6rem;
+        font-size: 0.78rem;
         color: #6b7280;
         margin: 2px 0 0;
         }
@@ -510,23 +486,6 @@
         font-weight: 700;
         }
 
-        @@media (min-width: 768px) {
-            .sheet-plan-badge {
-                display: inline-block;
-                font-size: 0.68rem;
-                font-weight: 800;
-                position: absolute;
-                to: 0.05em;
-                color: var(--mint-dark);
-                background: var(--mint-bg);
-                padding: 4px 10px;
-                border-radius: 99px;
-                margin: 10px 0 18px;
-                top: 27px;
-                right: 62px;
-            }
-        
-        }
         @@media (max-width: 768px) {
         .mobile-header {
         display: block;
@@ -549,14 +508,10 @@
 
         .route-block {
         position: relative;
-        background: #fff;
+        background: #f8fafc;
         border: 1px solid #e8eaee;
         border-radius: 16px;
         padding: 6px 14px;
-            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-            margin: 1px 0;
-            margin-bottom:31px;
-
         }
 
         .mobile-header-row {
@@ -659,7 +614,6 @@
         margin: 0 -8px;
         padding-left: 8px;
         padding-right: 8px;
-            border-left: 2px solid green;
         }
 
         .swap-btn {
@@ -696,19 +650,15 @@
         .sheet-section-label {
         font-size: 0.72rem;
         font-weight: 700;
-        color: #000;
+        color: #9aa0a8;
         text-transform: uppercase;
         letter-spacing: 0.04em;
         margin: 18px 0 8px;
         }
 
         .location-list {
-            max-height: 220px;
-            overflow-y: auto;
-            background: #fff;
-            border-radius: 12px;
-            padding: 5px;
-            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        max-height: 220px;
+        overflow-y: auto;
         }
 
         .location-item {
@@ -750,19 +700,16 @@
         }
 
         .sheet-cta {
-            width: 100%;
-            margin-top: 68px;
-            border: none;
-            border-radius: 14px;
-            padding: 14px;
-            background: #0B205C;
-            color: #fff;
-            display: flex;
-            font-weight: 700;
-            font-size: 0.94rem;
-            transition: all .2s ease;
-            justify-content: center;
-            text-decoration: none;
+        width: 100%;
+        margin-top: 18px;
+        border: none;
+        border-radius: 14px;
+        padding: 14px;
+        background: #d8dade;
+        color: #8b8f96;
+        font-weight: 700;
+        font-size: 0.94rem;
+        transition: all .2s ease;
         }
 
         .sheet-cta.ready {
@@ -838,9 +785,9 @@
         }
 
 
-            .mobile-header-action.extt{
-                display:none !important;
-            }
+        .mobile-header-action.extt{
+        display:none !important;
+        }
         .bottom-tab-bar {
         display: block;
         }
@@ -876,7 +823,6 @@
         border-radius: 0;
         overflow-y: scroll;
         }
-
 
         .sheet-overlay.active {
         justify-content: flex-end;
@@ -1050,27 +996,22 @@
         }
 
         .current-location-item {
-            border-bottom: 1px solid #eee;
-            color: #2563eb;
+        border-bottom: 1px solid #eee;
+        color: #2563eb;
         }
 
-            .current-location-item .location-item-icon i {
-                color: #2563eb;
-            }
+        .current-location-item .location-item-icon i {
+        color: #2563eb;
+        }
 
         .sidebar-logo-icon > img {
-            height: 50px;
-            border-radius: 12px;
+        height: 50px;
+        border-radius: 12px;
         }
 
         .mobile-header-logo>img{
-            height: 50px;
-            border-radius: 12px;
-        }
-        .mau_padd{
-        
-        padding:10px;
-        
+        height: 50px;
+        border-radius: 12px;
         }
     </style>
 </head>
@@ -1084,9 +1025,9 @@
 
     </div>
     <div class="mobile-sidebar" id="mobileSidebar" aria-hidden="true">
-            <button class="sidebar-close" type="button" aria-label="Close menu" onclick="toggleSidebar(false)">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+        <button class="sidebar-close" type="button" aria-label="Close menu" onclick="toggleSidebar(false)">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
         <div class="sidebar-logo">
             <div class="sidebar-logo-icon"><img src="https://sardarjidriver.traviyo.in/sardar.png" /></div>
             <div class="sidebar-logo-text">
@@ -1095,40 +1036,30 @@
             </div>
         </div>
         <nav class="sidebar-menu">
-            <a href="/Home/Index" class="sidebar-menu-item">
-                <i class="fa-solid fa-house"></i>
-                Home
-            </a>
-
-            <a href="/CabBookingList" class="sidebar-menu-item">
-                <i class="fa-solid fa-location-dot"></i>
-                Booked Ride
-            </a>
-
-            <a href="/CurrentRide" class="sidebar-menu-item">
-                <i class="fa-solid fa-calendar-check"></i>
-                Current Ride
-            </a>
+            <a href="/Home/Index" class="sidebar-menu-item"><i class="fa-solid fa-house"></i>Home</a>
+            <a href="/CabBookingList" class="sidebar-menu-item"><i class="fa-solid fa-location-dot"></i> Booked Ride</a>
+            <a href="/CurrentRide" class="sidebar-menu-item"><i class="fa-solid fa-calendar-check"></i> Current Ride</a>
 
             @if (customer != null)
             {
-                <a href="/Customer/Index" class="sidebar-menu-item">
-                    <i class="fa-solid fa-user"></i>
-                    Profile
-                </a>
-
-                <a href="/LogIn/CustomerLogout" class="sidebar-menu-item">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    LogOut
-                </a>
+                <a href="/Customer/Index" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> Profile</a>
+                <a href="/LogIn/CustomerLogout" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> LogOut</a>
             }
+            <a href="/Privacy/Services?seourl=privacypolicy" class="sidebar-menu-item">
+                <i class="fa-solid fa-shield-halved"></i> Privacy & Policy
+            </a>
+
+            <a href="/Privacy/Services?seourl=trmcondition" class="sidebar-menu-item">
+                <i class="fa-solid fa-file-contract"></i> Term & Condition
+            </a>
+            <a href="/Privacy/Services?seourl=refund" class="sidebar-menu-item">
+                <i class="fa-solid fa-file-contract"></i> Refund & Cancellation Policy
+            </a>
+            <a href="/Reports/SupportReview" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> Customer Support</a>
         </nav>
         <div class="sidebar-footer">
-            <a href="/premiumsupport">
-                <i class="fa-solid fa-headset"></i>
-                Premium Support
-            </a>
-          
+            <a href="/premiumsupport">  Premium support</a>
+
         </div>
     </div>
     <div class="mobile-header">
@@ -1198,10 +1129,10 @@
 
                 <div class="co2-banner">
                     <div class="co2-row">
-    <div class="small-line">Every EV Ride</div>
-    <div class="big-line">helps reduce</div>
-    <div class="rides-line">CO₂ emissions 🌱</div>
-</div>
+                        <div class="small-line">Every EV Ride</div>
+                        <div class="big-line">helps reduce</div>
+                        <div class="rides-line">CO₂ emissions 🌱</div>
+                    </div>
                     <svg class="co2-illustration" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <ellipse cx="18" cy="72" rx="10" ry="3" fill="#a9dcc4" />
                         <rect x="14" y="40" width="8" height="30" rx="3" fill="#5b7f6c" />
@@ -1219,21 +1150,26 @@
                     <a href="@Url.Action("CarbonImpact", "Home")" class="btn btn-light rounded-pill px-4 py-2 shadow-sm">
                         Learn More <i class="fa fa-arrow-right"></i>
                     </a>
-                   @*  <div class="learn-more-btn">Learn more &rarr;</div> *@
+                    @*  <div class="learn-more-btn">Learn more &rarr;</div> *@
                 </div>
 
                 <div class="elevate-title">Elevate your Ride</div>
-                <div class="elevate-scroll">
-                    <div class="elevate-card" style="background-image:url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=300&q=80');">
-                        <div class="elevate-label">Guaranteed<br>Pickup</div>
-                    </div>
-                    <div class="elevate-card" style="background-image:url('https://images.unsplash.com/photo-1560179707-f14e90ef3603?w=300&q=80');">
-                        <div class="elevate-label">Professional<br>Chauffeurs</div>
-                    </div>
-                    <div class="elevate-card" style="background-image:url('https://images.unsplash.com/photo-1502877338535-766e1452684a?w=300&q=80');">
-                        <div class="elevate-label">Amenities<br>Rich</div>
-                    </div>
+   <div class="elevate-scroll">
+                @if (Model.addPageVM != null && Model.addPageVM.Content.Count > 0)
+                {
+                    foreach (var item in Model.addPageVM.Content)
+                    {
+                   
+                     
+                    <div class="elevate-card" style="background-image: url('https://backendportal.traviyo.com/@item.ImagePath.TrimStart('.', '/')');">
+                                <div class="elevate-label">@item.ImageTitle</div>
+                            </div>
+
+                    }
+                }
+
                 </div>
+               
             </div>
         </div>
 
@@ -1243,28 +1179,12 @@
         <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
             <div class="sheet-handle"></div>
             <div class="sheet-header">
-                <div class="sheet-title-wrap">
-                    <div class="sheet-title-icon">
-                        <i class="fa-solid fa-plane"></i>
-                    </div>
-
-                    <div>
-                        <h3 id="sheetTitle" class="sheet-title">Set your route</h3>
-                        <div class="sheet-subtitle">Quick · Reliable · On Time</div>
-                    </div>
-                </div>
-
+                <h3 id="sheetTitle" class="sheet-title">Set your route</h3>
                 <button class="sheet-close" type="button" onclick="closeSheet()" aria-label="Close">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-
-            <div class="mau_padd">
             <div id="sheetPlanBadge" class="sheet-plan-badge">AIRPORT</div>
-
-
-
-                <div class="sheet-section-label" id="">Where would you like to go?</div>
 
             <div class="route-block">
                 <div class="route-row" id="pickupRow">
@@ -1296,8 +1216,7 @@
             <div class="sheet-section-label" id="listLabel">Suggested pickup points</div>
             <div id="locationList" class="location-list"></div>
 
-                <a href="/Home/Dateview" id="sheetCta" class="sheet-cta" type="button" onclick="confirmRoute()">Choose pickup & drop</a>
-            </div>
+            <a href="/Home/Dateview" id="sheetCta" class="sheet-cta" type="button" onclick="confirmRoute()">Choose both points to continue</a>
         </div>
     </div>
     <script>
@@ -1354,8 +1273,23 @@
                 if (res.ok) {
                     const data = await res.json();
                     state.distanceKm = data.distanceKm;
+                    state.duration = data.duration;
+
+                            const seconds = parseInt(data.duration, 10) || 0;
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+
+        let durationText = '';
+
+        if (hours > 0) {
+            durationText += `${hours} hr `;
+        }
+
+        if (minutes > 0 || hours === 0) {
+            durationText += `${minutes} min`;
+        }
                     distanceInfo.innerHTML =
-                        `<span class="dkm">${data.distanceKm} km</span><span>${data.duration ?? ''}</span>`;
+                        `<span class="dkm">${data.distanceKm} km</span><span>${durationText ?? ''}</span>`;
                     updateCta();
                 } else {
                     distanceInfo.textContent = 'Distance unavailable for this route';
@@ -1460,43 +1394,18 @@
 
         // A clicked suggestion only fills whichever field is currently active
         function selectLocation(name) {
-
-            console.log("Location selected:", name);
-            console.log("Active field:", state.active);
-
-            if (state.active === 'pickup') {
-
-                state.pickup = name;
-                pickupValue.value = name;
-
-                console.log("Pickup selected:", state.pickup);
-
-                // Show Drop after Pickup is selected
-                dropRow.style.display = 'flex';
-
-                // Move to Drop selection
-                if (!state.drop) {
-                    focusField('drop');
-                    return;
-                }
-
-            } else {
-
-                state.drop = name;
-                dropValue.value = name;
-
-                console.log("Drop selected:", state.drop);
-
-                // Show Pickup after Drop is selected
-                pickupRow.style.display = 'flex';
-            }
-
-            updateCta();
-            renderList();
-            updateRouteMap();
+          if (state.active === 'pickup') {
+            state.pickup = name;
+            pickupValue.value = name;
+            if (!state.drop) { focusField('drop'); return; }
+          } else {
+            state.drop = name;
+            dropValue.value = name;
+          }
+          updateCta();
+          renderList();
+          updateRouteMap();
         }
-
-
 
         function swapLocations(event) {
           event.stopPropagation();
@@ -1517,6 +1426,7 @@
               pickup: state.pickup,
               drop: state.drop,
               distanceKm: state.distanceKm ?? '',
+              duration: state.duration ?? '',
               categoryId: state.categoryId ?? ''
             });
             cta.href = `/Home/Dateview?${params.toString()}`;
@@ -1553,27 +1463,15 @@
         }
 
         function toggleSidebar(open) {
-            const sidebar = document.getElementById('mobileSidebar');
-
-            sidebar.classList.toggle('open', open);
-            sidebar.setAttribute('aria-hidden', !open);
-
-            document.body.style.overflow = open ? 'hidden' : '';
+          const sidebar = document.getElementById('mobileSidebar');
+          sidebar.classList.toggle('open', open);
+          sidebar.setAttribute('aria-hidden', !open);
+          if (open) {
+            document.body.style.overflow = 'hidden';
+          } else if (!overlay.classList.contains('active')) {
+            document.body.style.overflow = '';
+          }
         }
-
-        /* Close sidebar when clicking outside */
-        document.addEventListener('click', function (e) {
-            const sidebar = document.getElementById('mobileSidebar');
-            const hamburger = document.querySelector('.extt');
-
-            if (!sidebar.classList.contains('open')) return;
-
-            if (sidebar.contains(e.target)) return;
-
-            if (hamburger && hamburger.contains(e.target)) return;
-
-            toggleSidebar(false);
-        });
 
         overlay.addEventListener('click', (e) => {
           if (e.target === overlay) closeSheet();
@@ -1583,89 +1481,10 @@
         });
 
 
-        pickupRow.addEventListener('click', function () {
-
-            console.log("Pickup row clicked");
-
-            focusField('pickup');
-
-            if (!state.pickup) {
-                dropRow.style.display = 'none';
-            }
-        });
-
-
-        dropRow.addEventListener('click', function () {
-
-            console.log("Drop row clicked");
-
-            focusField('drop');
-
-            if (!state.drop) {
-                pickupRow.style.display = 'none';
-            }
-        });
-
-        pickupRow.addEventListener('click', function () {
-
-            console.log("Pickup row clicked");
-
-            focusField('pickup');
-
-            if (!state.pickup) {
-                dropRow.style.display = 'none';
-            }
-        });
-
-
-        dropRow.addEventListener('click', function () {
-
-            console.log("Drop row clicked");
-
-            focusField('drop');
-
-            if (!state.drop) {
-                pickupRow.style.display = 'none';
-            }
-        });
-
-
-        pickupValue.addEventListener('input', function () {
-
-            console.log("Pickup typing:", pickupValue.value);
-
-            renderList();
-        });
-
-
-        dropValue.addEventListener('input', function () {
-
-            console.log("Drop typing:", dropValue.value);
-
-            renderList();
-        });
-
-        // pickupRow.addEventListener('click', function () {
-
-        //     console.log("Pickup row clicked");
-
-        //     if (!state.pickup) {
-        //         dropRow.style.display = 'none';
-        //     }
-        // });
-
-
-        // dropRow.addEventListener('click', function () {
-
-        //     console.log("Drop row clicked");
-
-        //     if (!state.drop) {
-        //         pickupRow.style.display = 'none';
-        //     }
-        // });
-
-        // pickupValue.addEventListener('input', () => { state.pickup = pickupValue.value; renderList(); });
-        // dropValue.addEventListener('input', () => { state.drop = dropValue.value; renderList(); });
+        pickupValue.addEventListener('focus', () => focusField('pickup'));
+        dropValue.addEventListener('focus', () => focusField('drop'));
+        pickupValue.addEventListener('input', () => { state.pickup = pickupValue.value; renderList(); });
+        dropValue.addEventListener('input', () => { state.drop = dropValue.value; renderList(); });
 
         document.querySelectorAll('.plan-box').forEach((box) => {
           box.addEventListener('click', () => {
@@ -1727,433 +1546,7 @@
           );
         }
     </script>
-@* 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
 
-            const pickupRow = document.getElementById("pickupRow");
-            const dropRow = document.getElementById("dropRow");
-
-            const pickupValue = document.getElementById("pickupValue");
-            const dropValue = document.getElementById("dropValue");
-
-            console.log("Route script loaded");
-            console.log("pickupRow:", pickupRow);
-            console.log("dropRow:", dropRow);
-            console.log("pickupValue:", pickupValue);
-            console.log("dropValue:", dropValue);
-
-
-            // Initially both visible
-            pickupRow.style.display = "flex";
-            dropRow.style.display = "flex";
-
-            console.log("Initial state: Pickup and Drop visible");
-
-
-            // Click Pickup
-            pickupRow.addEventListener("click", function () {
-
-                console.log("Pickup clicked");
-                console.log("Pickup value:", pickupValue.value);
-
-                if (pickupValue.value.trim() === "") {
-
-                    dropRow.style.display = "none";
-
-                    console.log("Pickup is empty → Drop hidden");
-
-                } else {
-
-                    dropRow.style.display = "flex";
-
-                    console.log("Pickup has value → Drop visible");
-                }
-            });
-
-
-            // Pickup value changed
-            pickupValue.addEventListener("input", function () {
-
-                console.log("Pickup input changed:", pickupValue.value);
-
-                if (pickupValue.value.trim() !== "") {
-
-                    dropRow.style.display = "flex";
-
-                    console.log("Pickup has value → Drop shown");
-
-                } else {
-
-                    dropRow.style.display = "none";
-
-                    console.log("Pickup empty → Drop hidden");
-                }
-            });
-
-
-            // Click Drop
-            dropRow.addEventListener("click", function () {
-
-                console.log("Drop clicked");
-                console.log("Drop value:", dropValue.value);
-
-                if (dropValue.value.trim() === "") {
-
-                    pickupRow.style.display = "none";
-
-
-                    console.log("Drop is empty → Pickup hidden");
-
-                } else {
-
-                    pickupRow.style.display = "flex";
-
-                    console.log("Drop has value → Pickup visible");
-                }
-            });
-
-
-            // Drop value changed
-            dropValue.addEventListener("input", function () {
-
-                console.log("Drop input changed:", dropValue.value);
-
-                if (dropValue.value.trim() !== "") {
-
-                    pickupRow.style.display = "flex";
-
-                    console.log("Drop has value → Pickup shown");
-
-                } else {
-
-                    pickupRow.style.display = "none";
-
-                    console.log("Drop empty → Pickup hidden");
-                }
-            });
-
-        });
-    </script> *@
- @*    <script>
-
-    let state = { pickup: '', drop: '', active: 'pickup', distanceKm: null, categoryId: null, pickupIsIndia: false };
-
-    const overlay = document.getElementById('sheetOverlay');
-    const planBadge = document.getElementById('sheetPlanBadge');
-    const pickupValue = document.getElementById('pickupValue'); // now an <input>
-    const dropValue = document.getElementById('dropValue');     // now an <input>
-    const pickupRow = document.getElementById('pickupRow');
-    const dropRow = document.getElementById('dropRow');
-    const listLabel = document.getElementById('listLabel');
-    const locationList = document.getElementById('locationList');
-    const cta = document.getElementById('sheetCta');
-    const routeMapWrap = document.getElementById('routeMapWrap');
-    const distanceInfo = document.getElementById('distanceInfo');
-
-
-    let googleReady = false;
-    let autocompleteService = null;
-    let map, directionsService, directionsRenderer;
-    let placesDebounce = null;
-
-    function initGoogleMaps() {
-        googleReady = true;
-        autocompleteService = new google.maps.places.AutocompleteService();
-        directionsService = new google.maps.DirectionsService();
-    }
-
-    function ensureMap() {
-        if (!map) {
-            map = new google.maps.Map(document.getElementById('routeMap'), {
-                center: { lat: 28.6139, lng: 77.2090 },
-                zoom: 11,
-                disableDefaultUI: true
-            });
-            directionsRenderer = new google.maps.DirectionsRenderer({ map: map, suppressMarkers: false });
-        }
-    }
-
-    async function updateRouteMap() {
-        if (!state.pickup || !state.drop) {
-            routeMapWrap.style.display = 'none';
-            state.distanceKm = null;
-            return;
-        }
-
-        routeMapWrap.style.display = 'block';
-        distanceInfo.innerHTML = 'Calculating distance…';
-
-        try {
-            const res = await fetch(`/Home/GetDistance?origin=${encodeURIComponent(state.pickup)}&destination=${encodeURIComponent(state.drop)}`);
-            if (res.ok) {
-                const data = await res.json();
-                state.distanceKm = data.distanceKm;
-                distanceInfo.innerHTML =
-                    `<span class="dkm">${data.distanceKm} km</span><span>${data.duration ?? ''}</span>`;
-                updateCta();
-            } else {
-                distanceInfo.textContent = 'Distance unavailable for this route';
-                state.distanceKm = null;
-            }
-        } catch (err) {
-            distanceInfo.textContent = 'Distance unavailable';
-            state.distanceKm = null;
-        }
-
-        if (googleReady) {
-            ensureMap();
-            directionsService.route(
-                {
-                    origin: state.pickup,
-                    destination: state.drop,
-                    travelMode: google.maps.TravelMode.DRIVING
-                },
-                (result, status) => {
-                    if (status === 'OK') {
-                        directionsRenderer.setDirections(result);
-                    }
-                }
-            );
-        }
-    }
-
-    // Helper: checks if a place description belongs to India
-    function isIndiaLocation(name) {
-        return /india\s*$/i.test((name || '').trim());
-    }
-
-    function renderList() {
-      const activeInput = state.active === 'pickup' ? pickupValue : dropValue;
-      const rawQuery = activeInput.value.trim();
-
-      // Current-location option only for pickup field
-      const currentLocationHtml = state.active === 'pickup' ? `
-        <div class="location-item current-location-item" id="useCurrentLocationBtn">
-          <div class="location-item-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
-          <div class="location-item-text">
-            <div class="main">Use my current location</div>
-          </div>
-        </div>` : '';
-
-      if (rawQuery.length < 3) {
-        locationList.innerHTML = currentLocationHtml + `
-          <div style="padding:14px 4px;color:#9aa0a8;font-size:0.82rem;">
-            Type at least 3 characters to search a location…
-          </div>`;
-        attachCurrentLocationHandler();
-        return;
-      }
-
-      locationList.innerHTML = currentLocationHtml + '<div id="googlePredictions"></div>';
-      attachCurrentLocationHandler();
-
-      clearTimeout(placesDebounce);
-      placesDebounce = setTimeout(() => {
-        if (!googleReady) {
-          document.getElementById('googlePredictions').innerHTML =
-            '<div style="padding:8px 4px;color:#9aa0a8;font-size:0.8rem;">Loading Google Maps…</div>';
-          return;
-        }
-
-        // If drop field is active and pickup is in India, restrict suggestions to India only
-        const request = { input: rawQuery };
-        if (state.active === 'drop' && state.pickupIsIndia) {
-          request.componentRestrictions = { country: 'in' };
-        }
-
-        autocompleteService.getPlacePredictions(request, (predictions, status) => {
-          const wrap = document.getElementById('googlePredictions');
-          if (!wrap) return;
-          if (status !== google.maps.places.PlacesServiceStatus.OK || !predictions) {
-            wrap.innerHTML = '<div style="padding:8px 4px;color:#9aa0a8;font-size:0.8rem;">No matches found</div>';
-            return;
-          }
-          wrap.innerHTML = predictions.map((p) => `
-            <div class="location-item" data-name="${p.description.replace(/"/g, '&quot;')}">
-              <div class="location-item-icon"><i class="fa-solid fa-map-pin"></i></div>
-              <div class="location-item-text">
-                <div class="main">${p.description}</div>
-              </div>
-            </div>
-          `).join('');
-          wrap.querySelectorAll('.location-item').forEach((item) => {
-            item.addEventListener('click', () => selectLocation(item.getAttribute('data-name')));
-          });
-        });
-      }, 300);
-    }
-
-    function attachCurrentLocationHandler() {
-      const btn = document.getElementById('useCurrentLocationBtn');
-      if (btn) btn.addEventListener('click', useCurrentLocation);
-    }
-
-
-    function focusField(field) {
-      state.active = field;
-      pickupRow.classList.toggle('field-active', field === 'pickup');
-      dropRow.classList.toggle('field-active', field === 'drop');
-      listLabel.textContent = field === 'pickup' ? 'Suggested pickup points' : 'Suggested drop points';
-      renderList();
-    }
-
-    // A clicked suggestion only fills whichever field is currently active
-    function selectLocation(name) {
-      if (state.active === 'pickup') {
-        state.pickup = name;
-        pickupValue.value = name;
-        state.pickupIsIndia = isIndiaLocation(name);
-        if (!state.drop) { focusField('drop'); return; }
-      } else {
-        // If pickup is in India, drop must also be in India
-        if (state.pickupIsIndia && !isIndiaLocation(name)) {
-          alert('Since your pickup is in India, please select a drop location within India too.');
-          return;
-        }
-        state.drop = name;
-        dropValue.value = name;
-      }
-      updateCta();
-      renderList();
-      updateRouteMap();
-    }
-
-    function swapLocations(event) {
-      event.stopPropagation();
-      const p = state.pickup, d = state.drop;
-      state.pickup = d;
-      state.drop = p;
-      pickupValue.value = state.pickup;
-      dropValue.value = state.drop;
-      state.pickupIsIndia = isIndiaLocation(state.pickup);
-      updateCta();
-      updateRouteMap();
-    }
-
-    function updateCta() {
-      if (state.pickup && state.drop && state.distanceKm) {
-        cta.textContent = 'Confirm route';
-        cta.classList.add('ready');
-        const params = new URLSearchParams({
-          pickup: state.pickup,
-          drop: state.drop,
-          distanceKm: state.distanceKm ?? '',
-          categoryId: state.categoryId ?? ''
-        });
-        cta.href = `/Home/Dateview?${params.toString()}`;
-      } else {
-        cta.textContent = 'Choose both points to continue';
-        cta.classList.remove('ready');
-        cta.href = '#';
-      }
-    }
-
-    function confirmRoute() {
-      if (!state.pickup || !state.drop) return;
-    }
-
-    function openSheet(planName, categoryId) {
-      planBadge.textContent = planName;
-      document.querySelectorAll('.plan-box').forEach((box) => {
-        box.classList.toggle('active', box.dataset.plan === planName);
-      });
-      state = { pickup: '', drop: '', active: 'pickup', distanceKm: null, categoryId: categoryId, pickupIsIndia: false };
-      pickupValue.value = '';
-      dropValue.value = '';
-      routeMapWrap.style.display = 'none';
-      focusField('pickup');
-      updateCta();
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeSheet() {
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-      document.querySelectorAll('.plan-box.active').forEach((box) => box.classList.remove('active'));
-    }
-
-    function toggleSidebar(open) {
-      const sidebar = document.getElementById('mobileSidebar');
-      sidebar.classList.toggle('open', open);
-      sidebar.setAttribute('aria-hidden', !open);
-      if (open) {
-        document.body.style.overflow = 'hidden';
-      } else if (!overlay.classList.contains('active')) {
-        document.body.style.overflow = '';
-      }
-    }
-
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeSheet();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeSheet();
-    });
-
-
-    pickupValue.addEventListener('focus', () => focusField('pickup'));
-    dropValue.addEventListener('focus', () => focusField('drop'));
-    pickupValue.addEventListener('input', () => { state.pickup = pickupValue.value; renderList(); });
-    dropValue.addEventListener('input', () => { state.drop = dropValue.value; renderList(); });
-
-    document.querySelectorAll('.plan-box').forEach((box) => {
-      box.addEventListener('click', () => {
-        const planName = box.querySelector('h4').textContent;
-        box.dataset.plan = planName;
-        openSheet(planName, box.dataset.categoryId);
-      });
-    });
-            document.querySelector('.book-btn').addEventListener('click', function (e) {
-            e.preventDefault();
-
-           
-            const firstPlan = document.querySelector('.plan-box');
-
-            if (firstPlan) {
-                const planName = firstPlan.querySelector('h4').textContent.trim();
-                const categoryId = firstPlan.dataset.categoryId;
-
-                openSheet(planName, categoryId);
-            }
-        });
-</script>
-<script>
-    function useCurrentLocation() {
-      const btn = document.getElementById('useCurrentLocationBtn');
-      if (!navigator.geolocation) {
-        if (btn) btn.querySelector('.main').textContent = 'Location not supported on this device';
-        return;
-      }
-
-      if (btn) btn.querySelector('.main').textContent = 'Fetching your location…';
-
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const { latitude, longitude } = pos.coords;
-
-          if (googleReady) {
-            const geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
-              if (status === 'OK' && results[0]) {
-                selectLocation(results[0].formatted_address);
-              } else {
-                // fallback: use raw coordinates as the value
-                selectLocation(`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
-              }
-            });
-          } else {
-            selectLocation(`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
-          }
-        },
-        (err) => {
-          if (btn) btn.querySelector('.main').textContent = 'Could not fetch location, allow permission';
-        },
-        { enableHighAccuracy: true, timeout: 8000 }
-      );
-    }
-</script> *@
    
      <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApiKey&libraries=places&callback=initGoogleMaps">
@@ -2179,75 +1572,5 @@
             </a>
         </div>
     </div>
-
-
-
-
-    <style>
-        .sheet-title-wrap {
-            display: flex !important;
-            align-items: center !important;
-            gap: 20px !important;
-        }
-
-        .sheet-title-icon {
-            width: 42px !important;
-            height: 42px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            flex-shrink: 0 !important;
-            border-radius: 10px !important;
-            background: linear-gradient(135deg, #303cf4 0%, #1728dc 100%) !important;
-            color: #ffffff !important;
-            font-size: 22px !important;
-            box-shadow: 0 12px 30px rgba(35, 55, 220, 0.22) !important;
-        }
-
-        .sheet-subtitle {
-            margin-top: 6px !important;
-            color: #45558b !important;
-            font-size: 13px !important;
-            font-weight: 500 !important;
-            letter-spacing: 0.3px !important;
-        }
-        .sidebar-footer a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 10px;
-    background: #111;
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.25s ease;
-}
-
-.sidebar-footer a:hover {
-    background: #333;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-.sidebar-footer a i {
-    font-size: 16px;
-}
-
-        .sidebar-menu-item:hover {
-            background: #f5f5f5;
-            color: #111;
-            transform: translateX(4px);
-        }
-
-            .sidebar-menu-item:hover i {
-                color: #111;
-            }
-     
-    </style>
 </body>
 </html>

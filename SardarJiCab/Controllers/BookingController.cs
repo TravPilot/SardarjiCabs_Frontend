@@ -13,18 +13,19 @@ namespace SardarJi_Cab_Booking.Controllers
         private readonly ICustomerService _customerService;
         private readonly IConfiguration _config;
         private readonly IBookingService _booking;
-       
+        private readonly IWebHostEnvironment _env;
 
         private readonly PaymentGatwaySettings _paymentGatewaySettings;
 
 
-        public BookingController(ICustomerService customerService, IConfiguration config, PaymentGatwaySettings paymentGatewaySettings, IBookingService booking)
+        public BookingController(ICustomerService customerService, IConfiguration config, PaymentGatwaySettings paymentGatewaySettings, IBookingService booking, IWebHostEnvironment env)
         {
             _customerService = customerService;
             _config = config;
             _paymentGatewaySettings = paymentGatewaySettings;
             _booking = booking;
-            
+            _env = env;
+
         }
 
 
@@ -51,14 +52,37 @@ namespace SardarJi_Cab_Booking.Controllers
 
 
             #endregion  Booking OTP
-
+            details.InvoicePdfUrl = await GenerateInvoicePdfUrl(details);
 
 
 
             return View(details);
         }
 
+        private async Task<string> GenerateInvoicePdfUrl(TravelSummaryViewModel model)
+        {
+            var pdfResult = new Rotativa.AspNetCore.ViewAsPdf("InvoicePdf", model)
+            {
+                FileName = $"Invoice_{model.RideCode}.pdf",
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
+            };
 
+            byte[] pdfBytes = await pdfResult.BuildFile(ControllerContext);
+
+            string folderPath = Path.Combine(_env.WebRootPath, "invoices");
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+           
+            string fileName = $"Invoice_{model.RideCode}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
+            string filePath = Path.Combine(folderPath, fileName);
+            await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
+
+            
+            string invoiceUrl = $"{Request.Scheme}://{Request.Host}/invoices/{fileName}";
+            return invoiceUrl;
+        }
 
         public async Task<IActionResult> CurrentRide()
         {

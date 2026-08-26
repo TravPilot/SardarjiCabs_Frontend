@@ -1,0 +1,837 @@
+﻿@model TravelSummaryViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            color: #252525;
+            background: #ffffff;
+        }
+
+        .invoice {
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* =====================================================
+                   HEADER
+                ===================================================== */
+
+        .invoice-header {
+            width: 100%;
+            padding: 16px 20px;
+            background: #ffffff;
+            border-bottom: 3px solid #e53935;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        .header-left {
+            width: 65%;
+            vertical-align: middle;
+        }
+
+        .header-right {
+            width: 35%;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        /* =====================================================
+                   COMPANY LOGO
+                ===================================================== */
+
+        .company-table {
+            width: auto;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        .logo-cell {
+            width: 72px;
+            padding: 0 12px 0 0;
+            vertical-align: middle;
+        }
+
+        .company-logo {
+            width: 65px;
+            height: 65px;
+            display: block;
+        }
+
+        /* =====================================================
+                   COMPANY NAME
+                ===================================================== */
+
+        .company-info {
+            padding: 0;
+            vertical-align: middle;
+        }
+
+        .company-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #171717;
+            line-height: 28px;
+        }
+
+        .company-tagline {
+            margin-top: 3px;
+            font-size: 13px;
+            color: #7b8190;
+            letter-spacing: 0.2px;
+        }
+
+        .company-service {
+            margin-top: 5px;
+            font-size: 10px;
+            color: #e53935;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* =====================================================
+                   RIDE CODE
+                ===================================================== */
+
+        .ride-code-box {
+            display: inline-block;
+            min-width: 130px;
+            padding: 10px 14px;
+            background: #fff5f5;
+            border: 1px solid #ffd4d4;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .ride-code-label {
+            display: block;
+            font-size: 9px;
+            color: #888888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .ride-code {
+            font-size: 15px;
+            font-weight: bold;
+            color: #d92323;
+        }
+
+        /* =====================================================
+                   INVOICE TITLE
+                ===================================================== */
+
+        .invoice-heading {
+            text-align: center;
+            margin-top: 22px;
+            margin-bottom: 18px;
+        }
+
+            .invoice-heading h1 {
+                margin: 0;
+                font-size: 22px;
+                color: #1f2937;
+                font-weight: bold;
+            }
+
+            .invoice-heading p {
+                margin: 5px 0 0 0;
+                color: #6b7280;
+                font-size: 12px;
+            }
+
+        /* =====================================================
+                   META
+                ===================================================== */
+
+        .invoice-meta {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 10px 0;
+            margin: 0 -10px 20px -10px;
+        }
+
+        .meta-box {
+            width: 50%;
+            padding: 12px 15px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+
+        .meta-label {
+            font-size: 9px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            font-size: 13px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        /* =====================================================
+                   SECTION TITLE
+                ===================================================== */
+
+        .section-title {
+            margin: 20px 0 8px 0;
+            padding: 8px 10px;
+            background: #f8fafc;
+            border-left: 4px solid #e53935;
+            font-size: 13px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        /* =====================================================
+                   PASSENGER / VEHICLE DETAILS
+                ===================================================== */
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+
+            .details-table td {
+                padding: 9px 10px;
+                border-bottom: 1px solid #eeeeee;
+                vertical-align: middle;
+            }
+
+            .details-table .label {
+                width: 18%;
+                font-weight: bold;
+                color: #6b7280;
+                font-size: 10px;
+                text-transform: uppercase;
+            }
+
+            .details-table .value {
+                width: 32%;
+                color: #111827;
+                font-weight: 600;
+            }
+
+        /* =====================================================
+                   JOURNEY / ROUTE
+                ===================================================== */
+
+        .route-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 15px 0;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+        }
+
+            .route-table td {
+                padding: 14px;
+                vertical-align: top;
+            }
+
+        .route-location {
+            width: 45%;
+        }
+
+        .route-arrow {
+            width: 10%;
+            text-align: center;
+            vertical-align: middle !important;
+            font-size: 22px;
+            font-weight: bold;
+            color: #e53935;
+        }
+
+        .route-label {
+            font-size: 9px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .route-value {
+            margin-top: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #111827;
+            line-height: 17px;
+        }
+
+        /* =====================================================
+                   FARE BREAKDOWN
+                ===================================================== */
+
+        .fare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+            .fare-table td {
+                padding: 9px 10px;
+                border-bottom: 1px solid #eeeeee;
+            }
+
+        .fare-label {
+            color: #4b5563;
+        }
+
+        .fare-value {
+            text-align: right;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .discount {
+            color: #15803d !important;
+        }
+
+        .wallet {
+            color: #b45309 !important;
+        }
+
+        /* =====================================================
+                   TOTAL
+                ===================================================== */
+
+        .total-box {
+            margin-top: 12px;
+            padding: 16px 18px;
+            background: #1f2937;
+            border-radius: 4px;
+        }
+
+        .total-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .total-label {
+            font-size: 15px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.4px;
+        }
+
+        .total-value {
+            text-align: right;
+            font-size: 21px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        /* =====================================================
+                   PAYMENT STATUS
+                ===================================================== */
+
+        .payment-status {
+            margin-top: 15px;
+            padding: 10px 12px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            font-size: 11px;
+        }
+
+        /* =====================================================
+                   FOOTER
+                ===================================================== */
+
+        .footer {
+            margin-top: 25px;
+            padding-top: 13px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 10px;
+            line-height: 17px;
+        }
+
+            .footer strong {
+                color: #374151;
+            }
+
+        .footer-company {
+            margin-top: 5px;
+            color: #e53935;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+                   PRINT
+                ===================================================== */
+
+        @@media print {
+            body
+
+        {
+            background: #ffffff;
+        }
+
+        .invoice {
+            padding: 10px;
+        }
+
+        .invoice-header {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .total-box {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="invoice">
+
+        <!-- =====================================================
+             COMPANY HEADER
+        ===================================================== -->
+
+        <div class="invoice-header">
+
+            <table class="header-table">
+
+                <tr>
+
+                    <!-- LOGO + COMPANY -->
+                    <td class="header-left">
+
+                        <table class="company-table">
+
+                            <tr>
+
+                                <td class="logo-cell">
+
+                                    <!--
+                                        Replace this path with your actual logo path.
+                                        Example:
+                                        ~/Content/Images/sardarji-logo.png
+                                    -->
+
+                                    <img src="https://adminsardarji.traviyo.in/images/LogoSardar.png"
+                                         class="company-logo"
+                                         alt="Sardar Ji Cab Booking" />
+
+                                </td>
+
+                                <td class="company-info">
+
+                                    <div class="company-name">
+                                        Sardar Ji Cab Booking
+                                    </div>
+
+                                    <div class="company-tagline">
+                                        Quick rides, smarter routes
+                                    </div>
+
+                                    <div class="company-service">
+                                        Cab Booking Service
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </td>
+
+
+                    <!-- RIDE CODE -->
+                    <td class="header-right">
+
+                        <div class="ride-code-box">
+
+                            <span class="ride-code-label">
+                                Ride Code
+                            </span>
+
+                            <span class="ride-code">
+                                @Model.RideCode
+                            </span>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <!-- =====================================================
+             INVOICE TITLE
+        ===================================================== -->
+
+        <div class="invoice-heading">
+
+            <h1>
+                Cab Booking Invoice
+            </h1>
+
+            <p>
+                Thank you for choosing Sardar Ji Cab Booking
+            </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             BOOKING / TRAVEL DATE
+        ===================================================== -->
+
+        <table class="invoice-meta">
+
+            <tr>
+
+                <td class="meta-box">
+
+                    <div class="meta-label">
+                        Booking Invoice
+                    </div>
+
+                    <div class="meta-value">
+                        @Model.RideCode
+                    </div>
+
+                </td>
+
+                <td class="meta-box">
+
+                    <div class="meta-label">
+                        Travel Date & Time
+                    </div>
+
+                    <div class="meta-value">
+
+                        @Convert.ToDateTime(Model.RideDate).ToString("dd MMM yyyy")
+                        | @Model.RideTime
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <!-- =====================================================
+             PASSENGER & VEHICLE DETAILS
+        ===================================================== -->
+
+        <div class="section-title">
+            Passenger & Vehicle Details
+        </div>
+
+
+        <table class="details-table">
+
+            <tr>
+
+                <td class="label">
+                    Passenger
+                </td>
+
+                <td class="value">
+                    @Model.PassengerName
+                </td>
+
+                <td class="label">
+                    Contact
+                </td>
+
+                <td class="value">
+                    @Model.PassengerContact
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td class="label">
+                    Vehicle
+                </td>
+
+                <td class="value">
+                    @Model.CarName
+                </td>
+
+                <td class="label">
+                    Model
+                </td>
+
+                <td class="value">
+                    @Model.CarModelName
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td class="label">
+                    Distance
+                </td>
+
+                <td class="value">
+                    @Model.DistanceKm km
+                </td>
+
+                <td class="label">
+                    Ride Code
+                </td>
+
+                <td class="value">
+                    @Model.RideCode
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <!-- =====================================================
+             JOURNEY DETAILS
+        ===================================================== -->
+
+        <div class="section-title">
+            Journey Details
+        </div>
+
+
+        <table class="route-table">
+
+            <tr>
+
+                <!-- PICKUP -->
+
+                <td class="route-location">
+
+                    <div class="route-label">
+                        Pick-up Location
+                    </div>
+
+                    <div class="route-value">
+                        @Model.Pickup
+                    </div>
+
+                </td>
+
+
+                <!-- ARROW -->
+
+                <td class="route-arrow">
+                    →
+                </td>
+
+
+                <!-- DROP -->
+
+                <td class="route-location">
+
+                    <div class="route-label">
+                        Drop-off Location
+                    </div>
+
+                    <div class="route-value">
+                        @Model.Drop
+                    </div>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <!-- =====================================================
+             FARE BREAKDOWN
+        ===================================================== -->
+
+        <div class="section-title">
+            Fare Breakdown
+        </div>
+
+
+        <table class="fare-table">
+
+            <!-- BASE FARE -->
+
+            <tr>
+
+                <td class="fare-label">
+                    Base Fare
+                </td>
+
+                <td class="fare-value">
+                    ₹@Model.BasePrice.ToString("0.00")
+                </td>
+
+            </tr>
+
+
+            <!-- TOLL -->
+            @if (Model.TollCharges > 0)
+            {
+
+                <tr>
+
+                    <td class="fare-label">
+                        Toll Charges
+                    </td>
+
+                    <td class="fare-value">
+                        ₹@Model.TollCharges.ToString("0.00")
+                    </td>
+
+                </tr>
+
+            }
+
+
+            <!-- DISCOUNT -->
+            @if (Model.Discount > 0)
+            {
+
+                <tr>
+
+                    <td class="fare-label discount">
+                        Discount
+                    </td>
+
+                    <td class="fare-value discount">
+                        - ₹@Model.Discount.ToString("0.00")
+                    </td>
+
+                </tr>
+
+            }
+
+
+            <!-- WALLET -->
+            @if (Model.walletamount > 0)
+            {
+
+                <tr>
+
+                    <td class="fare-label wallet">
+                        Wallet Deduction
+                    </td>
+
+                    <td class="fare-value wallet">
+                        - ₹@Model.walletamount.ToString("0.00")
+                    </td>
+
+                </tr>
+
+            }
+
+        </table>
+
+
+        <!-- =====================================================
+             NET PAYABLE
+        ===================================================== -->
+
+        <div class="total-box">
+
+            <table class="total-table">
+
+                <tr>
+
+                    <td class="total-label">
+                        NET PAYABLE
+                    </td>
+
+                    <td class="total-value">
+                        ₹@Model.Total.ToString("0.00")
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <!-- =====================================================
+             PAYMENT STATUS
+        ===================================================== -->
+
+        <div class="payment-status">
+
+            <strong>Payment Summary:</strong>
+
+            Your cab booking invoice has been generated successfully.
+
+        </div>
+
+
+        <!-- =====================================================
+             FOOTER
+        ===================================================== -->
+
+        <div class="footer">
+
+            <strong>
+                Thank you for travelling with us!
+            </strong>
+
+            <br />
+
+            Please retain this invoice for your records.
+
+            <br />
+
+            This is a computer-generated invoice and does not require a signature.
+
+            <div class="footer-company">
+                Sardar Ji Cab Booking
+            </div>
+
+            <div>
+                Quick rides, smarter routes
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

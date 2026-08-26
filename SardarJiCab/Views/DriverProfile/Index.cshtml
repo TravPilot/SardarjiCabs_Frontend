@@ -1,5 +1,654 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using SardarJiCab.Model
+@model DriverProfile
 @{
+    ViewData["Title"] = "My Profile";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Sardar Ji EV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        .brand > img {
+            height: 38px;
+            border-radius: 12px;
+        }
+        :root{
+          --navy:#16265A; --navy-deep:#0B1533; --terracotta:#D6491F; --terracotta-2:#EF7A3C;
+          --bg:#F5F4F1; --card:#FFFFFF; --ink:#171B24; --muted:#767C8A; --line:#E7E5E0;
+          --ev-green:#1E8F5F; --ev-green-bg:#E9F7EF; --warn:#C0392B; --warn-bg:#FCEBEA;
+          --gold:#B8860B; --gold-bg:#FBF3DF; --focus-ring:rgba(214,73,31,0.22);
+        }
+        *{box-sizing:border-box;}
+        html,body{margin:0;padding:0;}
+        body{ background:var(--bg);font-family:"Inter",sans-serif;color:var(--ink);min-height:100vh;padding-bottom:88px;-webkit-font-smoothing:antialiased; }
+        h1,h2,h3,h4{ font-family:"Space Grotesk",sans-serif; }
+        a{ text-decoration:none;color:inherit; }
+        button{ font-family:"Inter",sans-serif; }
+
+        .app-shell{ display:flex;min-height:100vh;width:100%; }
+        .visual-pane{
+          display:none;position:relative;flex:0 0 34%;max-width:420px;
+          background:linear-gradient(165deg, rgba(11,21,51,0.90) 0%, rgba(22,38,90,0.78) 45%, rgba(214,73,31,0.55) 100%),
+            url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1000&q=80') center/cover no-repeat;
+          overflow:hidden;padding:40px 32px;
+        }
+        .visual-pane-content{ position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between; }
+        .visual-pane .brand{ display:flex;align-items:center;gap:11px; }
+        .visual-pane .brand .mark{
+          width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+          display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;
+        }
+        .visual-pane .brand .word{ color:#fff;font-weight:700;font-size:1rem;line-height:1.1; }
+        .visual-pane .brand .word small{ display:block;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:2px; }
+        .visual-pane-quote{ max-width:280px; }
+        .visual-pane-quote .eyebrow{ display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,0.85);font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:14px; }
+        .visual-pane-quote .eyebrow i{ color:var(--terracotta-2); }
+        .visual-pane-quote h2{ color:#fff;font-size:1.5rem;line-height:1.28;font-weight:700;margin:0; }
+        .visual-pane-foot{ color:rgba(255,255,255,0.55);font-size:0.76rem; }
+        .content-pane{ flex:1 1 auto;min-width:0; }
+        @@media (min-width:992px){ .visual-pane{ display:block; } }
+
+        .container{ max-width:760px;margin:0 auto;padding:0 18px; }
+
+        /* ---------------- TOP BAR ---------------- */
+        .topbar{ background:var(--navy);padding:16px 0 46px; }
+        .topbar-inner{ display:flex;align-items:center;justify-content:space-between;gap:14px; }
+        .back-btn{ width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0; }
+        .topbar h1{ color:#fff;font-size:1.05rem;font-weight:700;margin:0; }
+        .logout-btn{
+          display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.1);border:none;color:#fff;
+          padding:8px 13px;border-radius:11px;font-weight:700;font-size:0.78rem;cursor:pointer;
+        }
+        .logout-btn:hover{ background:rgba(255,255,255,0.18); }
+
+        /* ---------------- PROFILE HERO CARD ---------------- */
+        .profile-hero{
+          background:var(--card);border-radius:20px;padding:20px;margin-top:-32px;position:relative;z-index:5;
+          box-shadow:0 14px 34px rgba(11,21,51,0.1);display:flex;align-items:center;gap:16px;margin-bottom:18px;
+        }
+        .avatar-wrap{ position:relative;flex-shrink:0; }
+        .avatar-lg{
+          width:74px;height:74px;border-radius:20px;background:linear-gradient(135deg,#2b3d78,#1a2a5e);
+          color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.3rem;overflow:hidden;
+        }
+        .avatar-lg img{ width:100%;height:100%;object-fit:cover; }
+        .avatar-edit-btn{
+          position:absolute;bottom:-4px;right:-4px;width:26px;height:26px;border-radius:9px;background:var(--terracotta);
+          color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:0.68rem;cursor:pointer;
+        }
+        .profile-hero-info{ flex:1;min-width:0; }
+        .profile-hero-info h2{ font-size:1.1rem;margin:0 0 3px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+        .profile-hero-info .meta-line{ font-size:0.8rem;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap; }
+        .approval-pill{
+          font-size:0.66rem;font-weight:800;letter-spacing:0.03em;text-transform:uppercase;padding:3px 9px;border-radius:99px;
+        }
+        .approval-pill.approved{ background:var(--ev-green-bg);color:var(--ev-green); }
+        .approval-pill.pending{ background:var(--gold-bg);color:var(--gold); }
+        .approval-pill.rejected,.approval-pill.suspended{ background:var(--warn-bg);color:var(--warn); }
+        .rating-chip{ display:inline-flex;align-items:center;gap:4px;font-weight:700;color:var(--ink); }
+        .rating-chip i{ color:#F5A623;font-size:0.78rem; }
+
+        /* ---------------- STAT STRIP ---------------- */
+        .stat-strip{ display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px; }
+        .stat-box{ background:var(--card);border-radius:14px;padding:12px;text-align:center;box-shadow:0 8px 18px rgba(11,21,51,0.05); }
+        .stat-box .v{ font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink); }
+        .stat-box .l{ font-size:0.68rem;color:var(--muted);margin-top:2px; }
+
+        /* ---------------- SECTION CARD ---------------- */
+        .section-card{ background:var(--card);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 8px 20px rgba(11,21,51,0.05); }
+        .section-head{ display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+        .section-head h3{ font-size:0.94rem;font-weight:700;color:var(--ink);margin:0;display:flex;align-items:center;gap:8px; }
+        .section-head h3 i{ color:var(--terracotta);font-size:0.86rem; }
+        .edit-link{ border:none;background:none;color:var(--terracotta);font-weight:700;font-size:0.78rem;cursor:pointer;display:flex;align-items:center;gap:5px; }
+
+        .info-grid{ display:grid;grid-template-columns:1fr 1fr;gap:14px 16px; }
+        .info-item .lbl{ font-size:0.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:3px; }
+        .info-item .val{ font-size:0.88rem;font-weight:600;color:var(--ink);word-break:break-word; }
+        .info-item .val.empty{ color:#B7B4AC;font-weight:500; }
+
+        /* ---------------- FORM (edit mode) ---------------- */
+        .field{ margin-bottom:14px; }
+        .field label{ display:block;font-size:0.74rem;font-weight:700;color:var(--ink);margin-bottom:6px; }
+        .input-shell{
+          display:flex;align-items:center;gap:10px;background:#FBFAF8;border:1.5px solid var(--line);border-radius:12px;
+          padding:0 13px;height:46px;transition:border-color .16s ease, box-shadow .16s ease;
+        }
+        .input-shell:focus-within{ border-color:var(--terracotta);box-shadow:0 0 0 4px var(--focus-ring); }
+        .input-shell.error{ border-color:var(--warn);box-shadow:0 0 0 4px rgba(192,57,43,0.12); }
+        .input-shell i{ color:var(--muted);font-size:0.82rem;width:15px;text-align:center; }
+        .input-shell input,.input-shell select{
+          border:none;outline:none;background:transparent;flex:1;font-family:"Inter",sans-serif;font-size:0.88rem;
+          font-weight:500;color:var(--ink);height:100%;
+        }
+        .field-grid{ display:grid;grid-template-columns:1fr 1fr;gap:0 14px; }
+        .field-msg{ font-size:0.72rem;color:var(--warn);margin-top:5px;display:none;align-items:center;gap:5px; }
+        .field-msg.show{ display:flex; }
+
+        .form-actions{ display:flex;gap:10px;margin-top:6px; }
+        .btn-primary{
+          flex:1;border:none;border-radius:12px;padding:12px;background:linear-gradient(135deg,var(--terracotta),var(--terracotta-2));
+          color:#fff;font-weight:700;font-size:0.86rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;
+        }
+        .btn-primary:disabled{ opacity:0.65;cursor:not-allowed; }
+        .btn-primary .fa-spinner{ animation:spin .7s linear infinite; }
+        @@keyframes spin{ to{ transform:rotate(360deg); } }
+        .btn-ghost{ flex:1;border:1.5px solid var(--line);border-radius:12px;padding:12px;background:#fff;color:var(--ink);font-weight:700;font-size:0.86rem;cursor:pointer; }
+
+        /* ---------------- DOCUMENT CARDS ---------------- */
+        .doc-row{ display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:12px; }
+        .doc-row + .doc-row{ border-top:1px solid var(--line); }
+        .doc-left{ display:flex;align-items:center;gap:11px;min-width:0; }
+        .doc-icon{ width:38px;height:38px;border-radius:11px;background:#EEF1FA;color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0; }
+        .doc-info .name{ font-size:0.85rem;font-weight:700;color:var(--ink); }
+        .doc-info .sub{ font-size:0.72rem;color:var(--muted);margin-top:1px; }
+        .doc-status{ font-size:0.66rem;font-weight:800;letter-spacing:0.03em;text-transform:uppercase;padding:3px 9px;border-radius:99px;flex-shrink:0; }
+        .doc-status.uploaded{ background:var(--ev-green-bg);color:var(--ev-green); }
+        .doc-status.missing{ background:var(--warn-bg);color:var(--warn); }
+
+        /* ---------------- VEHICLE CARD ---------------- */
+        .vehicle-photo{ width:100%;height:150px;border-radius:13px;object-fit:cover;background:var(--line);margin-bottom:14px; }
+        .ev-badge{ display:inline-flex;align-items:center;gap:6px;background:var(--ev-green-bg);color:var(--ev-green);font-size:0.7rem;font-weight:800;padding:4px 10px;border-radius:99px;margin-bottom:12px; }
+
+        /* ---------------- MODAL (change password) ---------------- */
+        .modal-overlay{ position:fixed;inset:0;background:rgba(11,21,51,0.5);display:none;align-items:flex-end;justify-content:center;z-index:2000;opacity:0;transition:opacity .2s ease; }
+        .modal-overlay.show{ display:flex;opacity:1; }
+        .modal-sheet{ width:100%;max-width:420px;background:#fff;border-radius:24px 24px 0 0;padding:22px 22px 26px;transform:translateY(100%);transition:transform .3s cubic-bezier(.25,.8,.35,1);box-shadow:0 -14px 40px rgba(0,0,0,0.2); }
+        .modal-overlay.show .modal-sheet{ transform:translateY(0); }
+        .modal-handle{ width:36px;height:4px;border-radius:99px;background:var(--line);margin:0 auto 18px; }
+        .modal-header{ display:flex;align-items:center;justify-content:space-between;margin-bottom:16px; }
+        .modal-title{ font-size:1.05rem;font-weight:700;color:var(--ink);margin:0; }
+        .modal-close{ width:32px;height:32px;border-radius:50%;background:#F3F4F6;border:none;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer; }
+
+        /* ---------------- TOAST ---------------- */
+        .toast-stack{ position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:10px;width:calc(100% - 32px);max-width:400px; }
+        .toast{ display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:13px;padding:13px 14px;box-shadow:0 14px 34px rgba(11,21,51,0.18);border-left:4px solid var(--navy);font-size:0.86rem;font-weight:600;color:var(--ink);opacity:0;transform:translateY(-14px);animation:toastIn .28s ease forwards; }
+        .toast.success{ border-left-color:var(--ev-green); }
+        .toast.error{ border-left-color:var(--warn); }
+        .toast i.toast-icon{ margin-top:1px; }
+        .toast.success i.toast-icon{ color:var(--ev-green); }
+        .toast.error i.toast-icon{ color:var(--warn); }
+        .toast .toast-msg{ flex:1;line-height:1.4; }
+        @@keyframes toastIn{ to{ opacity:1;transform:translateY(0); } }
+
+        /* ---------------- BOTTOM TAB BAR ---------------- */
+        .bottom-tab-bar{ position:fixed;left:0;right:0;bottom:0;z-index:1100;background:#fff;border-top:1px solid var(--line);box-shadow:0 -10px 26px rgba(0,0,0,0.06);padding:8px 0; }
+        .bottom-tab-row{ max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:0 10px; }
+        .bottom-tab-item{ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:0.68rem;color:var(--muted);padding:8px 0;border-radius:14px;font-weight:600; }
+        .bottom-tab-item i{ font-size:16px; }
+        .bottom-tab-item.active{ color:var(--terracotta);background:#FFF1E7; }
+
+        @@media (min-width:768px){ .bottom-tab-bar{ display:none; } body{ padding-bottom:40px; } }
+        @@media (max-width:420px){ .info-grid{ grid-template-columns:1fr; } .field-grid{ grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="toast-stack" id="toastStack"></div>
+
+    <div class="app-shell">
+
+        <div class="visual-pane">
+            <div class="visual-pane-content">
+                <div class="brand">
+                    <img src="~/sardar.png" />
+                    <div class="word">Sardar Ji EV<small>Driver Partner Network</small></div>
+                </div>
+                <div class="visual-pane-quote">
+                    <div class="eyebrow"><i class="fa-solid fa-bolt"></i> Your Profile</div>
+                    <h2>Keep your details, documents and vehicle info up to date.</h2>
+                </div>
+                <div class="visual-pane-foot">&copy; Sardar Ji EV &middot; Driver Partner Network</div>
+            </div>
+        </div>
+
+        <div class="content-pane">
+
+            <div class="topbar">
+                <div class="container topbar-inner">
+                    <a href="@Url.Action("index", "driverdashboard")" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+                    <h1>My Profile</h1>
+                    <button type="button" class="logout-btn" onclick="confirmLogout()">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <div class="container">
+
+                <!-- ===================== PROFILE HERO ===================== -->
+                <div class="profile-hero">
+                    <div class="avatar-wrap">
+                        <div class="avatar-lg" id="avatarDisplay">
+                            @if (!string.IsNullOrEmpty(Model.ProfilePhotoUrl))
+                            {
+                                <img src="@Model.ProfilePhotoUrl" alt="@Model.FullName" />
+                            }
+                            else
+                            {
+                                @Model.Initials
+                            }
+                        </div>
+                        <button type="button" class="avatar-edit-btn" onclick="document.getElementById('photoInput').click()" aria-label="Change photo">
+                            <i class="fa-solid fa-camera"></i>
+                        </button>
+                        <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="uploadPhoto(this)">
+                    </div>
+                    <div class="profile-hero-info">
+                        <h2>@Model.FullName</h2>
+                        <div class="meta-line">
+                            <span class="approval-pill @Model.ApprovalStatusCss">@Model.ApprovalStatus</span>
+                            <span class="rating-chip"><i class="fa-solid fa-star"></i> @Model.AverageRating.ToString("0.0")</span>
+                            <span>&middot; @Model.MobileNumber</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== STAT STRIP ===================== -->
+                <div class="stat-strip">
+                    <div class="stat-box"><div class="v">@Model.TotalTrips</div><div class="l">Total trips</div></div>
+                    <div class="stat-box"><div class="v">₹@Model.TotalEarnings.ToString("N0")</div><div class="l">Total earnings</div></div>
+                    <div class="stat-box"><div class="v">@Model.TotalCo2SavedKg.ToString("0.0")kg</div><div class="l">CO&#8322; saved</div></div>
+                </div>
+
+                @if (Model.ApprovalStatus == "Rejected" && !string.IsNullOrEmpty(Model.RejectionReason))
+                {
+                    <div class="section-card" style="background:var(--warn-bg);">
+                        <div style="display:flex;gap:10px;align-items:flex-start;">
+                            <i class="fa-solid fa-circle-exclamation" style="color:var(--warn);margin-top:2px;"></i>
+                            <div style="font-size:0.85rem;color:var(--warn);font-weight:600;">@Model.RejectionReason</div>
+                        </div>
+                    </div>
+                }
+
+                <!-- ===================== PERSONAL INFO (view mode) ===================== -->
+                <div class="section-card" id="personalViewCard">
+                    <div class="section-head">
+                        <h3><i class="fa-solid fa-id-card"></i> Personal information</h3>
+                        <button type="button" class="edit-link" onclick="toggleEdit(true)"><i class="fa-solid fa-pen"></i> Edit</button>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item"><div class="lbl">Full name</div><div class="val">@Model.FullName</div></div>
+                        <div class="info-item"><div class="lbl">Mobile</div><div class="val">@Model.MobileNumber</div></div>
+                        <div class="info-item"><div class="lbl">Email</div><div class="val @(string.IsNullOrEmpty(Model.Email) ? "empty" : "")">@(string.IsNullOrEmpty(Model.Email) ? "Not added" : Model.Email)</div></div>
+                        <div class="info-item"><div class="lbl">Gender</div><div class="val @(string.IsNullOrEmpty(Model.Gender) ? "empty" : "")">@(string.IsNullOrEmpty(Model.Gender) ? "Not added" : Model.Gender)</div></div>
+                        <div class="info-item"><div class="lbl">City</div><div class="val @(string.IsNullOrEmpty(Model.City) ? "empty" : "")">@(string.IsNullOrEmpty(Model.City) ? "Not added" : Model.City)</div></div>
+                        <div class="info-item"><div class="lbl">Pin code</div><div class="val @(string.IsNullOrEmpty(Model.PinCode) ? "empty" : "")">@(string.IsNullOrEmpty(Model.PinCode) ? "Not added" : Model.PinCode)</div></div>
+                        <div class="info-item" style="grid-column:1/-1;"><div class="lbl">Address</div><div class="val @(string.IsNullOrEmpty(Model.Address) ? "empty" : "")">@(string.IsNullOrEmpty(Model.Address) ? "Not added" : Model.Address)</div></div>
+                    </div>
+                </div>
+
+                <!-- ===================== PERSONAL INFO (edit mode, hidden by default) ===================== -->
+                <div class="section-card" id="personalEditCard" style="display:none;">
+                    <div class="section-head"><h3><i class="fa-solid fa-id-card"></i> Edit personal information</h3></div>
+                    <form id="personalForm" onsubmit="return false;">
+                        @Html.AntiForgeryToken()
+                        <div class="field-grid">
+                            <div class="field">
+                                <label for="fullName">Full name</label>
+                                <div class="input-shell"><i class="fa-solid fa-user"></i><input id="fullName" value="@Model.FullName" required></div>
+                            </div>
+                            <div class="field">
+                                <label for="email">Email</label>
+                                <div class="input-shell"><i class="fa-solid fa-envelope"></i><input id="email" type="email" value="@Model.Email" placeholder="you@example.com"></div>
+                            </div>
+                        </div>
+                        <div class="field-grid">
+                            <div class="field">
+                                <label for="gender">Gender</label>
+                                <div class="input-shell">
+                                    <i class="fa-solid fa-venus-mars"></i>
+                                    <select id="gender">
+                                        <option value="">Select</option>
+                                        <option value="Male" selected="@(Model.Gender == "Male")">Male</option>
+                                        <option value="Female" selected="@(Model.Gender == "Female")">Female</option>
+                                        <option value="Other" selected="@(Model.Gender == "Other")">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="city">City</label>
+                                <div class="input-shell"><i class="fa-solid fa-city"></i><input id="city" value="@Model.City"></div>
+                            </div>
+                        </div>
+                        <div class="field-grid">
+                            <div class="field">
+                                <label for="pinCode">Pin code</label>
+                                <div class="input-shell"><i class="fa-solid fa-map-pin"></i><input id="pinCode" value="@Model.PinCode" maxlength="10"></div>
+                            </div>
+                            <div class="field">
+                                <label for="dob">Date of birth</label>
+                                <div class="input-shell"><i class="fa-solid fa-cake-candles"></i><input id="dob" type="date" value="@(Model.DateOfBirth?.ToString("yyyy-MM-dd"))"></div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="address">Address</label>
+                            <div class="input-shell"><i class="fa-solid fa-location-dot"></i><input id="address" value="@Model.Address"></div>
+                        </div>
+                        <div class="field-msg" id="personalError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-ghost" onclick="toggleEdit(false)">Cancel</button>
+                            <button type="button" class="btn-primary" id="savePersonalBtn" onclick="savePersonal()">
+                                <span id="savePersonalLabel">Save changes</span> <i class="fa-solid fa-check" id="savePersonalIcon"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ===================== VEHICLE INFO ===================== -->
+                <div class="section-card">
+                    <div class="section-head">
+                        <h3><i class="fa-solid fa-car"></i> Vehicle details</h3>
+                    </div>
+                    @if (Model.IsElectricVehicle)
+                    {
+                        <span class="ev-badge"><i class="fa-solid fa-bolt"></i> Electric Vehicle</span>
+                    }
+                    <img class="vehicle-photo" src="@(string.IsNullOrEmpty(Model.RcPhotoUrl) ? "https://via.placeholder.com/600x300?text=No+Vehicle+Photo" : Model.RcPhotoUrl)" alt="Vehicle">
+                    <div class="info-grid">
+                        <div class="info-item"><div class="lbl">Vehicle model</div><div class="val @(string.IsNullOrEmpty(Model.VehicleModel) ? "empty" : "")">@(string.IsNullOrEmpty(Model.VehicleModel) ? "Not added" : Model.VehicleModel)</div></div>
+                        <div class="info-item"><div class="lbl">Vehicle type</div><div class="val @(string.IsNullOrEmpty(Model.VehicleType) ? "empty" : "")">@(string.IsNullOrEmpty(Model.VehicleType) ? "Not added" : Model.VehicleType)</div></div>
+                        <div class="info-item"><div class="lbl">Vehicle number</div><div class="val @(string.IsNullOrEmpty(Model.VehicleNumber) ? "empty" : "")">@(string.IsNullOrEmpty(Model.VehicleNumber) ? "Not added" : Model.VehicleNumber)</div></div>
+                        <div class="info-item"><div class="lbl">RC number</div><div class="val @(string.IsNullOrEmpty(Model.RcNumber) ? "empty" : "")">@(string.IsNullOrEmpty(Model.RcNumber) ? "Not added" : Model.RcNumber)</div></div>
+                    </div>
+                </div>
+
+                <!-- ===================== DOCUMENTS ===================== -->
+                <div class="section-card">
+                    <div class="section-head"><h3><i class="fa-solid fa-folder-open"></i> Documents</h3></div>
+
+                    <div class="doc-row">
+                        <div class="doc-left">
+                            <div class="doc-icon"><i class="fa-solid fa-id-badge"></i></div>
+                            <div class="doc-info">
+                                <div class="name">Driving license</div>
+                                <div class="sub">@(string.IsNullOrEmpty(Model.LicenseNumber) ? "Not added" : Model.LicenseNumber)@(Model.LicenseExpiryDate.HasValue ? $" · Expires {Model.LicenseExpiryDate:dd MMM yyyy}" : "")</div>
+                            </div>
+                        </div>
+                        <span class="doc-status @(string.IsNullOrEmpty(Model.LicensePhotoUrl) ? "missing" : "uploaded")">
+                            @(string.IsNullOrEmpty(Model.LicensePhotoUrl) ? "Missing" : "Uploaded")
+                        </span>
+                    </div>
+
+                    <div class="doc-row">
+                        <div class="doc-left">
+                            <div class="doc-icon"><i class="fa-solid fa-file-lines"></i></div>
+                            <div class="doc-info">
+                                <div class="name">Vehicle RC</div>
+                                <div class="sub">@(string.IsNullOrEmpty(Model.RcNumber) ? "Not added" : Model.RcNumber)</div>
+                            </div>
+                        </div>
+                        <span class="doc-status @(string.IsNullOrEmpty(Model.RcPhotoUrl) ? "missing" : "uploaded")">
+                            @(string.IsNullOrEmpty(Model.RcPhotoUrl) ? "Missing" : "Uploaded")
+                        </span>
+                    </div>
+
+                    <div class="doc-row">
+                        <div class="doc-left">
+                            <div class="doc-icon"><i class="fa-solid fa-fingerprint"></i></div>
+                            <div class="doc-info">
+                                <div class="name">Aadhaar verification</div>
+                                <div class="sub">@(Model.IsVerified ? $"Verified on {Model.VerifiedOn:dd MMM yyyy}" : "Pending verification")</div>
+                            </div>
+                        </div>
+                        <span class="doc-status @(Model.IsVerified ? "uploaded" : "missing")">@(Model.IsVerified ? "Verified" : "Pending")</span>
+                    </div>
+                </div>
+
+                <!-- ===================== SECURITY ===================== -->
+                <div class="section-card">
+                    <div class="section-head"><h3><i class="fa-solid fa-lock"></i> Security</h3></div>
+                    <div class="doc-row" style="border-top:none;padding-top:0;">
+                        <div class="doc-left">
+                            <div class="doc-icon"><i class="fa-solid fa-key"></i></div>
+                            <div class="doc-info">
+                                <div class="name">Password</div>
+                                <div class="sub">Last changed &mdash; keep it secure</div>
+                            </div>
+                        </div>
+                        <button type="button" class="edit-link" onclick="openPasswordModal()">Change</button>
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- /.content-pane -->
+    </div><!-- /.app-shell -->
+    <!-- ===================== BOTTOM TAB BAR (mobile) ===================== -->
+    <div class="bottom-tab-bar">
+        <div class="bottom-tab-row">
+            <a href="@Url.Action("index", "driverdashboard")" class="bottom-tab-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="@Url.Action("index", "drivertrips")" class="bottom-tab-item"><i class="fa-solid fa-calendar-check"></i><span>Trips</span></a>
+            <a href="@Url.Action("index", "driverearnings")" class="bottom-tab-item"><i class="fa-solid fa-wallet"></i><span>Earnings</span></a>
+            <a href="@Url.Action("index", "driverprofile")" class="bottom-tab-item active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </div>
+    </div>
+
+    <!-- ===================== CHANGE PASSWORD MODAL ===================== -->
+    <div class="modal-overlay" id="passwordModalOverlay">
+        <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle">
+            <div class="modal-handle"></div>
+            <div class="modal-header">
+                <h3 class="modal-title" id="passwordModalTitle">Change password</h3>
+                <button type="button" class="modal-close" onclick="closePasswordModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="field">
+                <label for="currentPassword">Current password</label>
+                <div class="input-shell" id="currentPasswordShell">
+                    <i class="fa-solid fa-lock"></i>
+                    <input id="currentPassword" type="password" placeholder="Enter current password">
+                </div>
+            </div>
+            <div class="field">
+                <label for="newPassword">New password</label>
+                <div class="input-shell" id="newPasswordShell">
+                    <i class="fa-solid fa-key"></i>
+                    <input id="newPassword" type="password" placeholder="At least 8 characters">
+                </div>
+            </div>
+            <div class="field">
+                <label for="confirmPassword">Confirm new password</label>
+                <div class="input-shell" id="confirmPasswordShell">
+                    <i class="fa-solid fa-key"></i>
+                    <input id="confirmPassword" type="password" placeholder="Re-enter new password">
+                </div>
+            </div>
+            <div class="field-msg" id="passwordError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+
+            <button type="button" class="btn-primary" id="savePasswordBtn" onclick="changePassword()" style="width:100%;">
+                <span id="savePasswordLabel">Update password</span> <i class="fa-solid fa-arrow-right" id="savePasswordIcon"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ---------------- Toast ----------------
+        function showToast(message, type = 'info') {
+          const stack = document.getElementById('toastStack');
+          const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', info: 'fa-circle-info' };
+          const toast = document.createElement('div');
+          toast.className = `toast ${type}`;
+          toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} toast-icon"></i><div class="toast-msg">${message}</div>`;
+          stack.appendChild(toast);
+          setTimeout(() => toast.remove(), 4500);
+        }
+
+        function getToken() {
+          return document.querySelector('input[name="__RequestVerificationToken"]').value;
+        }
+
+        // ---------------- Edit personal info ----------------
+        function toggleEdit(editing) {
+          document.getElementById('personalViewCard').style.display = editing ? 'none' : 'block';
+          document.getElementById('personalEditCard').style.display = editing ? 'block' : 'none';
+        }
+
+        async function savePersonal() {
+          const btn = document.getElementById('savePersonalBtn');
+          const label = document.getElementById('savePersonalLabel');
+          const icon = document.getElementById('savePersonalIcon');
+          const errEl = document.getElementById('personalError');
+          errEl.classList.remove('show');
+
+          const fullName = document.getElementById('fullName').value.trim();
+          if (!fullName) {
+            errEl.querySelector('span').textContent = 'Full name is required.';
+            errEl.classList.add('show');
+            return;
+          }
+
+          btn.disabled = true;
+          label.textContent = 'Saving…';
+          icon.className = 'fa-solid fa-spinner';
+
+          try {
+            const res = await fetch('@Url.Action("UpdateProfile", "DriverProfile")', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': getToken() },
+              body: new URLSearchParams({
+                fullName: fullName,
+                email: document.getElementById('email').value.trim(),
+                gender: document.getElementById('gender').value,
+                city: document.getElementById('city').value.trim(),
+                pinCode: document.getElementById('pinCode').value.trim(),
+                dateOfBirth: document.getElementById('dob').value,
+                address: document.getElementById('address').value.trim(),
+                __RequestVerificationToken: getToken()
+              })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+              showToast('Profile updated successfully.', 'success');
+              setTimeout(() => window.location.reload(), 700);
+            } else {
+              errEl.querySelector('span').textContent = data.message || 'Could not update profile.';
+              errEl.classList.add('show');
+              showToast(data.message || 'Could not update profile.', 'error');
+            }
+          } catch {
+            showToast('Network error — please try again.', 'error');
+          } finally {
+            btn.disabled = false;
+            label.textContent = 'Save changes';
+            icon.className = 'fa-solid fa-check';
+          }
+        }
+
+        // ---------------- Profile photo ----------------
+        async function uploadPhoto(input) {
+          if (!input.files || !input.files[0]) return;
+          const formData = new FormData();
+          formData.append('photo', input.files[0]);
+          formData.append('__RequestVerificationToken', getToken());
+
+          try {
+            const res = await fetch('@Url.Action("UpdatePhoto", "DriverProfile")', {
+              method: 'POST',
+              headers: { 'RequestVerificationToken': getToken() },
+              body: formData
+            });
+            const data = await res.json();
+            if (data.success) {
+              document.getElementById('avatarDisplay').innerHTML = `<img src="${data.photoUrl}" alt="Profile photo">`;
+              showToast('Profile photo updated.', 'success');
+            } else {
+              showToast(data.message || 'Could not upload photo.', 'error');
+            }
+          } catch {
+            showToast('Network error while uploading photo.', 'error');
+          }
+        }
+
+        // ---------------- Change password ----------------
+        function openPasswordModal() {
+          document.getElementById('currentPassword').value = '';
+          document.getElementById('newPassword').value = '';
+          document.getElementById('confirmPassword').value = '';
+          document.getElementById('passwordError').classList.remove('show');
+          document.getElementById('passwordModalOverlay').classList.add('show');
+          document.body.style.overflow = 'hidden';
+        }
+        function closePasswordModal() {
+          document.getElementById('passwordModalOverlay').classList.remove('show');
+          document.body.style.overflow = '';
+        }
+
+        async function changePassword() {
+          const current = document.getElementById('currentPassword').value;
+          const next = document.getElementById('newPassword').value;
+          const confirm = document.getElementById('confirmPassword').value;
+          const errEl = document.getElementById('passwordError');
+          errEl.classList.remove('show');
+
+          if (!current || !next || !confirm) {
+            errEl.querySelector('span').textContent = 'Fill in all password fields.';
+            errEl.classList.add('show');
+            return;
+          }
+          if (next.length < 8) {
+            errEl.querySelector('span').textContent = 'New password must be at least 8 characters.';
+            errEl.classList.add('show');
+            return;
+          }
+          if (next !== confirm) {
+            errEl.querySelector('span').textContent = 'New password and confirmation do not match.';
+            errEl.classList.add('show');
+            return;
+          }
+
+          const btn = document.getElementById('savePasswordBtn');
+          const label = document.getElementById('savePasswordLabel');
+          const icon = document.getElementById('savePasswordIcon');
+          btn.disabled = true;
+          label.textContent = 'Updating…';
+          icon.className = 'fa-solid fa-spinner';
+
+          try {
+            const res = await fetch('@Url.Action("ChangePassword", "DriverProfile")', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': getToken() },
+              body: new URLSearchParams({
+                currentPassword: current,
+                newPassword: next,
+                __RequestVerificationToken: getToken()
+              })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+              showToast('Password updated successfully.', 'success');
+              closePasswordModal();
+            } else {
+              errEl.querySelector('span').textContent = data.message || 'Could not update password.';
+              errEl.classList.add('show');
+            }
+          } catch {
+            errEl.querySelector('span').textContent = 'Network error — please try again.';
+            errEl.classList.add('show');
+          } finally {
+            btn.disabled = false;
+            label.textContent = 'Update password';
+            icon.className = 'fa-solid fa-arrow-right';
+          }
+        }
+
+        // ---------------- Logout ----------------
+        function confirmLogout() {
+          if (confirm('Are you sure you want to log out?')) {
+            window.location.href = '@Url.Action("Logout", "DriverLogIn")';
+          }
+        }
+
+        document.getElementById('passwordModalOverlay').addEventListener('click', function (e) {
+          if (e.target === this) closePasswordModal();
+        });
+    </script>
+
+</body>
+</html>
