@@ -326,13 +326,17 @@ namespace SardarJi_Cab_Booking.Models
     public class LiveLocation
     {
 
+<<<<<<< HEAD
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+=======
+        public int Latitude { get; set; }
+        public int longitute { get; set; }
+>>>>>>> parent of b370c3a (commit chage)
         public int bookingid { get; set; }
         public decimal driverId { get; set; }
         public string DriverName { get; set; }
-        public DateTime UpdatedAt { get; set; }
-
+        
     }
 }
 

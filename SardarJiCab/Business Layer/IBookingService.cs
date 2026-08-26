@@ -13,10 +13,14 @@ namespace SardarJi_Cab_Booking.Business_Layer
         Task<BookingListItem> GetBookingByIdAsync(long newBookingId);
         Task UpdateStatusAsync(long newBookingId, string status);
         Task<TravelSummaryViewModel> GetBookingList(long Id);
+<<<<<<< HEAD
         Task<List<LiveLocation>> GetLiveLocation(int bookingId);
          Task<bool> SaveRatingDetails(RideFeedbackDto dto);
 
         Task<SupportTicketViewModel> SaveTicketDetails(SupportTicketViewModel model);
+=======
+        Task<LiveLocation> GetLiveLocation(int bookingId);
+>>>>>>> parent of b370c3a (commit chage)
 
     }
 }

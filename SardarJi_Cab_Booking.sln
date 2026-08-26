@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.34114.132
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SardarJiCab.BL", "SardarJiCab.BL\SardarJiCab.BL.csproj", "{2B0859FB-92F8-0371-A770-BF4E8DAE03BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarJiCab.BL", "SardarJiCab.BL\SardarJiCab.BL.csproj", "{2B0859FB-92F8-0371-A770-BF4E8DAE03BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SardarjiCab.DB", "SardarjiCab.DB\SardarjiCab.DB.csproj", "{70D1F355-7DD7-6E62-34A6-3656D04E4641}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SardarJiCab.DataBase", "SardarJiCab.DataBase\SardarJiCab.DataBase.sqlproj", "{FA13E234-86C1-4E40-B3B1-E1E3E30826FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SardarJiCab.Model", "SardarJiCab.Model\SardarJiCab.Model.csproj", "{FB3B9E2F-02E2-23DA-5153-00FF0BD41D74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarjiCab.DB", "SardarjiCab.DB\SardarjiCab.DB.csproj", "{70D1F355-7DD7-6E62-34A6-3656D04E4641}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SardarJiCab.Services", "SardarJiCab.Services\SardarJiCab.Services.csproj", "{7A673661-B138-8825-ADB7-E2D8BD7B4613}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarJiCab.Model", "SardarJiCab.Model\SardarJiCab.Model.csproj", "{FB3B9E2F-02E2-23DA-5153-00FF0BD41D74}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SardarJi_Cab_Booking", "SardarJiCab\SardarJi_Cab_Booking.csproj", "{0A3F8408-0E79-5B46-7E33-27B0B7ECB107}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarJiCab.Services", "SardarJiCab.Services\SardarJiCab.Services.csproj", "{7A673661-B138-8825-ADB7-E2D8BD7B4613}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SardarJi_Cab_Booking", "SardarJiCab\SardarJi_Cab_Booking.csproj", "{0A3F8408-0E79-5B46-7E33-27B0B7ECB107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,12 @@ Global
 		{2B0859FB-92F8-0371-A770-BF4E8DAE03BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B0859FB-92F8-0371-A770-BF4E8DAE03BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B0859FB-92F8-0371-A770-BF4E8DAE03BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA13E234-86C1-4E40-B3B1-E1E3E30826FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA13E234-86C1-4E40-B3B1-E1E3E30826FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA13E234-86C1-4E40-B3B1-E1E3E30826FE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FA13E234-86C1-4E40-B3B1-E1E3E30826FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA13E234-86C1-4E40-B3B1-E1E3E30826FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA13E234-86C1-4E40-B3B1-E1E3E30826FE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{70D1F355-7DD7-6E62-34A6-3656D04E4641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{70D1F355-7DD7-6E62-34A6-3656D04E4641}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70D1F355-7DD7-6E62-34A6-3656D04E4641}.Release|Any CPU.ActiveCfg = Release|Any CPU

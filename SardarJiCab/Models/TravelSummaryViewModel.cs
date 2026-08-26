@@ -24,12 +24,12 @@ namespace SardarJi_Cab_Booking.Models
         public string CarModelName { get; set; }
         public string FuelType { get; set; }
         public string Color { get; set; }
-        public decimal NetTotalAmount { get; set; }
+
         public string? RegistrationNo { get; set; }
         public string PassengerName { get; set; }
         public string PassengerContact { get; set; }
-        public decimal StateCharges { get; set; }
 
+       
         public decimal BasePrice => Cost;
         public decimal Discount { get; set; }
         public decimal TollCharges { get; set; }
@@ -46,7 +46,6 @@ namespace SardarJi_Cab_Booking.Models
 
         public List<BookingListItem> Bookings { get; set; } = new();
         public BookingListItem TodayRide { get; set; }
-        public BookingListItem PendingRide { get; set; }
 
         public int TotalTrips => Bookings.Count;
         public decimal TotalSpent => Bookings.Sum(b => b.NetPayable);
@@ -65,7 +64,6 @@ namespace SardarJi_Cab_Booking.Models
     public class BookingListItem
     {
         public string DriverName { get; set; }
-        public string OTP { get; set; }
         public int DriverId { get; set; }
         public long NewBookingId { get; set; }
         public long? BookingId { get; set; }

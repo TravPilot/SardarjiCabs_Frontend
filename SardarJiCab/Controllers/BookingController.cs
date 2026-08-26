@@ -59,6 +59,7 @@ namespace SardarJi_Cab_Booking.Controllers
             return View(details);
         }
 
+<<<<<<< HEAD
         private async Task<string> GenerateInvoicePdfUrl(TravelSummaryViewModel model)
         {
             var pdfResult = new Rotativa.AspNetCore.ViewAsPdf("InvoicePdf", model)
@@ -105,9 +106,10 @@ namespace SardarJi_Cab_Booking.Controllers
             return View(bookinglist);
         }
 
+=======
+>>>>>>> parent of b370c3a (commit chage)
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PaymentsDetails(string selectPayment, string currency, string temperatured, string conversionRate,decimal AppliedDiscount)
+        public async Task<IActionResult> PaymentsDetails(string selectPayment, string currency, string temperatured, string conversionRate)
         {
             bool isCard = false;
             bool isWallet = false;
@@ -130,28 +132,18 @@ namespace SardarJi_Cab_Booking.Controllers
 
             decimal totalAmount;
             decimal razorpayAmount;
-            decimal NetTotalAmount;
-            
-            if (AppliedDiscount >0)
-            {
-                NetTotalAmount = details.Cost - AppliedDiscount;
-            }
-            else
-            {
-                NetTotalAmount = details.Cost;
-            }
 
             if (customer != null && customer.CustomerType == 2)
             {
-                totalAmount = Math.Round(NetTotalAmount);
-                razorpayAmount = Math.Round(NetTotalAmount);
+                totalAmount = Math.Round(details.Cost);
+                razorpayAmount = Math.Round(details.Cost);
             }
             else
             {
-                totalAmount = Math.Round(NetTotalAmount);
-                razorpayAmount = Math.Round(NetTotalAmount);
+                totalAmount = Math.Round(details.Cost);
+                razorpayAmount = Math.Round(details.Cost);
             }
-            details.NetTotalAmount = NetTotalAmount;
+
             decimal walletAmount = 0;
 
             Random random = new Random();

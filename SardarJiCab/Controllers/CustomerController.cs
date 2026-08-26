@@ -5,7 +5,6 @@ using Microsoft.Data.SqlClient;
 using SardarJi_Cab_Booking.Business_Layer;
 using SardarJi_Cab_Booking.Helper;
 using SardarJi_Cab_Booking.Models;
-using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -137,7 +136,6 @@ namespace SardarJi_Cab_Booking.Controllers
         {
             return View();
         }
-        
 
         public async Task<JsonResult> VerifyAccount(CustomerProfile profile)
         {
@@ -185,19 +183,20 @@ namespace SardarJi_Cab_Booking.Controllers
                
             );
         }
-        public ActionResult GetWalletBalance()
-        {
-           // WalletVM walletDetails = await _customerService.GetWalletDetails(customer.Id);
 
+<<<<<<< HEAD
             return View();
         }
 
 
         #region Driver Loction 
+=======
+>>>>>>> parent of b370c3a (commit chage)
 
         [HttpGet]
         public async Task<IActionResult> TrackRide(int bookingId)
         {
+<<<<<<< HEAD
             double lat;
             double lng;
             string driverName;
@@ -304,9 +303,24 @@ namespace SardarJi_Cab_Booking.Controllers
                 RidePhase = ridePhase,
 
                 Status = bookinglist.TodayRide?.Status
+=======
+            LiveLocation rideLocation = await _booking.GetLiveLocation(bookingId);
+
+            if (rideLocation == null)
+                return NotFound();
+
+            var vm = new TrackRideViewModel
+            {
+                BookingId = rideLocation.bookingid,
+                Latitude = rideLocation.Latitude,
+                Longitude = rideLocation.longitute,
+                DriverName = rideLocation.DriverName,
+                GoogleMapsApiKey = _config["GoogleMapsApiKey"] ?? ""
+>>>>>>> parent of b370c3a (commit chage)
             };
 
             return View(vm);
+
         }
 
 
@@ -382,6 +396,7 @@ namespace SardarJi_Cab_Booking.Controllers
         [HttpGet]
         public async Task<IActionResult> LiveLocationJson(int bookingId)
         {
+<<<<<<< HEAD
             var rideLocations = await _booking.GetLiveLocation(bookingId);
             var rideLocation = rideLocations?
                 .OrderByDescending(x => x.UpdatedAt)
@@ -397,6 +412,12 @@ namespace SardarJi_Cab_Booking.Controllers
                     ridePhase = (string)null
                 });
             }
+=======
+            LiveLocation rideLocation = await _booking.GetLiveLocation(bookingId);
+
+            if (rideLocation == null)
+                return NotFound();
+>>>>>>> parent of b370c3a (commit chage)
 
             string ridePhase = null;
 
@@ -428,6 +449,7 @@ namespace SardarJi_Cab_Booking.Controllers
             return Json(new { success = true });
         }
 
+<<<<<<< HEAD
         public class RideFeedbackDto
         {
             public int BookingId { get; set; }
@@ -435,6 +457,9 @@ namespace SardarJi_Cab_Booking.Controllers
             public string Comment { get; set; }
             public long UserId { get; set; }
         }
+=======
+
+>>>>>>> parent of b370c3a (commit chage)
 
         #endregion  Driver Loction
 
@@ -447,41 +472,70 @@ namespace SardarJi_Cab_Booking.Controllers
 
 
 
-        public async Task<IActionResult> Contactus()
+
+
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> TrackkkkRide(int bookingId)
         {
-            //var customer = HttpContext.Session.GetObject<CustomerVM>("customer");
+            
+            var ride = await GetBookingByIdAsync(bookingId); 
+            if (ride == null) return NotFound();
 
-            //if (customer == null)
-            //{
-            //    return RedirectToAction("Index", "Customer");
-            //}
+            double dropLat = ride.DropLat;
+            double dropLng = ride.DropLng;
 
-            //CustomerProfile customerrr = await _customerService.GetCustomerProfile(customer.Id);
+            
+            if (dropLat == 0 && dropLng == 0)
+            {
+                var geocoded = await _geocodingService.GeocodeAsync(ride.DropAddress);
+                if (geocoded != null)
+                {
+                    dropLat = geocoded.Value.Lat;
+                    dropLng = geocoded.Value.Lng;
+                    // ride.DropLat = dropLat; ride.DropLng = dropLng; await _db.SaveChangesAsync();
+                }
+            }
 
-            //TempData["Mobile"] = customerrr.Mobile;
-            //TempData["Email"] = customerrr.Email;
+            var vm = new TrackRideViewModel
+            {
+                BookingId = ride.BookingId,
+                BookingNo = ride.BookingNo,
+                PickupAddress = ride.PickupAddress,
+                DropAddress = ride.DropAddress,
+                DriverName = ride.DriverName,
+                VehicleNumber = ride.VehicleNumber,
+                Status = ride.Status,
+                CarImage = ride.CarImage,
+                DropLat = dropLat,
+                DropLng = dropLng,
+                GoogleMapsApiKey = _config["GoogleMaps:GoogleMapsApiKey"] ?? ""
+            };
 
-            //HttpContext.Session.SetObject("customerProfile", customerrr);
-
-
-            return View();
+            return View(vm);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
+        private Task<BookingPlaceholder?> GetBookingByIdAsync(int bookingId)
+        {
+            var ride = new BookingPlaceholder
+            {
+                BookingId = bookingId,
+                BookingNo = "SJ-7377",
+                PickupAddress = "TraviYo, F Block, Sector 6, Noida, Uttar Pradesh, India",
+                DropAddress = "Sector 12, Vasundhara, Ghaziabad, Uttar Pradesh 201012, India",
+                DriverName = "Shivam thapa",
+                VehicleNumber = "UP13DC0008",
+                Status = "Confirmed",
+                CarImage = "/images/bmw-i7.png",
+                DropLat = 0,
+                DropLng = 0
+            };
+            return Task.FromResult<BookingPlaceholder?>(ride);
+        }
 
 
 

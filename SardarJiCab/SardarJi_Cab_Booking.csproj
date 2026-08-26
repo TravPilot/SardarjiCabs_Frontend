@@ -47,10 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Content\images\pho.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\css\Style.css" />
     <None Include="wwwroot\images\Arctic-Blue_6688ba.avif" />
     <None Include="wwwroot\images\ban1.png" />

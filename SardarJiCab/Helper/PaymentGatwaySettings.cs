@@ -274,7 +274,7 @@ namespace SardarJi_Cab_Booking.Helper
                         }
                         else if (hash_var == "email")
                         {
-                            hash_string = hash_string + BD.Email + '|';
+                            hash_string = hash_string + BD.UserName + '|';
                         }
                         else
                         {
@@ -301,7 +301,7 @@ namespace SardarJi_Cab_Booking.Helper
                 string failurl = GetSiteRoot() + baseurl.FailURl;
                 data.Add("amount", AmountForm);
                 data.Add("firstname", BD.FirstName.ToString().Replace(" ", "").Trim());
-                data.Add("email", BD.Email.ToString().Trim());
+                data.Add("email", BD.UserName.ToString().Trim());
                 data.Add("phone", BD.Mobile.ToString().Trim());
                 data.Add("productinfo", "Booking");
                 data.Add("surl", surl);
