@@ -512,6 +512,11 @@
         border: 1px solid #e8eaee;
         border-radius: 16px;
         padding: 6px 14px;
+<<<<<<< HEAD
+=======
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+>>>>>>> parent of 86913e4 (commit chang)
         }
 
         .mobile-header-row {
@@ -657,8 +662,16 @@
         }
 
         .location-list {
+<<<<<<< HEAD
         max-height: 220px;
         overflow-y: auto;
+=======
+            max-height: 220px;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 12px;
+            padding: 5px;
+>>>>>>> parent of 86913e4 (commit chang)
         }
 
         .location-item {
@@ -700,6 +713,7 @@
         }
 
         .sheet-cta {
+<<<<<<< HEAD
         width: 100%;
         margin-top: 18px;
         border: none;
@@ -710,6 +724,21 @@
         font-weight: 700;
         font-size: 0.94rem;
         transition: all .2s ease;
+=======
+            width: 100%;
+            margin-top: 18px;
+            border: none;
+            border-radius: 14px;
+            padding: 14px;
+            background: #d8dade;
+            color: #000;
+            display: flex;
+            font-weight: 700;
+            font-size: 0.94rem;
+            transition: all .2s ease;
+            justify-content: center;
+            text-decoration: none;
+>>>>>>> parent of 86913e4 (commit chang)
         }
 
         .sheet-cta.ready {
@@ -1039,6 +1068,7 @@
             <a href="/Home/Index" class="sidebar-menu-item"><i class="fa-solid fa-house"></i>Home</a>
             <a href="/CabBookingList" class="sidebar-menu-item"><i class="fa-solid fa-location-dot"></i> Booked Ride</a>
             <a href="/CurrentRide" class="sidebar-menu-item"><i class="fa-solid fa-calendar-check"></i> Current Ride</a>
+<<<<<<< HEAD
 
             @if (customer != null)
             {
@@ -1060,6 +1090,19 @@
         <div class="sidebar-footer">
             <a href="/premiumsupport">  Premium support</a>
 
+=======
+           
+            @if (customer != null)
+            {
+                 <a href="/Customer/Index" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> Profile</a>
+                <a href="/LogIn/CustomerLogout" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> LogOut</a>
+            }
+            
+        </nav>
+        <div class="sidebar-footer">
+            <a href="/premiumsupport">  Premium support</a>
+          
+>>>>>>> parent of 86913e4 (commit chang)
         </div>
     </div>
     <div class="mobile-header">
@@ -1186,6 +1229,12 @@
             </div>
             <div id="sheetPlanBadge" class="sheet-plan-badge">AIRPORT</div>
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> parent of 86913e4 (commit chang)
             <div class="route-block">
                 <div class="route-row" id="pickupRow">
                     <div class="route-icon"><i class="fa-solid fa-location-dot"></i></div>
@@ -1217,6 +1266,10 @@
             <div id="locationList" class="location-list"></div>
 
             <a href="/Home/Dateview" id="sheetCta" class="sheet-cta" type="button" onclick="confirmRoute()">Choose both points to continue</a>
+<<<<<<< HEAD
+=======
+            </div>
+>>>>>>> parent of 86913e4 (commit chang)
         </div>
     </div>
     <script>
@@ -1547,6 +1600,328 @@
         }
     </script>
 
+<<<<<<< HEAD
+=======
+ @*    <script>
+
+    let state = { pickup: '', drop: '', active: 'pickup', distanceKm: null, categoryId: null, pickupIsIndia: false };
+
+    const overlay = document.getElementById('sheetOverlay');
+    const planBadge = document.getElementById('sheetPlanBadge');
+    const pickupValue = document.getElementById('pickupValue'); // now an <input>
+    const dropValue = document.getElementById('dropValue');     // now an <input>
+    const pickupRow = document.getElementById('pickupRow');
+    const dropRow = document.getElementById('dropRow');
+    const listLabel = document.getElementById('listLabel');
+    const locationList = document.getElementById('locationList');
+    const cta = document.getElementById('sheetCta');
+    const routeMapWrap = document.getElementById('routeMapWrap');
+    const distanceInfo = document.getElementById('distanceInfo');
+
+
+    let googleReady = false;
+    let autocompleteService = null;
+    let map, directionsService, directionsRenderer;
+    let placesDebounce = null;
+
+    function initGoogleMaps() {
+        googleReady = true;
+        autocompleteService = new google.maps.places.AutocompleteService();
+        directionsService = new google.maps.DirectionsService();
+    }
+
+    function ensureMap() {
+        if (!map) {
+            map = new google.maps.Map(document.getElementById('routeMap'), {
+                center: { lat: 28.6139, lng: 77.2090 },
+                zoom: 11,
+                disableDefaultUI: true
+            });
+            directionsRenderer = new google.maps.DirectionsRenderer({ map: map, suppressMarkers: false });
+        }
+    }
+
+    async function updateRouteMap() {
+        if (!state.pickup || !state.drop) {
+            routeMapWrap.style.display = 'none';
+            state.distanceKm = null;
+            return;
+        }
+
+        routeMapWrap.style.display = 'block';
+        distanceInfo.innerHTML = 'Calculating distance…';
+
+        try {
+            const res = await fetch(`/Home/GetDistance?origin=${encodeURIComponent(state.pickup)}&destination=${encodeURIComponent(state.drop)}`);
+            if (res.ok) {
+                const data = await res.json();
+                state.distanceKm = data.distanceKm;
+                distanceInfo.innerHTML =
+                    `<span class="dkm">${data.distanceKm} km</span><span>${data.duration ?? ''}</span>`;
+                updateCta();
+            } else {
+                distanceInfo.textContent = 'Distance unavailable for this route';
+                state.distanceKm = null;
+            }
+        } catch (err) {
+            distanceInfo.textContent = 'Distance unavailable';
+            state.distanceKm = null;
+        }
+
+        if (googleReady) {
+            ensureMap();
+            directionsService.route(
+                {
+                    origin: state.pickup,
+                    destination: state.drop,
+                    travelMode: google.maps.TravelMode.DRIVING
+                },
+                (result, status) => {
+                    if (status === 'OK') {
+                        directionsRenderer.setDirections(result);
+                    }
+                }
+            );
+        }
+    }
+
+    // Helper: checks if a place description belongs to India
+    function isIndiaLocation(name) {
+        return /india\s*$/i.test((name || '').trim());
+    }
+
+    function renderList() {
+      const activeInput = state.active === 'pickup' ? pickupValue : dropValue;
+      const rawQuery = activeInput.value.trim();
+
+      // Current-location option only for pickup field
+      const currentLocationHtml = state.active === 'pickup' ? `
+        <div class="location-item current-location-item" id="useCurrentLocationBtn">
+          <div class="location-item-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+          <div class="location-item-text">
+            <div class="main">Use my current location</div>
+          </div>
+        </div>` : '';
+
+      if (rawQuery.length < 3) {
+        locationList.innerHTML = currentLocationHtml + `
+          <div style="padding:14px 4px;color:#9aa0a8;font-size:0.82rem;">
+            Type at least 3 characters to search a location…
+          </div>`;
+        attachCurrentLocationHandler();
+        return;
+      }
+
+      locationList.innerHTML = currentLocationHtml + '<div id="googlePredictions"></div>';
+      attachCurrentLocationHandler();
+
+      clearTimeout(placesDebounce);
+      placesDebounce = setTimeout(() => {
+        if (!googleReady) {
+          document.getElementById('googlePredictions').innerHTML =
+            '<div style="padding:8px 4px;color:#9aa0a8;font-size:0.8rem;">Loading Google Maps…</div>';
+          return;
+        }
+
+        // If drop field is active and pickup is in India, restrict suggestions to India only
+        const request = { input: rawQuery };
+        if (state.active === 'drop' && state.pickupIsIndia) {
+          request.componentRestrictions = { country: 'in' };
+        }
+
+        autocompleteService.getPlacePredictions(request, (predictions, status) => {
+          const wrap = document.getElementById('googlePredictions');
+          if (!wrap) return;
+          if (status !== google.maps.places.PlacesServiceStatus.OK || !predictions) {
+            wrap.innerHTML = '<div style="padding:8px 4px;color:#9aa0a8;font-size:0.8rem;">No matches found</div>';
+            return;
+          }
+          wrap.innerHTML = predictions.map((p) => `
+            <div class="location-item" data-name="${p.description.replace(/"/g, '&quot;')}">
+              <div class="location-item-icon"><i class="fa-solid fa-map-pin"></i></div>
+              <div class="location-item-text">
+                <div class="main">${p.description}</div>
+              </div>
+            </div>
+          `).join('');
+          wrap.querySelectorAll('.location-item').forEach((item) => {
+            item.addEventListener('click', () => selectLocation(item.getAttribute('data-name')));
+          });
+        });
+      }, 300);
+    }
+
+    function attachCurrentLocationHandler() {
+      const btn = document.getElementById('useCurrentLocationBtn');
+      if (btn) btn.addEventListener('click', useCurrentLocation);
+    }
+
+
+    function focusField(field) {
+      state.active = field;
+      pickupRow.classList.toggle('field-active', field === 'pickup');
+      dropRow.classList.toggle('field-active', field === 'drop');
+      listLabel.textContent = field === 'pickup' ? 'Suggested pickup points' : 'Suggested drop points';
+      renderList();
+    }
+
+    // A clicked suggestion only fills whichever field is currently active
+    function selectLocation(name) {
+      if (state.active === 'pickup') {
+        state.pickup = name;
+        pickupValue.value = name;
+        state.pickupIsIndia = isIndiaLocation(name);
+        if (!state.drop) { focusField('drop'); return; }
+      } else {
+        // If pickup is in India, drop must also be in India
+        if (state.pickupIsIndia && !isIndiaLocation(name)) {
+          alert('Since your pickup is in India, please select a drop location within India too.');
+          return;
+        }
+        state.drop = name;
+        dropValue.value = name;
+      }
+      updateCta();
+      renderList();
+      updateRouteMap();
+    }
+
+    function swapLocations(event) {
+      event.stopPropagation();
+      const p = state.pickup, d = state.drop;
+      state.pickup = d;
+      state.drop = p;
+      pickupValue.value = state.pickup;
+      dropValue.value = state.drop;
+      state.pickupIsIndia = isIndiaLocation(state.pickup);
+      updateCta();
+      updateRouteMap();
+    }
+
+    function updateCta() {
+      if (state.pickup && state.drop && state.distanceKm) {
+        cta.textContent = 'Confirm route';
+        cta.classList.add('ready');
+        const params = new URLSearchParams({
+          pickup: state.pickup,
+          drop: state.drop,
+          distanceKm: state.distanceKm ?? '',
+          categoryId: state.categoryId ?? ''
+        });
+        cta.href = `/Home/Dateview?${params.toString()}`;
+      } else {
+        cta.textContent = 'Choose both points to continue';
+        cta.classList.remove('ready');
+        cta.href = '#';
+      }
+    }
+
+    function confirmRoute() {
+      if (!state.pickup || !state.drop) return;
+    }
+
+    function openSheet(planName, categoryId) {
+      planBadge.textContent = planName;
+      document.querySelectorAll('.plan-box').forEach((box) => {
+        box.classList.toggle('active', box.dataset.plan === planName);
+      });
+      state = { pickup: '', drop: '', active: 'pickup', distanceKm: null, categoryId: categoryId, pickupIsIndia: false };
+      pickupValue.value = '';
+      dropValue.value = '';
+      routeMapWrap.style.display = 'none';
+      focusField('pickup');
+      updateCta();
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSheet() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      document.querySelectorAll('.plan-box.active').forEach((box) => box.classList.remove('active'));
+    }
+
+    function toggleSidebar(open) {
+      const sidebar = document.getElementById('mobileSidebar');
+      sidebar.classList.toggle('open', open);
+      sidebar.setAttribute('aria-hidden', !open);
+      if (open) {
+        document.body.style.overflow = 'hidden';
+      } else if (!overlay.classList.contains('active')) {
+        document.body.style.overflow = '';
+      }
+    }
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeSheet();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSheet();
+    });
+
+
+    pickupValue.addEventListener('focus', () => focusField('pickup'));
+    dropValue.addEventListener('focus', () => focusField('drop'));
+    pickupValue.addEventListener('input', () => { state.pickup = pickupValue.value; renderList(); });
+    dropValue.addEventListener('input', () => { state.drop = dropValue.value; renderList(); });
+
+    document.querySelectorAll('.plan-box').forEach((box) => {
+      box.addEventListener('click', () => {
+        const planName = box.querySelector('h4').textContent;
+        box.dataset.plan = planName;
+        openSheet(planName, box.dataset.categoryId);
+      });
+    });
+            document.querySelector('.book-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+
+           
+            const firstPlan = document.querySelector('.plan-box');
+
+            if (firstPlan) {
+                const planName = firstPlan.querySelector('h4').textContent.trim();
+                const categoryId = firstPlan.dataset.categoryId;
+
+                openSheet(planName, categoryId);
+            }
+        });
+</script>
+<script>
+    function useCurrentLocation() {
+      const btn = document.getElementById('useCurrentLocationBtn');
+      if (!navigator.geolocation) {
+        if (btn) btn.querySelector('.main').textContent = 'Location not supported on this device';
+        return;
+      }
+
+      if (btn) btn.querySelector('.main').textContent = 'Fetching your location…';
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+
+          if (googleReady) {
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
+              if (status === 'OK' && results[0]) {
+                selectLocation(results[0].formatted_address);
+              } else {
+                // fallback: use raw coordinates as the value
+                selectLocation(`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
+              }
+            });
+          } else {
+            selectLocation(`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
+          }
+        },
+        (err) => {
+          if (btn) btn.querySelector('.main').textContent = 'Could not fetch location, allow permission';
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    }
+</script> *@
+>>>>>>> parent of 86913e4 (commit chang)
    
      <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApiKey&libraries=places&callback=initGoogleMaps">
@@ -1572,5 +1947,43 @@
             </a>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+
+
+
+
+    <style>
+        .sheet-title-wrap {
+            display: flex !important;
+            align-items: center !important;
+            gap: 20px !important;
+        }
+
+        .sheet-title-icon {
+            width: 42px !important;
+            height: 42px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+            border-radius: 10px !important;
+            background: linear-gradient(135deg, #303cf4 0%, #1728dc 100%) !important;
+            color: #ffffff !important;
+            font-size: 22px !important;
+            box-shadow: 0 12px 30px rgba(35, 55, 220, 0.22) !important;
+        }
+
+        .sheet-subtitle {
+            margin-top: 6px !important;
+            color: #45558b !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.3px !important;
+        }
+
+     
+    </style>
+>>>>>>> parent of 86913e4 (commit chang)
 </body>
 </html>
