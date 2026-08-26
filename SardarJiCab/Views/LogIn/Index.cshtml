@@ -185,8 +185,15 @@
                     }
 
                         #login-split .form-control::placeholder {
-                            color: #A99C84;
+                        color: #737272;
                         }
+
+            .hero-right img {
+                height: 500px;
+                width: 100%;
+                object-fit: cover;
+            }
+                        #login-split .form-control
 
                         #login-split .form-control:hover {
                             border-color: var(--mustard-dark);
@@ -353,16 +360,16 @@
                 <div class="hero">
                     <div class="hero-left">
                         <div class="eyebrow"><span class="dot"></span> Customer Login</div>
-                        <h1>Welcome back</h1>
+                    <h1>Good to see you again</h1>
                         <p class="subtitle">Log in to book your next ride.</p>
 
                         <form id="loginForm">
                             <div class="form-group">
-                                <label for="Email">Email</label>
+                                <label for="Email">Email <span style="color:red"> *</span> </label>
                                 <input type="email" id="Email" name="Email" class="form-control" placeholder="you@example.com" required>
                             </div>
                         <div class="form-group">
-                            <label for="Password">Password</label>
+                            <label for="Password">Password <span style="color:red"> *</span> </label>
 
                             <div class="password-wrapper">
                                 <input type="password"
@@ -404,7 +411,7 @@
                     <div class="hero-right">
                     <div>
 
-                        <img src="https://localhost:7281/images/loginimage.jpg" />
+                        <img src="https://i.ibb.co/twTLBQv0/loginimage.jpg" />
                     </div>
                     </div>
                 </div>

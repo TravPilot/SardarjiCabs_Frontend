@@ -114,7 +114,7 @@ namespace SardarJi_Cab_Booking.Controllers
                 Pickup = pickup,
                 Drop = drop,
                 GoogleMapsApiKey = _config["GoogleMapsApiKey"],
-                statetax= cars[0].StateTax,
+                statetax = cars.Count > 0 ? cars[0].StateTax : 0,
                 DistanceKm = distKm,
                 RideDate = date,
                 RideTime = time,

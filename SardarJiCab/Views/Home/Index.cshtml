@@ -437,6 +437,7 @@
         color: #6b7280;
         cursor: pointer;
         margin-bottom: 24px;
+        float:right;
         }
 
         .sidebar-logo {
@@ -472,7 +473,7 @@
         }
 
         .sidebar-logo-text .subtitle {
-        font-size: 0.78rem;
+        font-size: 0.6rem;
         color: #6b7280;
         margin: 2px 0 0;
         }
@@ -553,6 +554,8 @@
         border-radius: 16px;
         padding: 6px 14px;
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            margin: 1px 0;
+            margin-bottom:31px;
 
         }
 
@@ -656,6 +659,7 @@
         margin: 0 -8px;
         padding-left: 8px;
         padding-right: 8px;
+            border-left: 2px solid green;
         }
 
         .swap-btn {
@@ -692,7 +696,7 @@
         .sheet-section-label {
         font-size: 0.72rem;
         font-weight: 700;
-        color: #9aa0a8;
+        color: #000;
         text-transform: uppercase;
         letter-spacing: 0.04em;
         margin: 18px 0 8px;
@@ -704,6 +708,7 @@
             background: #fff;
             border-radius: 12px;
             padding: 5px;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         }
 
         .location-item {
@@ -746,12 +751,12 @@
 
         .sheet-cta {
             width: 100%;
-            margin-top: 18px;
+            margin-top: 68px;
             border: none;
             border-radius: 14px;
             padding: 14px;
-            background: #d8dade;
-            color: #000;
+            background: #0B205C;
+            color: #fff;
             display: flex;
             font-weight: 700;
             font-size: 0.94rem;
@@ -1079,9 +1084,9 @@
 
     </div>
     <div class="mobile-sidebar" id="mobileSidebar" aria-hidden="true">
-        <button class="sidebar-close" type="button" aria-label="Close menu" onclick="toggleSidebar(false)">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+            <button class="sidebar-close" type="button" aria-label="Close menu" onclick="toggleSidebar(false)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         <div class="sidebar-logo">
             <div class="sidebar-logo-icon"><img src="https://sardarjidriver.traviyo.in/sardar.png" /></div>
             <div class="sidebar-logo-text">
@@ -1090,19 +1095,39 @@
             </div>
         </div>
         <nav class="sidebar-menu">
-            <a href="/Home/Index" class="sidebar-menu-item"><i class="fa-solid fa-house"></i>Home</a>
-            <a href="/CabBookingList" class="sidebar-menu-item"><i class="fa-solid fa-location-dot"></i> Booked Ride</a>
-            <a href="/CurrentRide" class="sidebar-menu-item"><i class="fa-solid fa-calendar-check"></i> Current Ride</a>
-           
+            <a href="/Home/Index" class="sidebar-menu-item">
+                <i class="fa-solid fa-house"></i>
+                Home
+            </a>
+
+            <a href="/CabBookingList" class="sidebar-menu-item">
+                <i class="fa-solid fa-location-dot"></i>
+                Booked Ride
+            </a>
+
+            <a href="/CurrentRide" class="sidebar-menu-item">
+                <i class="fa-solid fa-calendar-check"></i>
+                Current Ride
+            </a>
+
             @if (customer != null)
             {
-                 <a href="/Customer/Index" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> Profile</a>
-                <a href="/LogIn/CustomerLogout" class="sidebar-menu-item"><i class="fa-solid fa-user"></i> LogOut</a>
+                <a href="/Customer/Index" class="sidebar-menu-item">
+                    <i class="fa-solid fa-user"></i>
+                    Profile
+                </a>
+
+                <a href="/LogIn/CustomerLogout" class="sidebar-menu-item">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    LogOut
+                </a>
             }
-            
         </nav>
         <div class="sidebar-footer">
-            <a href="/premiumsupport">  Premium support</a>
+            <a href="/premiumsupport">
+                <i class="fa-solid fa-headset"></i>
+                Premium Support
+            </a>
           
         </div>
     </div>
@@ -1239,6 +1264,7 @@
 
 
 
+                <div class="sheet-section-label" id="">Where would you like to go?</div>
 
             <div class="route-block">
                 <div class="route-row" id="pickupRow">
@@ -1270,7 +1296,7 @@
             <div class="sheet-section-label" id="listLabel">Suggested pickup points</div>
             <div id="locationList" class="location-list"></div>
 
-            <a href="/Home/Dateview" id="sheetCta" class="sheet-cta" type="button" onclick="confirmRoute()">Choose both points to continue</a>
+                <a href="/Home/Dateview" id="sheetCta" class="sheet-cta" type="button" onclick="confirmRoute()">Choose pickup & drop</a>
             </div>
         </div>
     </div>
@@ -1434,18 +1460,43 @@
 
         // A clicked suggestion only fills whichever field is currently active
         function selectLocation(name) {
-          if (state.active === 'pickup') {
-            state.pickup = name;
-            pickupValue.value = name;
-            if (!state.drop) { focusField('drop'); return; }
-          } else {
-            state.drop = name;
-            dropValue.value = name;
-          }
-          updateCta();
-          renderList();
-          updateRouteMap();
+
+            console.log("Location selected:", name);
+            console.log("Active field:", state.active);
+
+            if (state.active === 'pickup') {
+
+                state.pickup = name;
+                pickupValue.value = name;
+
+                console.log("Pickup selected:", state.pickup);
+
+                // Show Drop after Pickup is selected
+                dropRow.style.display = 'flex';
+
+                // Move to Drop selection
+                if (!state.drop) {
+                    focusField('drop');
+                    return;
+                }
+
+            } else {
+
+                state.drop = name;
+                dropValue.value = name;
+
+                console.log("Drop selected:", state.drop);
+
+                // Show Pickup after Drop is selected
+                pickupRow.style.display = 'flex';
+            }
+
+            updateCta();
+            renderList();
+            updateRouteMap();
         }
+
+
 
         function swapLocations(event) {
           event.stopPropagation();
@@ -1502,15 +1553,27 @@
         }
 
         function toggleSidebar(open) {
-          const sidebar = document.getElementById('mobileSidebar');
-          sidebar.classList.toggle('open', open);
-          sidebar.setAttribute('aria-hidden', !open);
-          if (open) {
-            document.body.style.overflow = 'hidden';
-          } else if (!overlay.classList.contains('active')) {
-            document.body.style.overflow = '';
-          }
+            const sidebar = document.getElementById('mobileSidebar');
+
+            sidebar.classList.toggle('open', open);
+            sidebar.setAttribute('aria-hidden', !open);
+
+            document.body.style.overflow = open ? 'hidden' : '';
         }
+
+        /* Close sidebar when clicking outside */
+        document.addEventListener('click', function (e) {
+            const sidebar = document.getElementById('mobileSidebar');
+            const hamburger = document.querySelector('.extt');
+
+            if (!sidebar.classList.contains('open')) return;
+
+            if (sidebar.contains(e.target)) return;
+
+            if (hamburger && hamburger.contains(e.target)) return;
+
+            toggleSidebar(false);
+        });
 
         overlay.addEventListener('click', (e) => {
           if (e.target === overlay) closeSheet();
@@ -1520,10 +1583,89 @@
         });
 
 
-        pickupValue.addEventListener('focus', () => focusField('pickup'));
-        dropValue.addEventListener('focus', () => focusField('drop'));
-        pickupValue.addEventListener('input', () => { state.pickup = pickupValue.value; renderList(); });
-        dropValue.addEventListener('input', () => { state.drop = dropValue.value; renderList(); });
+        pickupRow.addEventListener('click', function () {
+
+            console.log("Pickup row clicked");
+
+            focusField('pickup');
+
+            if (!state.pickup) {
+                dropRow.style.display = 'none';
+            }
+        });
+
+
+        dropRow.addEventListener('click', function () {
+
+            console.log("Drop row clicked");
+
+            focusField('drop');
+
+            if (!state.drop) {
+                pickupRow.style.display = 'none';
+            }
+        });
+
+        pickupRow.addEventListener('click', function () {
+
+            console.log("Pickup row clicked");
+
+            focusField('pickup');
+
+            if (!state.pickup) {
+                dropRow.style.display = 'none';
+            }
+        });
+
+
+        dropRow.addEventListener('click', function () {
+
+            console.log("Drop row clicked");
+
+            focusField('drop');
+
+            if (!state.drop) {
+                pickupRow.style.display = 'none';
+            }
+        });
+
+
+        pickupValue.addEventListener('input', function () {
+
+            console.log("Pickup typing:", pickupValue.value);
+
+            renderList();
+        });
+
+
+        dropValue.addEventListener('input', function () {
+
+            console.log("Drop typing:", dropValue.value);
+
+            renderList();
+        });
+
+        // pickupRow.addEventListener('click', function () {
+
+        //     console.log("Pickup row clicked");
+
+        //     if (!state.pickup) {
+        //         dropRow.style.display = 'none';
+        //     }
+        // });
+
+
+        // dropRow.addEventListener('click', function () {
+
+        //     console.log("Drop row clicked");
+
+        //     if (!state.drop) {
+        //         pickupRow.style.display = 'none';
+        //     }
+        // });
+
+        // pickupValue.addEventListener('input', () => { state.pickup = pickupValue.value; renderList(); });
+        // dropValue.addEventListener('input', () => { state.drop = dropValue.value; renderList(); });
 
         document.querySelectorAll('.plan-box').forEach((box) => {
           box.addEventListener('click', () => {
@@ -1585,7 +1727,114 @@
           );
         }
     </script>
+@* 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
 
+            const pickupRow = document.getElementById("pickupRow");
+            const dropRow = document.getElementById("dropRow");
+
+            const pickupValue = document.getElementById("pickupValue");
+            const dropValue = document.getElementById("dropValue");
+
+            console.log("Route script loaded");
+            console.log("pickupRow:", pickupRow);
+            console.log("dropRow:", dropRow);
+            console.log("pickupValue:", pickupValue);
+            console.log("dropValue:", dropValue);
+
+
+            // Initially both visible
+            pickupRow.style.display = "flex";
+            dropRow.style.display = "flex";
+
+            console.log("Initial state: Pickup and Drop visible");
+
+
+            // Click Pickup
+            pickupRow.addEventListener("click", function () {
+
+                console.log("Pickup clicked");
+                console.log("Pickup value:", pickupValue.value);
+
+                if (pickupValue.value.trim() === "") {
+
+                    dropRow.style.display = "none";
+
+                    console.log("Pickup is empty → Drop hidden");
+
+                } else {
+
+                    dropRow.style.display = "flex";
+
+                    console.log("Pickup has value → Drop visible");
+                }
+            });
+
+
+            // Pickup value changed
+            pickupValue.addEventListener("input", function () {
+
+                console.log("Pickup input changed:", pickupValue.value);
+
+                if (pickupValue.value.trim() !== "") {
+
+                    dropRow.style.display = "flex";
+
+                    console.log("Pickup has value → Drop shown");
+
+                } else {
+
+                    dropRow.style.display = "none";
+
+                    console.log("Pickup empty → Drop hidden");
+                }
+            });
+
+
+            // Click Drop
+            dropRow.addEventListener("click", function () {
+
+                console.log("Drop clicked");
+                console.log("Drop value:", dropValue.value);
+
+                if (dropValue.value.trim() === "") {
+
+                    pickupRow.style.display = "none";
+
+
+                    console.log("Drop is empty → Pickup hidden");
+
+                } else {
+
+                    pickupRow.style.display = "flex";
+
+                    console.log("Drop has value → Pickup visible");
+                }
+            });
+
+
+            // Drop value changed
+            dropValue.addEventListener("input", function () {
+
+                console.log("Drop input changed:", dropValue.value);
+
+                if (dropValue.value.trim() !== "") {
+
+                    pickupRow.style.display = "flex";
+
+                    console.log("Drop has value → Pickup shown");
+
+                } else {
+
+                    pickupRow.style.display = "none";
+
+                    console.log("Drop empty → Pickup hidden");
+                }
+            });
+
+        });
+    </script> *@
  @*    <script>
 
     let state = { pickup: '', drop: '', active: 'pickup', distanceKm: null, categoryId: null, pickupIsIndia: false };
@@ -1962,7 +2211,42 @@
             font-weight: 500 !important;
             letter-spacing: 0.3px !important;
         }
+        .sidebar-footer a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
 
+.sidebar-footer a:hover {
+    background: #333;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-footer a i {
+    font-size: 16px;
+}
+
+        .sidebar-menu-item:hover {
+            background: #f5f5f5;
+            color: #111;
+            transform: translateX(4px);
+        }
+
+            .sidebar-menu-item:hover i {
+                color: #111;
+            }
      
     </style>
 </body>
