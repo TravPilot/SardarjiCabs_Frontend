@@ -27,6 +27,18 @@
     #login-split .eyebrow{
         margin-bottom:0;
     }
+
+    #login-split .form-control::placeholder {
+        color: #737272;
+    }
+
+    .hero-right img {
+        height: 500px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+   
     </style>
     <header b-52bmxasoju="" style="display:none;">
         <nav b-52bmxasoju="" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -353,7 +365,7 @@
 
                     <div class="logo"><img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Sardar Ji Cabs"></div>
                         <div class="eyebrow"><span class="dot"></span> Customer Login</div>
-                        <h1>Welcome back</h1>
+                    <h1>Good to see you again</h1>
                         <p class="subtitle">Log in to book your next ride.</p>
 
                         <form id="loginForm">
@@ -362,12 +374,15 @@
                                 <input type="email" id="Email" name="Email" class="form-control" placeholder="you@example.com" required>
                             </div> *@
                         <div class="form-group">
-                            <label for="Mobile">Mobile No.</label>
+                          
+                            <label for="Mobile">Mobile No. <span style="color:red"> *</span> </label>
                             <input type="number" id="mobile" name="mobile" class="form-control" placeholder="8878789980" required>
                         </div>
                             <div class="form-group">
-                                <label for="Password">Password</label>
-                                <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required>
+                            <label for="Password">Password <span style="color:red"> *</span> </label>
+
+
+                            <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required>
                             </div>
                         @* <div class="form-group">
                             <label for="Role">Login As</label>
