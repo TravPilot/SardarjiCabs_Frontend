@@ -1,334 +1,312 @@
 ﻿@{
     ViewData["Title"] = "Login";
 }
+ 
 
 
-   
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/site.css">
-    <link rel="stylesheet" href="/SardarJi_Cab_Booking.styles.css?v=E6-pZbSI0HMBSvghvmpoNIgkcXCIfyedYLQFqsgU1xw">
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of b370c3a (commit chage)
-
-    <style>
+<link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/SardarJi_Cab_Booking.styles.css?v=E6-pZbSI0HMBSvghvmpoNIgkcXCIfyedYLQFqsgU1xw">
+ 
+<style>
     .logo {
-      
         max-width: 180px;
         top: 12px;
         z-index: 99999;
         left: 53px;
-
     }
 
         .logo img {
             width: 100%;
             height: auto;
-            margin-bottom:12px;
+            margin-bottom: 12px;
         }
 
-    #login-split .eyebrow{
-        margin-bottom:0;
+    #login-split .eyebrow {
+        margin-bottom: 0;
     }
+</style>
+<header b-52bmxasoju="" style="display:none;">
+    <nav b-52bmxasoju="" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div b-52bmxasoju="" class="container-fluid"></div>
+    </nav>
+</header>
+<div b-52bmxasoju="" class="">
+    <main b-52bmxasoju="" role="main" class="pb-3">
 
-    #login-split .form-control::placeholder {
-        color: #737272;
-    }
 
-    .hero-right img {
-        height: 500px;
-        width: 100%;
-        object-fit: cover;
-    }
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --road: #1B1B1F; 
+                --mustard: #F2A93C;
+                --mustard-dark: #D6891C;
+                --marigold: #E5572B;
+                --marigold-dk: #C0431E;
+                --teal: #0E6B5F;
+                --teal-dark: #0A4F46;
+                --teal-pale: #E4F1EE;
+                --cream: #FBF3E1;
+                --ink: #241C14;
+                --ink-soft: #7A6E5C;
+                --line: #E6D9BC;
+                --danger: #B3261E;
+                --radius: 12px;
+            }
 
-   
-    </style>
-    <header b-52bmxasoju="" style="display:none;">
-        <nav b-52bmxasoju="" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div b-52bmxasoju="" class="container-fluid"></div>
-        </nav>
-    </header>
-    <div b-52bmxasoju="" class="">
-        <main b-52bmxasoju="" role="main" class="pb-3">
+            #login-split * {
+                box-sizing: border-box;
+            }
 
-           
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-            <style>
-                :root {
-                    --road: #1B1B1F;
-                    --mustard: #F2A93C;
-                    --mustard-dark: #D6891C;
-                    --marigold: #E5572B;
-                    --marigold-dk: #C0431E;
-                    --teal: #0E6B5F;
-                    --teal-dark: #0A4F46;
-                    --teal-pale: #E4F1EE;
-                    --cream: #FBF3E1;
-                    --ink: #241C14;
-                    --ink-soft: #7A6E5C;
-                    --line: #E6D9BC;
-                    --danger: #B3261E;
-                    --radius: 12px;
+            #login-split {
+                font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+                color: var(--ink);
+                background: var(--cream);
+            }
+
+                #login-split .ls-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 1.5rem 3rem;
+                    border-bottom: 1px solid var(--line);
                 }
 
-                #login-split * {
-                    box-sizing: border-box;
-                }
-
-                #login-split {
-                    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+                #login-split .ls-logo {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.6rem;
+                    font-family: "Baloo 2", sans-serif;
+                    font-weight: 800;
+                    font-size: 1.35rem;
                     color: var(--ink);
-                    background: var(--cream);
                 }
 
-                    #login-split .ls-header {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        padding: 1.5rem 3rem;
-                        border-bottom: 1px solid var(--line);
-                    }
-
-                    #login-split .ls-logo {
-                        display: flex;
-                        align-items: center;
-                        gap: 0.6rem;
-                        font-family: "Baloo 2", sans-serif;
-                        font-weight: 800;
-                        font-size: 1.35rem;
-                        color: var(--ink);
-                    }
-
-                        #login-split .ls-logo .mark {
-                            width: 34px;
-                            height: 34px;
-                            border-radius: 50%;
-                            background: var(--teal);
-                            color: var(--cream);
-                            display: inline-flex;
-                            align-items: center;
-                            justify-content: center;
-                            font-size: 0.95rem;
-                        }
-
-                    #login-split .ls-header nav a {
-                        color: var(--ink-soft);
-                        text-decoration: none;
-                        font-size: 0.95rem;
-                        font-weight: 500;
-                        margin-left: 2rem;
-                    }
-
-                        #login-split .ls-header nav a:hover {
-                            color: var(--ink);
-                        }
-
-                    #login-split .hero {
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 3rem;
-                        align-items: center;
-                        max-width: 1280px;
-                        margin: 0 auto;
-                        padding: 3.5rem 3rem 4rem;
-                        direction: ltr;
-                    }
-
-                    #login-split .hero-left {
-                        max-width: 420px;
-                        order: 1;
-                        grid-column: 1;
-                    }
-
-                    #login-split .hero-right {
-                        order: 2;
-                        grid-column: 2;
-                        position: relative;
-                        border-radius: 20px;
-                        overflow: hidden;
-                        aspect-ratio: 4 / 3;
-                        box-shadow: 0 30px 60px -24px rgba(27,27,31,0.45);
-                    }
-
-                        #login-split .hero-right svg {
-                            display: block;
-                            width: 100%;
-                            height: 100%;
-                        }
-
-                    #login-split .eyebrow {
+                    #login-split .ls-logo .mark {
+                        width: 34px;
+                        height: 34px;
+                        border-radius: 50%;
+                        background: var(--teal);
+                        color: var(--cream);
                         display: inline-flex;
                         align-items: center;
-                        gap: 0.5rem;
-                        font-size: 0.85rem;
-                        font-weight: 700;
-                        letter-spacing: 0.08em;
-                        text-transform: uppercase;
-                        color: var(--teal-dark);
-                        margin-bottom: 1rem;
+                        justify-content: center;
+                        font-size: 0.95rem;
                     }
 
-                        #login-split .eyebrow .dot {
-                            width: 7px;
-                            height: 7px;
-                            border-radius: 50%;
-                            background: var(--marigold);
-                        }
+                #login-split .ls-header nav a {
+                    color: var(--ink-soft);
+                    text-decoration: none;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                    margin-left: 2rem;
+                }
 
-                    #login-split h1 {
-                        font-family: "Baloo 2", sans-serif;
-                        font-size: 2.5rem;
-                        line-height: 1.05;
-                        font-weight: 800;
-                        margin: 0 0 0.5rem;
+                    #login-split .ls-header nav a:hover {
                         color: var(--ink);
                     }
 
-                    #login-split .subtitle {
-                        font-size: 0.98rem;
-                        color: var(--ink-soft);
-                        margin: 0 0 2rem;
-                    }
+                #login-split .hero {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 3rem;
+                    align-items: center;
+                    max-width: 1280px;
+                    margin: 0 auto;
+                    padding: 3.5rem 3rem 4rem;
+                    direction: ltr;
+                }
 
-                    #login-split .form-group {
-                        margin-bottom: 1.15rem;
-                        text-align: left;
-                    }
+                #login-split .hero-left {
+                    max-width: 420px;
+                    order: 1;
+                    grid-column: 1;
+                }
 
-                        #login-split .form-group label {
-                            display: block;
-                            font-size: 0.72rem;
-                            font-weight: 700;
-                            text-transform: uppercase;
-                            letter-spacing: 0.08em;
-                            color: var(--teal-dark);
-                            margin-bottom: 0.4rem;
-                        }
+                #login-split .hero-right {
+                    order: 2;
+                    grid-column: 2;
+                    position: relative;
+                    border-radius: 20px;
+                    overflow: hidden;
+                    aspect-ratio: 4 / 3;
+                    box-shadow: 0 30px 60px -24px rgba(27,27,31,0.45);
+                }
 
-                    #login-split .form-control {
+                    #login-split .hero-right svg {
+                        display: block;
                         width: 100%;
-                        padding: 0.8rem 0.95rem;
-                        font-size: 0.98rem;
-                        font-family: inherit;
-                        color: var(--ink);
-                        background: #FFFFFF;
-                        border: 1.5px solid var(--line);
-                        border-radius: var(--radius);
-                        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+                        height: 100%;
                     }
 
-                        #login-split .form-control::placeholder {
-                            color: #A99C84;
-                        }
+                #login-split .eyebrow {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: var(--teal-dark);
+                    margin-bottom: 1rem;
+                }
 
-                        #login-split .form-control:hover {
-                            border-color: var(--mustard-dark);
-                        }
-
-                        #login-split .form-control:focus {
-                            outline: none;
-                            border-color: var(--teal);
-                            box-shadow: 0 0 0 3px rgba(14,107,95,0.15);
-                        }
-
-                    #login-split .btn-primary {
-                        width: 100%;
+                    #login-split .eyebrow .dot {
+                        width: 7px;
+                        height: 7px;
+                        border-radius: 50%;
                         background: var(--marigold);
-                        color: #FFFFFF;
-                        border: none;
-                        border-radius: var(--radius);
-                        padding: 0.9rem 1.25rem;
-                        font-family: "Baloo 2", sans-serif;
-                        font-size: 1.02rem;
+                    }
+
+                #login-split h1 {
+                    font-family: "Baloo 2", sans-serif;
+                    font-size: 2.5rem;
+                    line-height: 1.05;
+                    font-weight: 800;
+                    margin: 0 0 0.5rem;
+                    color: var(--ink);
+                }
+
+                #login-split .subtitle {
+                    font-size: 0.98rem;
+                    color: var(--ink-soft);
+                    margin: 0 0 2rem;
+                }
+
+                #login-split .form-group {
+                    margin-bottom: 1.15rem;
+                    text-align: left;
+                }
+
+                    #login-split .form-group label {
+                        display: block;
+                        font-size: 0.72rem;
                         font-weight: 700;
-                        cursor: pointer;
-                        margin-top: 0.3rem;
-                        box-shadow: 0 12px 22px -10px rgba(229,87,43,0.6);
-                        transition: background 0.15s ease, transform 0.05s ease;
+                        text-transform: uppercase;
+                        letter-spacing: 0.08em;
+                        color: var(--teal-dark);
+                        margin-bottom: 0.4rem;
                     }
 
-                        #login-split .btn-primary:hover {
-                            background: var(--marigold-dk);
-                        }
+                #login-split .form-control {
+                    width: 100%;
+                    padding: 0.8rem 0.95rem;
+                    font-size: 0.98rem;
+                    font-family: inherit;
+                    color: var(--ink);
+                    background: #FFFFFF;
+                    border: 1.5px solid var(--line);
+                    border-radius: var(--radius);
+                    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+                }
 
-                        #login-split .btn-primary:active {
-                            transform: translateY(1px);
-                        }
+                    #login-split .form-control::placeholder {
+                        color: #A99C84;
+                    }
 
-                        #login-split .btn-primary:disabled {
-                            opacity: 0.7;
-                            cursor: default;
-                        }
+                    #login-split .form-control:hover {
+                        border-color: var(--mustard-dark);
+                    }
 
-                    #login-split .text-danger {
+                    #login-split .form-control:focus {
+                        outline: none;
+                        border-color: var(--teal);
+                        box-shadow: 0 0 0 3px rgba(14,107,95,0.15);
+                    }
+
+                #login-split .btn-primary {
+                    width: 100%;
+                    background: var(--marigold);
+                    color: #FFFFFF;
+                    border: none;
+                    border-radius: var(--radius);
+                    padding: 0.9rem 1.25rem;
+                    font-family: "Baloo 2", sans-serif;
+                    font-size: 1.02rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                    margin-top: 0.3rem;
+                    box-shadow: 0 12px 22px -10px rgba(229,87,43,0.6);
+                    transition: background 0.15s ease, transform 0.05s ease;
+                }
+
+                    #login-split .btn-primary:hover {
+                        background: var(--marigold-dk);
+                    }
+
+                    #login-split .btn-primary:active {
+                        transform: translateY(1px);
+                    }
+
+                    #login-split .btn-primary:disabled {
+                        opacity: 0.7;
+                        cursor: default;
+                    }
+
+                #login-split .text-danger {
+                    font-size: 0.85rem;
+                    color: var(--danger);
+                    background: rgba(179,38,30,0.08);
+                    border: 1px solid rgba(179,38,30,0.25);
+                    border-radius: var(--radius);
+                    padding: 0.6rem 0.8rem;
+                    margin-bottom: 1rem;
+                }
+
+                #login-split .forgot-row {
+                    text-align: right;
+                    margin-top: 0.7rem;
+                }
+
+                    #login-split .forgot-row a {
                         font-size: 0.85rem;
-                        color: var(--danger);
-                        background: rgba(179,38,30,0.08);
-                        border: 1px solid rgba(179,38,30,0.25);
-                        border-radius: var(--radius);
-                        padding: 0.6rem 0.8rem;
-                        margin-bottom: 1rem;
+                        color: var(--teal-dark);
+                        text-decoration: none;
+                        font-weight: 600;
                     }
 
-                    #login-split .forgot-row {
-                        text-align: right;
-                        margin-top: 0.7rem;
-                    }
-
-                        #login-split .forgot-row a {
-                            font-size: 0.85rem;
-                            color: var(--teal-dark);
-                            text-decoration: none;
-                            font-weight: 600;
+                        #login-split .forgot-row a:hover {
+                            text-decoration: underline;
                         }
 
-                            #login-split .forgot-row a:hover {
-                                text-decoration: underline;
-                            }
+                #login-split hr {
+                    border: none;
+                    border-top: 1px dashed var(--line);
+                    margin: 1.75rem 0 1.25rem;
+                }
 
-                    #login-split hr {
-                        border: none;
-                        border-top: 1px dashed var(--line);
-                        margin: 1.75rem 0 1.25rem;
+                #login-split .signup-row {
+                    font-size: 0.92rem;
+                    color: var(--ink-soft);
+                }
+
+                    #login-split .signup-row a {
+                        display: inline-block;
+                        margin-left: 0.6rem;
+                        padding: 0.45rem 1rem;
+                        background: var(--teal);
+                        color: #FFFFFF;
+                        border-radius: 999px;
+                        text-decoration: none;
+                        font-weight: 600;
+                        font-size: 0.85rem;
+                        transition: background 0.15s ease;
                     }
 
-                    #login-split .signup-row {
-                        font-size: 0.92rem;
-                        color: var(--ink-soft);
-                    }
-
-                        #login-split .signup-row a {
-                            display: inline-block;
-                            margin-left: 0.6rem;
-                            padding: 0.45rem 1rem;
-                            background: var(--teal);
-                            color: #FFFFFF;
-                            border-radius: 999px;
-                            text-decoration: none;
-                            font-weight: 600;
-                            font-size: 0.85rem;
-                            transition: background 0.15s ease;
+                        #login-split .signup-row a:hover {
+                            background: var(--teal-dark);
                         }
-
-                            #login-split .signup-row a:hover {
-                                background: var(--teal-dark);
-                            }
 
             @@media (min-width: 980px) {
                 nav.navbar.navbar-expand-sm.navbar-toggleable-sm.navbar-light.bg-white.border-bottom.box-shadow.mb-3 {
                     margin: 0 !important;
-                    padding:0;
+                    padding: 0;
                 }
-
-
-
             }
-                @@media (max-width: 980px) {
-                    #login-split .hero
 
-                {
+            @@media (max-width: 980px) {
+                #login-split .hero {
                     grid-template-columns: 1fr;
                     padding: 2.5rem 1.5rem 3rem;
                 }
@@ -346,210 +324,158 @@
                 #login-split .hero-right {
                     aspect-ratio: 16/10;
                 }
+            }
 
-                }
-
-                @@media (prefers-reduced-motion: reduce) {
-                    #login-split .form-control, #login-split .btn-primary, #login-split .signup-row a
-
-                {
+            @@media (prefers-reduced-motion: reduce) {
+                #login-split .form-control, #login-split .btn-primary, #login-split .signup-row a {
                     transition: none;
                 }
+            }
+        </style>
 
-                }
-            </style>
+        <div id="login-split">
 
-            <div id="login-split">
 
-            
-                <div class="hero">
-                    <div class="hero-left">
+            <div class="hero">
+                <div class="hero-left">
 
 
 
                     <div class="logo"><img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Sardar Ji Cabs"></div>
-                        <div class="eyebrow"><span class="dot"></span> Customer Login</div>
-                    <h1>Good to see you again</h1>
-                        <p class="subtitle">Log in to book your next ride.</p>
+                    <div class="eyebrow"><span class="dot"></span> Customer Login</div>
+                    <h1>Welcome back</h1>
+                    <p class="subtitle">Log in to book your next ride.</p>
 
-                        <form id="loginForm">
-<<<<<<< HEAD
-                           @*  <div class="form-group">
-=======
-                            <div class="form-group">
->>>>>>> parent of 86913e4 (commit chang)
+                    <form id="loginForm">
+                        @*  <div class="form-group">
                                 <label for="Email">Email</label>
                                 <input type="email" id="Email" name="Email" class="form-control" placeholder="you@example.com" required>
-<<<<<<< HEAD
                             </div> *@
                         <div class="form-group">
-<<<<<<< HEAD
-                          
-                            <label for="Mobile">Mobile No. <span style="color:red"> *</span> </label>
-=======
-<<<<<<< HEAD
                             <label for="Mobile">Mobile No.</label>
->>>>>>> 4db3419e90e4605f518b728223c594283ef558c8
                             <input type="number" id="mobile" name="mobile" class="form-control" placeholder="8878789980" required>
-=======
-                            <label for="Password">Password</label>
-
-                            <div class="password-wrapper">
-                                <input type="password"
-                                       id="Password"
-                                       name="Password"
-                                       class="form-control"
-                                       placeholder="••••••••"
-                                       required>
-                                <span class="toggle-password" onclick="togglePassword()">
-                                    <i class="bi bi-eye" id="toggleIcon"></i>
-                                </span>
-                            </div>
->>>>>>> parent of 86913e4 (commit chang)
                         </div>
-                            <div class="form-group">
-                            <label for="Password">Password <span style="color:red"> *</span> </label>
-
-
-                            <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required>
-                            </div>
-                        @* <div class="form-group">
-=======
-                            </div>
-                            <div class="form-group">
-                                <label for="Password">Password</label>
-                                <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required>
-                            </div>
                         <div class="form-group">
->>>>>>> parent of b370c3a (commit chage)
+                            <label for="Password">Password</label>
+                            <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        @* <div class="form-group">
                             <label for="Role">Login As</label>
                             <select id="Role" name="Role" class="form-control" required>
                                 <option value="">-- Select Role --</option>
                                 <option value="Customer">Customer</option>
                                 <option value="Driver">Driver</option>
-                               
+
                             </select>
+                        </div> *@
+                        <div id="errorMessage" class="text-danger" style="display:none;"></div>
+                        <button type="submit" class="btn-primary" id="btnLogin">Login</button>
+
+                        <div class="forgot-row">
+                            <a href="/forgotpassword" id="forgotPassword">Forgot Password?</a>
                         </div>
-                            <div id="errorMessage" class="text-danger" style="display:none;"></div>
-                            <button type="submit" class="btn-primary" id="btnLogin">Login</button>
 
-                            <div class="forgot-row">
-                                <a href="/Customer/ForgotPassword" id="forgotPassword">Forgot Password?</a>
-                            </div>
+                        <hr>
 
-                            <hr>
+                        <div class="signup-row">
+                            <span>Don't have an account?</span>
+                            <a href="/Registration/Index">Sign Up</a>
+                        </div>
+                    </form>
+                </div>
 
-                            <div class="signup-row">
-                                <span>Don't have an account?</span>
-                                <a href="/Registration/Index">Sign Up</a>
-                            </div>
-                        </form>
-                    </div>
+                <div class="hero-right">
+                    <svg viewBox="0 0 700 875" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                        <defs>
+                            <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#0A4F46" />
+                                <stop offset="45%" stop-color="#0E6B5F" />
+                                <stop offset="75%" stop-color="#D6891C" />
+                                <stop offset="100%" stop-color="#F2A93C" />
+                            </linearGradient>
+                            <radialGradient id="sun2" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#FBF3E1" />
+                                <stop offset="55%" stop-color="#F2A93C" />
+                                <stop offset="100%" stop-color="#E5572B" stop-opacity="0" />
+                            </radialGradient>
+                        </defs>
 
-                    <div class="hero-right">
-                        <svg viewBox="0 0 700 875" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                            <defs>
-                                <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#0A4F46" />
-                                    <stop offset="45%" stop-color="#0E6B5F" />
-                                    <stop offset="75%" stop-color="#D6891C" />
-                                    <stop offset="100%" stop-color="#F2A93C" />
-                                </linearGradient>
-                                <radialGradient id="sun2" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stop-color="#FBF3E1" />
-                                    <stop offset="55%" stop-color="#F2A93C" />
-                                    <stop offset="100%" stop-color="#E5572B" stop-opacity="0" />
-                                </radialGradient>
-                            </defs>
+                        <rect width="700" height="875" fill="url(#sky2)" />
+                        <circle cx="500" cy="430" r="150" fill="url(#sun2)" />
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of b370c3a (commit chage)
-                            <rect width="700" height="875" fill="url(#sky2)" />
-                            <circle cx="500" cy="430" r="150" fill="url(#sun2)" />
+                        <path d="M120 130 q10 -12 20 0 q10 -12 20 0" stroke="#FBF3E1" stroke-width="2.5" fill="none" opacity="0.7" />
+                        <path d="M170 165 q8 -10 16 0 q8 -10 16 0" stroke="#FBF3E1" stroke-width="2.5" fill="none" opacity="0.55" />
 
-                            <path d="M120 130 q10 -12 20 0 q10 -12 20 0" stroke="#FBF3E1" stroke-width="2.5" fill="none" opacity="0.7" />
-                            <path d="M170 165 q8 -10 16 0 q8 -10 16 0" stroke="#FBF3E1" stroke-width="2.5" fill="none" opacity="0.55" />
+                        <path d="M0 470 Q120 400 260 460 T520 440 T700 470 V875 H0 Z" fill="#0F5A50" opacity="0.85" />
+                        <path d="M0 520 Q160 460 340 510 T700 500 V875 H0 Z" fill="#0A4F46" />
 
-                            <path d="M0 470 Q120 400 260 460 T520 440 T700 470 V875 H0 Z" fill="#0F5A50" opacity="0.85" />
-                            <path d="M0 520 Q160 460 340 510 T700 500 V875 H0 Z" fill="#0A4F46" />
+                        <rect x="0" y="700" width="700" height="175" fill="#1B1B1F" />
+                        <rect x="0" y="700" width="700" height="10" fill="#241C14" />
+                        <g fill="#FBF3E1" opacity="0.85">
+                            <rect x="0" y="778" width="46" height="8" rx="2" />
+                            <rect x="82" y="778" width="46" height="8" rx="2" />
+                            <rect x="164" y="778" width="46" height="8" rx="2" />
+                            <rect x="246" y="778" width="46" height="8" rx="2" />
+                            <rect x="328" y="778" width="46" height="8" rx="2" />
+                            <rect x="410" y="778" width="46" height="8" rx="2" />
+                            <rect x="492" y="778" width="46" height="8" rx="2" />
+                            <rect x="574" y="778" width="46" height="8" rx="2" />
+                            <rect x="656" y="778" width="46" height="8" rx="2" />
+                        </g>
 
-                            <rect x="0" y="700" width="700" height="175" fill="#1B1B1F" />
-                            <rect x="0" y="700" width="700" height="10" fill="#241C14" />
-                            <g fill="#FBF3E1" opacity="0.85">
-                                <rect x="0" y="778" width="46" height="8" rx="2" />
-                                <rect x="82" y="778" width="46" height="8" rx="2" />
-                                <rect x="164" y="778" width="46" height="8" rx="2" />
-                                <rect x="246" y="778" width="46" height="8" rx="2" />
-                                <rect x="328" y="778" width="46" height="8" rx="2" />
-                                <rect x="410" y="778" width="46" height="8" rx="2" />
-                                <rect x="492" y="778" width="46" height="8" rx="2" />
-                                <rect x="574" y="778" width="46" height="8" rx="2" />
-                                <rect x="656" y="778" width="46" height="8" rx="2" />
+                        <g transform="translate(430,600)">
+                            <ellipse cx="70" cy="150" rx="120" ry="14" fill="#000000" opacity="0.22" />
+                            <path d="M10 60 Q10 10 60 10 H130 Q150 10 150 40 V110 H10 Z" fill="#F2A93C" />
+                            <rect x="0" y="100" width="170" height="30" rx="8" fill="#D6891C" />
+                            <rect x="18" y="26" width="46" height="46" rx="6" fill="#0A4F46" opacity="0.85" />
+                            <circle cx="34" cy="140" r="20" fill="#1B1B1F" />
+                            <circle cx="34" cy="140" r="8" fill="#7A6E5C" />
+                            <circle cx="140" cy="140" r="20" fill="#1B1B1F" />
+                            <circle cx="140" cy="140" r="8" fill="#7A6E5C" />
+                            <circle cx="158" cy="55" r="7" fill="#FBF3E1" />
+                            <rect x="0" y="55" width="14" height="10" rx="2" fill="#E5572B" />
+                        </g>
+
+                        <g transform="translate(210,560)">
+                            <ellipse cx="45" cy="185" rx="60" ry="12" fill="#000000" opacity="0.2" />
+                            <rect x="28" y="130" width="12" height="55" rx="6" fill="#241C14" />
+                            <rect x="52" y="130" width="12" height="50" rx="6" fill="#241C14" />
+                            <path d="M18 70 Q20 55 45 55 Q70 55 72 70 L78 135 Q45 150 12 135 Z" fill="#0E6B5F" />
+                            <rect x="66" y="82" width="10" height="46" rx="5" fill="#0E6B5F" />
+                            <circle cx="45" cy="40" r="18" fill="#D9A066" />
+                            <path d="M24 34 Q22 12 45 10 Q68 12 66 34 Q68 22 74 26 Q70 12 45 8 Q20 12 16 26 Q22 22 24 34 Z" fill="#E5572B" />
+                            <g transform="translate(78,118)">
+                                <rect x="0" y="0" width="34" height="46" rx="5" fill="#F2A93C" stroke="#D6891C" stroke-width="2" />
+                                <rect x="10" y="-8" width="14" height="10" rx="3" fill="none" stroke="#D6891C" stroke-width="2.5" />
+                                <line x1="0" y1="20" x2="34" y2="20" stroke="#D6891C" stroke-width="2" />
+                                <circle cx="4" cy="48" r="4" fill="#241C14" />
+                                <circle cx="30" cy="48" r="4" fill="#241C14" />
                             </g>
+                        </g>
 
-                            <g transform="translate(430,600)">
-                                <ellipse cx="70" cy="150" rx="120" ry="14" fill="#000000" opacity="0.22" />
-                                <path d="M10 60 Q10 10 60 10 H130 Q150 10 150 40 V110 H10 Z" fill="#F2A93C" />
-                                <rect x="0" y="100" width="170" height="30" rx="8" fill="#D6891C" />
-                                <rect x="18" y="26" width="46" height="46" rx="6" fill="#0A4F46" opacity="0.85" />
-                                <circle cx="34" cy="140" r="20" fill="#1B1B1F" />
-                                <circle cx="34" cy="140" r="8" fill="#7A6E5C" />
-                                <circle cx="140" cy="140" r="20" fill="#1B1B1F" />
-                                <circle cx="140" cy="140" r="8" fill="#7A6E5C" />
-                                <circle cx="158" cy="55" r="7" fill="#FBF3E1" />
-                                <rect x="0" y="55" width="14" height="10" rx="2" fill="#E5572B" />
-                            </g>
-
-                            <g transform="translate(210,560)">
-                                <ellipse cx="45" cy="185" rx="60" ry="12" fill="#000000" opacity="0.2" />
-                                <rect x="28" y="130" width="12" height="55" rx="6" fill="#241C14" />
-                                <rect x="52" y="130" width="12" height="50" rx="6" fill="#241C14" />
-                                <path d="M18 70 Q20 55 45 55 Q70 55 72 70 L78 135 Q45 150 12 135 Z" fill="#0E6B5F" />
-                                <rect x="66" y="82" width="10" height="46" rx="5" fill="#0E6B5F" />
-                                <circle cx="45" cy="40" r="18" fill="#D9A066" />
-                                <path d="M24 34 Q22 12 45 10 Q68 12 66 34 Q68 22 74 26 Q70 12 45 8 Q20 12 16 26 Q22 22 24 34 Z" fill="#E5572B" />
-                                <g transform="translate(78,118)">
-                                    <rect x="0" y="0" width="34" height="46" rx="5" fill="#F2A93C" stroke="#D6891C" stroke-width="2" />
-                                    <rect x="10" y="-8" width="14" height="10" rx="3" fill="none" stroke="#D6891C" stroke-width="2.5" />
-                                    <line x1="0" y1="20" x2="34" y2="20" stroke="#D6891C" stroke-width="2" />
-                                    <circle cx="4" cy="48" r="4" fill="#241C14" />
-                                    <circle cx="30" cy="48" r="4" fill="#241C14" />
-                                </g>
-                            </g>
-
-                            <g transform="translate(-40,560)" opacity="0.96">
-                                <path d="M40 320 C-20 260 0 150 90 120 C60 190 100 240 150 250 C110 190 140 120 210 100 C190 170 220 230 270 250
+                        <g transform="translate(-40,560)" opacity="0.96">
+                            <path d="M40 320 C-20 260 0 150 90 120 C60 190 100 240 150 250 C110 190 140 120 210 100 C190 170 220 230 270 250
                    C240 190 260 120 320 110 C300 180 320 240 360 260 L360 320 Z" fill="#241C14" />
-                                <circle cx="70" cy="150" r="14" fill="#E5572B" opacity="0.9" />
-                                <circle cx="130" cy="115" r="11" fill="#F2A93C" opacity="0.9" />
-                                <circle cx="200" cy="140" r="13" fill="#E5572B" opacity="0.8" />
-                                <circle cx="270" cy="120" r="10" fill="#F2A93C" opacity="0.85" />
-                                <circle cx="40" cy="230" r="9" fill="#F2A93C" opacity="0.7" />
-                            </g>
-                        </svg>
-<<<<<<< HEAD
-=======
-                        <img src="https://localhost:7281/images/loginimage.jpg" />
-                    </div>
->>>>>>> parent of 86913e4 (commit chang)
-=======
->>>>>>> parent of b370c3a (commit chage)
-                    </div>
+                            <circle cx="70" cy="150" r="14" fill="#E5572B" opacity="0.9" />
+                            <circle cx="130" cy="115" r="11" fill="#F2A93C" opacity="0.9" />
+                            <circle cx="200" cy="140" r="13" fill="#E5572B" opacity="0.8" />
+                            <circle cx="270" cy="120" r="10" fill="#F2A93C" opacity="0.85" />
+                            <circle cx="40" cy="230" r="9" fill="#F2A93C" opacity="0.7" />
+                        </g>
+                    </svg>
                 </div>
             </div>
-          
+        </div>
 
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-            <script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
                             document.getElementById('loginForm').addEventListener('submit', function (e) {
 
                 e.preventDefault();
                 const mobile = document.getElementById('mobile').value;
                 // const email = document.getElementById('Email').value;
                 const password = document.getElementById('Password').value;
-                const role = document.getElementById('Role').value;
 
                 const btn = document.getElementById('btnLogin');
 
@@ -562,15 +488,9 @@
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: new URLSearchParams({
-<<<<<<< HEAD
                         UserName: mobile,
                         Password: password
-                        
-=======
-                        UserName: email,
-                        Password: password,
-                        Role: role
->>>>>>> parent of b370c3a (commit chage)
+
                     })
                 })
                 .then(res => res.json())
@@ -644,16 +564,16 @@
                 //     btn.textContent = 'Login';
                 //   });
                 // });
-            </script>
+        </script>
 
-        </main>
-    </div>
+    </main>
+</div>
 
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo"></script>
+<script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo"></script>
 
-  
-    <script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestid="c5d522281f11401287b6c9aa91ec74a0" data-requestmappingfromserver="false" data-connecturl="http://localhost:64100/82c345d674d448b49fe3622d11549902/browserLink"></script>
-   
-    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+
+<script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestid="c5d522281f11401287b6c9aa91ec74a0" data-requestmappingfromserver="false" data-connecturl="http://localhost:64100/82c345d674d448b49fe3622d11549902/browserLink"></script>
+
+<script src="/_framework/aspnetcore-browser-refresh.js"></script>
