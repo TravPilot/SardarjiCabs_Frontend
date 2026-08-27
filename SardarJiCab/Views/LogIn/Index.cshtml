@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/SardarJi_Cab_Booking.styles.css?v=E6-pZbSI0HMBSvghvmpoNIgkcXCIfyedYLQFqsgU1xw">
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of b370c3a (commit chage)
 
     <style>
     .logo {
@@ -369,14 +373,39 @@
                         <p class="subtitle">Log in to book your next ride.</p>
 
                         <form id="loginForm">
+<<<<<<< HEAD
                            @*  <div class="form-group">
+=======
+                            <div class="form-group">
+>>>>>>> parent of 86913e4 (commit chang)
                                 <label for="Email">Email</label>
                                 <input type="email" id="Email" name="Email" class="form-control" placeholder="you@example.com" required>
+<<<<<<< HEAD
                             </div> *@
                         <div class="form-group">
+<<<<<<< HEAD
                           
                             <label for="Mobile">Mobile No. <span style="color:red"> *</span> </label>
+=======
+<<<<<<< HEAD
+                            <label for="Mobile">Mobile No.</label>
+>>>>>>> 4db3419e90e4605f518b728223c594283ef558c8
                             <input type="number" id="mobile" name="mobile" class="form-control" placeholder="8878789980" required>
+=======
+                            <label for="Password">Password</label>
+
+                            <div class="password-wrapper">
+                                <input type="password"
+                                       id="Password"
+                                       name="Password"
+                                       class="form-control"
+                                       placeholder="••••••••"
+                                       required>
+                                <span class="toggle-password" onclick="togglePassword()">
+                                    <i class="bi bi-eye" id="toggleIcon"></i>
+                                </span>
+                            </div>
+>>>>>>> parent of 86913e4 (commit chang)
                         </div>
                             <div class="form-group">
                             <label for="Password">Password <span style="color:red"> *</span> </label>
@@ -385,6 +414,14 @@
                             <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required>
                             </div>
                         @* <div class="form-group">
+=======
+                            </div>
+                            <div class="form-group">
+                                <label for="Password">Password</label>
+                                <input type="password" id="Password" name="Password" class="form-control" placeholder="••••••••" required>
+                            </div>
+                        <div class="form-group">
+>>>>>>> parent of b370c3a (commit chage)
                             <label for="Role">Login As</label>
                             <select id="Role" name="Role" class="form-control" required>
                                 <option value="">-- Select Role --</option>
@@ -392,12 +429,12 @@
                                 <option value="Driver">Driver</option>
                                
                             </select>
-                        </div> *@
+                        </div>
                             <div id="errorMessage" class="text-danger" style="display:none;"></div>
                             <button type="submit" class="btn-primary" id="btnLogin">Login</button>
 
                             <div class="forgot-row">
-                            <a href="/forgotpassword" id="forgotPassword">Forgot Password?</a>
+                                <a href="/Customer/ForgotPassword" id="forgotPassword">Forgot Password?</a>
                             </div>
 
                             <hr>
@@ -425,6 +462,10 @@
                                 </radialGradient>
                             </defs>
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of b370c3a (commit chage)
                             <rect width="700" height="875" fill="url(#sky2)" />
                             <circle cx="500" cy="430" r="150" fill="url(#sun2)" />
 
@@ -488,6 +529,13 @@
                                 <circle cx="40" cy="230" r="9" fill="#F2A93C" opacity="0.7" />
                             </g>
                         </svg>
+<<<<<<< HEAD
+=======
+                        <img src="https://localhost:7281/images/loginimage.jpg" />
+                    </div>
+>>>>>>> parent of 86913e4 (commit chang)
+=======
+>>>>>>> parent of b370c3a (commit chage)
                     </div>
                 </div>
             </div>
@@ -501,7 +549,8 @@
                 const mobile = document.getElementById('mobile').value;
                 // const email = document.getElementById('Email').value;
                 const password = document.getElementById('Password').value;
-                
+                const role = document.getElementById('Role').value;
+
                 const btn = document.getElementById('btnLogin');
 
                 btn.disabled = true;
@@ -513,9 +562,15 @@
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: new URLSearchParams({
+<<<<<<< HEAD
                         UserName: mobile,
                         Password: password
                         
+=======
+                        UserName: email,
+                        Password: password,
+                        Role: role
+>>>>>>> parent of b370c3a (commit chage)
                     })
                 })
                 .then(res => res.json())

@@ -276,7 +276,15 @@
                 max-width: 45%;
                 width: 100%;
                 height: 100vh;
+<<<<<<< HEAD
                 overflow-y: hidden;
+=======
+<<<<<<< HEAD
+                overflow-y: scroll; 
+=======
+                overflow-y: scroll;
+>>>>>>> parent of 86913e4 (commit chang)
+>>>>>>> 4db3419e90e4605f518b728223c594283ef558c8
             }
 
             .sheet {
@@ -328,6 +336,7 @@
                 display: none;
             }
 
+<<<<<<< HEAD
             .picker-wrap {
                 display: flex;
                 justify-content: center;
@@ -337,6 +346,8 @@
                 align-items: flex-start;
             }
 
+=======
+>>>>>>> parent of b370c3a (commit chage)
             .page {
                 border-radius: 0;
                 margin: 0 auto;
@@ -515,12 +526,12 @@
 <body>
 
     <div class="logo_travel">
-        <div class="logo"><img src="https://adminsardarji.traviyo.in/images/LogoSardar.png" alt="Sardar JI"></div>
+        <div class="logo"><img src="~/Images/LogoSardar.png" alt="Sardar JI"></div>
 
     </div>
     <div class="Main_page">
         <div class="phone-frame1">
-            <img src="/images/mainnn.png" alt="Sardar Ji Cabs" />
+            <img src="~/Images/Bann12.png" alt="Sardar Ji Cabs" />
 
             <div class="banner-content">
                 <span class="tag-line">PREMIUM CAB SERVICE</span>
@@ -626,7 +637,11 @@
                 }
             }
 
+<<<<<<< HEAD
 
+=======
+            // if it's already past 23:45 today, fall back to showing tomorrow's full day
+>>>>>>> parent of b370c3a (commit chage)
             if (opts.length === 0) {
                 for (let h = 0; h < 24; h++) {
                     for (let m = 0; m < 60; m += 15) {
@@ -687,12 +702,7 @@
         function buildConfirmLink() {
             const d = dateOptions[selectedDateIdx];
             const t = timeOptions[selectedTimeIdx];
-            // const isoDate = d.date.toISOString().slice(0, 10);
-                    const year = d.date.getFullYear();
-        const month = String(d.date.getMonth() + 1).padStart(2, '0');
-        const day = String(d.date.getDate()).padStart(2, '0');
-
-        const isoDate = `${year}-${month}-${day}`;
+            const isoDate = d.date.toISOString().slice(0, 10);
             const time24 = `${String(t.h).padStart(2, '0')}:${String(t.m).padStart(2, '0')}`;
 
             const params = new URLSearchParams({

@@ -4,85 +4,69 @@
     var inr = new System.Globalization.CultureInfo("en-IN");
 }
 
-
 <style>
-    @@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
-
     :root {
-        /* ---- palette: warm paper ledger + highway-sign green + taxi amber ---- */
-        --ink: #202821;
-        --muted: #6E7A70;
-        --faint: #A6AFA1;
-        --line: #E4E1D4;
+        --ink: #1B2130;
+        --muted: #6B7280;
+        --faint: #9AA1AE;
+        --line: #E6E8EE;
         --surface: #FFFFFF;
-        --surface-alt: #FBFAF5;
-        --canvas: #F6F4EC;
-        --primary: #1F6F54; /* highway-sign green */
-        --primary-bg: #E5F1EA;
-        --primary-ink: #153E2F;
-        --accent: #E7A537; /* taxi amber */
-        --accent-bg: #FCF1DA;
-        --accent-ink: #7A5410;
-        --confirmed: #1F6F54;
-        --confirmed-bg: #E5F1EA;
-        --completed: #3D5AA6;
-        --completed-bg: #E9EDF8;
+        --canvas: #F5F6FA;
+        --primary: #3949AB;
+        --primary-bg: #EAEBF8;
+        --confirmed: #2E7D6B;
+        --confirmed-bg: #E4F3EF;
+        --completed: #3949AB;
+        --completed-bg: #EAEBF8;
         --cancelled: #B4443A;
         --cancelled-bg: #FBEAE8;
-        --ongoing: #C1811F;
-        --ongoing-bg: #FCF1DA;
-        --shadow: 0 1px 2px rgba(32,40,33,0.05), 0 10px 28px -14px rgba(32,40,33,0.22);
-        --shadow-lg: 0 6px 16px rgba(32,40,33,0.08), 0 24px 48px -20px rgba(32,40,33,0.28);
+        --ongoing: #B5842A;
+        --ongoing-bg: #FBF3E1;
+        --shadow: 0 1px 2px rgba(20,24,40,0.04), 0 8px 24px -12px rgba(20,24,40,0.10);
     }
 
     .bk-wrap {
-        font-family: 'Public Sans','Segoe UI',system-ui,sans-serif;
+        font-family: 'Inter','Segoe UI',system-ui,sans-serif;
         color: var(--ink);
-        background: radial-gradient(1200px 320px at 10% -10%, rgba(31,111,84,0.06), transparent 60%), var(--canvas);
-        padding: 34px 32px 40px;
-        border-radius: 18px;
+        background: var(--canvas);
+        padding: 32px;
+        border-radius: 14px;
     }
 
-    /* ---------------- back link ---------------- */
-    .back-container {
-        margin-bottom: 18px;
-    }
-
-    .bk-back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 9px 16px 9px 14px;
-        background: var(--surface);
-        color: var(--ink);
-        border: 1px solid var(--line);
-        text-decoration: none;
-        border-radius: 999px;
-        font-size: .82rem;
-        font-weight: 600;
-        transition: border-color .15s ease, transform .15s ease, color .15s ease;
-    }
-
-        .bk-back-link i {
-            font-size: 12px;
-            color: var(--primary);
-        }
-
-        .bk-back-link:hover {
-            color: var(--primary-ink);
-            border-color: var(--primary);
-            text-decoration: none;
-            transform: translateX(-2px);
-        }
-
-    /* ---------------- header ---------------- */
     .bk-header {
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
-        margin-bottom: 26px;
+        margin-bottom: 24px;
         gap: 16px;
         flex-wrap: wrap;
+    }
+
+        .bk-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 4px;
+        }
+
+        .bk-header p {
+            color: var(--muted);
+            margin: 0;
+            font-size: .86rem;
+        }
+
+    .bk-header-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: var(--primary-bg);
+        color: var(--primary);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-right: 12px;
+        flex: 0 0 auto;
     }
 
     .bk-title-row {
@@ -90,48 +74,18 @@
         align-items: center;
     }
 
-    .bk-header-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
-        background: var(--primary);
-        background-image: linear-gradient(155deg, var(--primary), #17513E);
-        color: #fff;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        margin-right: 14px;
-        flex: 0 0 auto;
-        box-shadow: var(--shadow);
-    }
-
-    .bk-header h1 {
-        font-family: 'Fraunces', serif;
-        font-size: 1.9rem;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-        margin: 0 0 4px;
-    }
-
-    .bk-header p {
-        color: var(--muted);
-        margin: 0;
-        font-size: .88rem;
-    }
-
-    /* ---------------- summary cards ---------------- */
+    /* Summary cards */
     .bk-cards {
         display: grid;
         grid-template-columns: repeat(4,1fr);
         gap: 16px;
-        margin-bottom: 26px;
+        margin-bottom: 24px;
     }
 
     .bk-card {
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 16px;
+        border-radius: 14px;
         padding: 18px 20px;
         box-shadow: var(--shadow);
         position: relative;
@@ -143,266 +97,31 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            opacity: .8;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            opacity: .55;
         }
 
         .bk-card .label {
-            font-size: .70rem;
+            font-size: .72rem;
             text-transform: uppercase;
-            letter-spacing: .08em;
+            letter-spacing: .06em;
             color: var(--muted);
             font-weight: 700;
         }
 
         .bk-card .value {
-           
-            font-size: 1.6rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 700;
             margin-top: 6px;
             letter-spacing: -0.01em;
         }
 
-    /* ---------------- today's ride: boarding-pass card ---------------- */
-    .today-ride-card {
-        display: grid;
-        grid-template-columns: 1fr 190px;
-        background: var(--surface);
-        border-radius: 18px;
-        box-shadow: var(--shadow-lg);
-        margin-bottom: 26px;
-        overflow: visible;
-        position: relative;
-    }
-
-    .ride-main {
-        padding: 24px 26px;
-        background-image: linear-gradient(155deg, var(--primary-ink) 0%, var(--primary) 55%, #2C8367 100%);
-        color: #F4FBF7;
-        border-radius: 18px 0 0 18px;
-        position: relative;
-    }
-
-        .ride-main .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: .68rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .1em;
-            background: rgba(255,255,255,0.14);
-            padding: 4px 10px;
-            border-radius: 999px;
-            margin-bottom: 12px;
-        }
-
-            .ride-main .eyebrow .pulse {
-                width: 6px;
-                height: 6px;
-                border-radius: 50%;
-                background: var(--accent);
-                box-shadow: 0 0 0 0 rgba(231,165,55,0.7);
-                animation: bk-pulse 1.8s ease-out infinite;
-            }
-
-    @@keyframes bk-pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(231,165,55,0.55);
-        }
-
-        70% {
-            box-shadow: 0 0 0 8px rgba(231,165,55,0);
-        }
-
-        100% {
-            box-shadow: 0 0 0 0 rgba(231,165,55,0);
-        }
-    }
-
-    .ride-main h3 {
-        font-family: 'Fraunces', serif;
-        font-weight: 600;
-        font-size: 1.25rem;
-        margin: 0 0 16px;
-        letter-spacing: -0.01em;
-    }
-
-    .ride-route {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 16px;
-    }
-
-        .ride-route .track {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 4px;
-        }
-
-            .ride-route .track .dot {
-                width: 9px;
-                height: 9px;
-                border-radius: 50%;
-                background: #fff;
-                flex: 0 0 auto;
-            }
-
-                .ride-route .track .dot.b {
-                    background: var(--accent);
-                }
-
-            .ride-route .track .line {
-                width: 1px;
-                flex: 1;
-                margin: 3px 0;
-                background-image: linear-gradient(rgba(255,255,255,.45) 60%, transparent 0);
-                background-size: 2px 6px;
-                background-repeat: repeat-y;
-            }
-
-        .ride-route .stops {
-            flex: 1;
-        }
-
-        .ride-route .stop {
-            min-height: 34px;
-        }
-
-            .ride-route .stop .k {
-                font-size: .68rem;
-                text-transform: uppercase;
-                letter-spacing: .06em;
-                opacity: .75;
-                margin-bottom: 1px;
-            }
-
-            .ride-route .stop .v {
-                font-size: .92rem;
-                font-weight: 500;
-            }
-
-    .ride-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 18px;
-        font-size: .85rem;
-        margin-bottom: 18px;
-    }
-
-        .ride-meta .k {
-            font-size: .68rem;
-            text-transform: uppercase;
-            letter-spacing: .06em;
-            opacity: .75;
-            margin-bottom: 1px;
-        }
-
-        .ride-meta .v {
-            font-weight: 600;
-        }
-
-    .ride-track-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--accent);
-        color: #3D2A03;
-        font-weight: 700;
-        font-size: .86rem;
-        text-decoration: none;
-        padding: 10px 18px;
-        border-radius: 999px;
-        box-shadow: 0 8px 18px -8px rgba(231,165,55,0.8);
-        transition: transform .15s ease, box-shadow .15s ease;
-    }
-
-        .ride-track-btn:hover {
-            color: #3D2A03;
-            text-decoration: none;
-            transform: translateY(-1px);
-            box-shadow: 0 10px 22px -8px rgba(231,165,55,0.95);
-        }
-
-    /* ticket stub */
-    .ride-stub {
-        position: relative;
-        padding: 24px 18px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        text-align: center;
-        border-radius: 0 18px 18px 0;
-    }
-
-        .ride-stub::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 0;
-            border-left: 2px dashed #D8D3C2;
-        }
-
-        /* perforation notches */
-        .ride-stub::after {
-            content: "";
-            position: absolute;
-            left: -10px;
-            top: -10px;
-            width: 20px;
-            height: 20px;
-            background: var(--canvas);
-            border-radius: 50%;
-        }
-
-        .ride-stub .notch-bottom {
-            position: absolute;
-            left: -10px;
-            bottom: -10px;
-            width: 20px;
-            height: 20px;
-            background: var(--canvas);
-            border-radius: 50%;
-        }
-
-        .ride-stub img {
-            width: 108px;
-            max-width: 100%;
-            height: auto;
-            object-fit: contain;
-            margin-bottom: 2px;
-        }
-
-        .ride-stub .plate {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: .78rem;
-            font-weight: 600;
-            color: var(--ink);
-            background: var(--surface-alt);
-            border: 1px solid var(--line);
-            padding: 3px 10px;
-            border-radius: 6px;
-            letter-spacing: .03em;
-        }
-
-        .ride-stub .booking-no {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: .72rem;
-            color: var(--muted);
-        }
-
-    /* ---------------- table card ---------------- */
     .bk-table-card {
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 16px;
+        border-radius: 14px;
         overflow: hidden;
         box-shadow: var(--shadow);
     }
@@ -415,24 +134,24 @@
 
         table.bk-table thead th {
             text-align: left;
-            background: var(--surface-alt);
+            background: #FAFAFC;
             color: var(--muted);
             font-weight: 700;
-            font-size: .68rem;
+            font-size: .70rem;
             text-transform: uppercase;
-            letter-spacing: .07em;
-            padding: 14px 16px;
+            letter-spacing: .06em;
+            padding: 13px 16px;
             border-bottom: 1px solid var(--line);
             white-space: nowrap;
         }
 
         table.bk-table th.col-sno {
-            width: 44px;
+            width: 48px;
             text-align: center;
         }
 
         table.bk-table tbody td {
-            padding: 15px 16px;
+            padding: 14px 16px;
             border-bottom: 1px solid var(--line);
             vertical-align: middle;
         }
@@ -441,27 +160,18 @@
                 text-align: center;
                 color: var(--faint);
                 font-weight: 600;
-                font-family: 'IBM Plex Mono', monospace;
-                font-size: .78rem;
             }
 
         table.bk-table tbody tr:last-child td {
             border-bottom: none;
         }
 
-        table.bk-table tbody tr {
-            transition: background-color .12s ease;
+        table.bk-table tbody tr:hover {
+            background: #FAFAFD;
         }
 
-            table.bk-table tbody tr:hover {
-                background: var(--surface-alt);
-            }
-
     .bk-code {
-        font-family: 'IBM Plex Mono', monospace;
-        font-weight: 600;
-        font-size: .84rem;
-        letter-spacing: .01em;
+        font-weight: 700;
     }
 
     .bk-sub {
@@ -497,11 +207,11 @@
         }
 
             .bk-route .dot.a {
-                background: var(--primary);
+                background: var(--confirmed);
             }
 
             .bk-route .dot.b {
-                background: var(--accent);
+                background: var(--cancelled);
             }
 
         .bk-route .seg {
@@ -518,6 +228,7 @@
             max-width: 130px;
         }
 
+    /* Custom hover tooltip revealing the full route */
     .bk-route-tip {
         position: absolute;
         left: 0;
@@ -572,7 +283,7 @@
             }
 
             .bk-route-tip .tip-dot.b {
-                background: #F0C97B;
+                background: #F0968B;
             }
 
     .bk-route-wrap:hover .bk-route-tip {
@@ -584,7 +295,7 @@
     .badge-status {
         display: inline-block;
         padding: 4px 12px;
-        border-radius: 999px;
+        border-radius: 20px;
         font-size: .72rem;
         font-weight: 700;
         letter-spacing: .02em;
@@ -611,459 +322,145 @@
     }
 
     .bk-fare {
-        font-family: 'IBM Plex Mono', monospace;
-        font-weight: 600;
+        font-weight: 700;
         font-variant-numeric: tabular-nums;
     }
 
     .bk-actions a {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
         text-decoration: none;
         font-size: .78rem;
         font-weight: 600;
-        color: var(--primary-ink);
-        padding: 7px 13px;
-        border-radius: 999px;
+        color: var(--primary);
+        padding: 6px 12px;
+        border-radius: 8px;
         background: var(--primary-bg);
-        transition: background-color .15s ease, transform .15s ease;
+        transition: opacity .15s ease;
     }
 
         .bk-actions a:hover {
-            background: var(--primary);
-            color: #fff;
-            transform: translateY(-1px);
+            opacity: .8;
         }
 
-    /* ---------------- empty state ---------------- */
     .bk-empty {
         text-align: center;
-        padding: 70px 20px;
+        padding: 64px 20px;
         color: var(--muted);
     }
 
         .bk-empty .glyph {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-
-        .bk-empty strong {
-            font-family: 'Fraunces', serif;
-            font-size: 1.1rem;
-            color: var(--ink);
-            display: block;
-            margin-bottom: 4px;
+            font-size: 2rem;
+            margin-bottom: 8px;
         }
 
     @@media (max-width: 900px) {
         .bk-cards {
             grid-template-columns: repeat(2,1fr);
         }
-
-        .today-ride-card {
-            grid-template-columns: 1fr;
-        }
-
-        .ride-main {
-            border-radius: 18px 18px 0 0;
-        }
-
-        .ride-stub {
-            border-radius: 0 0 18px 18px;
-            flex-direction: row;
-            justify-content: center;
-        }
-
-            .ride-stub::before {
-                left: 50%;
-                top: 0;
-                right: 0;
-                bottom: auto;
-                border-left: none;
-                border-top: 2px dashed #D8D3C2;
-            }
-
-            .ride-stub::after {
-                left: -10px;
-                top: -10px;
-            }
-
-            .ride-stub .notch-bottom {
-                right: -10px;
-                left: auto;
-                bottom: auto;
-                top: -10px;
-            }
+    }
+</style>
+<style>
+    .back-container {
+        margin: 20px 0;
     }
 
-    @@media (max-width: 600px) {
-        .bk-wrap {
-            padding: 22px 16px 28px;
-        }
-
-        .bk-cards {
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-    }
-    /* Pending state — amber theme instead of green "in progress" */
-    .today-ride-card.pending {
-        background: linear-gradient(135deg, #b06a12, #8a5210);
-    }
-
-    .eyebrow.pending {
-        background: rgba(255, 255, 255, 0.15);
-        color: #ffe8c2;
-    }
-
-        .eyebrow.pending .pulse {
-            background: #ffb84d;
-            animation: none; /* no live pulse — nothing is "in progress" yet */
-        }
-
-    .ride-track-btn.disabled {
-        background: rgba(255, 255, 255, 0.25);
-        color: #fff;
-        cursor: not-allowed;
-        pointer-events: none;
-        opacity: 0.85;
-    }
-
-    .pending-car-icon {
-        font-size: 40px;
-        text-align: center;
-        margin: 10px 0;
-    }
-
-    /* ---------- Mobile responsive ---------- */
-    @@media (max-width: 768px) {
-        .today-ride-card
-
-    {
-        flex-direction: column;
-        border-radius: 16px;
-    }
-
-    .ride-stub {
-        width: 100%;
-        border-radius: 0 0 16px 16px;
-        flex-direction: row;
-        justify-content: space-between;
+    .bk-back-link {
+        display: inline-flex;
         align-items: center;
-        padding: 12px 16px;
+        gap: 8px;
+        padding: 10px 18px;
+        background: #0d6efd;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
 
-        .ride-stub img,
-        .pending-car-icon {
-            max-width: 60px;
-            margin: 0;
+        .bk-back-link:hover {
+            background: #0b5ed7;
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
         }
 
-    .notch-bottom {
-        display: none; /* the cut-out notch only reads well side-by-side on desktop */
-    }
-
-    .ride-main {
-        padding: 18px;
-    }
-
-        .ride-main h3 {
-            font-size: 18px;
+        .bk-back-link i {
+            font-size: 14px;
         }
+</style>
 
-    .ride-route {
-        flex-direction: row;
-        gap: 10px;
+<style>
+    .today-ride-card {
+        background: skyblue;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,.12);
+        margin-bottom: 20px;
     }
 
-    .ride-meta {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .ride-track-btn,
-    .ride-track-btn.disabled {
-        width: 100%;
-        text-align: center;
-        display: block;
-    }
-
-    }
-
-    @@media (max-width: 480px) {
-        .stop .v
-
-    {
-        font-size: 13px;
-    }
-
-    .plate,
-    .booking-no {
-        font-size: 12px;
-    }
-
-        .otp-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            background: linear-gradient(135deg, #FFF8EB 0%, #FFF1D6 100%);
-            border: 1px dashed rgba(255, 176, 32, 0.5);
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-bottom: 18px;
-        }
-
-        .otp-info {
-            min-width: 0;
-        }
-
-        .otp-label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #8A5A00;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-            .otp-label i {
-                font-size: 12px;
-                color: var(--tr-amber);
-            }
-
-        .otp-hint {
-            font-size: 11.5px;
-            color: var(--tr-slate);
-            margin-top: 3px;
-            line-height: 1.4;
-        }
-
-        .otp-digits {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-
-        .otp-digit {
-            width: 30px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            border: 1.5px solid rgba(255, 176, 32, 0.55);
-            border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--tr-ink);
-            box-shadow: 0 2px 6px rgba(255, 176, 32, 0.18);
-        }
-
-        .otp-copy-btn {
-            display: none;
-        }
-
-        @@media (max-width: 480px) {
-            .otp-box {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 14px;
-                padding: 16px;
-            }
-
-            .otp-info {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 10px;
-            }
-
-            .otp-hint {
-                margin-top: 2px;
-            }
-
-            .otp-digits {
-                justify-content: center;
-                gap: 8px;
-                padding: 4px 0 2px;
-            }
-
-            .otp-digit {
-                width: 31%;
-                max-width: 82px;
-                height: 46px;
-                font-size: 20px;
-                border-width: 2px;
-                background: black;
-            }
-
-            .otp-copy-btn {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 6px;
-                background: #fff;
-                border: 1px solid rgba(255, 176, 32, 0.55);
-                color: #8A5A00;
-                font-size: 12px;
-                font-weight: 700;
-                padding: 8px 12px;
-                border-radius: 8px;
-                cursor: pointer;
-                white-space: nowrap;
-            }
-
-                .otp-copy-btn:active {
-                    transform: scale(0.96);
-                }
-        }
-
-    }
-    /* Default: horizontal scroll on tablet, so nothing breaks before the card breakpoint */
-.bk-table-card {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.bk-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 720px; /* keeps columns from crushing above mobile breakpoint */
-}
-
-/* Route hover tooltip — hide by default, only relevant on desktop pointer devices */
-.bk-route-tip {
-    display: none;
-}
-
-    @@media (min-width: 769px) {
-    .bk-route-wrap:hover .bk-route-tip {
-        display: block;
-    }
-}
-
-/* ---- Mobile: convert table to stacked cards ---- */
-    @@media (max-width: 768px) {
-    .bk-table-card {
-        overflow-x: visible;
-    }
-
-    .bk-table,
-    .bk-table thead,
-    .bk-table tbody,
-    .bk-table th,
-    .bk-table td,
-    .bk-table tr {
-        display: block;
-        width: 100%;
-        min-width: 0;
-    }
-
-    .bk-table thead {
-        display: none; /* labels come from data-label instead */
-    }
-
-    .bk-table tr {
-        margin-bottom: 16px;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        padding: 12px 14px;
-        background: #fff;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-    }
-
-    .bk-table td {
+    .ride-content {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 8px 0;
-        border: none;
-        border-bottom: 1px dashed #eee;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .ride-details {
+        flex: 1;
+    }
+
+        .ride-details h3 {
+            margin-bottom: 15px;
+        }
+
+        .ride-details p {
+            margin: 8px 0;
+        }
+
+    .ride-image {
+        flex: 0 0 250px;
         text-align: right;
     }
 
-    .bk-table td:last-child {
-        border-bottom: none;
-    }
+        .ride-image img {
+            width: 230px;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
 
-    .bk-table td::before {
-        content: attr(data-label);
-        font-weight: 600;
-        font-size: 12px;
-        color: #6b7280;
-        text-align: left;
-        flex-shrink: 0;
-        white-space: nowrap;
-    }
+   
+    @@media (max-width:768px) {
+        .ride-content
 
-    /* S.No looks odd as a labeled row — turn it into a small badge instead */
-    .col-sno {
-        justify-content: flex-end !important;
-    }
-    .col-sno::before {
-        content: "Booking #" !important;
-    }
-
-    /* Route + tooltip: tooltip has no purpose on touch, always show addresses */
-    .bk-route-tip {
-        display: block !important;
-        margin-top: 6px;
-        text-align: left;
-    }
-    .bk-route {
-        display: none; /* the tip block already shows both addresses */
-    }
-    .col-route {
+    {
         flex-direction: column;
-        align-items: stretch;
-    }
-    .col-route::before {
-        margin-bottom: 4px;
     }
 
-    .bk-actions {
-        justify-content: flex-end !important;
+    .ride-image {
+        text-align: center;
+        margin-top: 15px;
     }
-    .bk-actions a {
-        padding: 6px 12px;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 13px;
-    }
-}
 
-/* Small phones: tighten padding a bit further */
-    @@media (max-width: 380px) {
-    .bk-table tr {
-        padding: 10px 12px;
-    }
-    .bk-table td::before {
-        font-size: 11px;
-    }
-}
-                
-                </style>
+        .ride-image img {
+            width: 180px;
+        }
 
+    }</style>
 <div class="bk-wrap">
-
-    <div class="back-container">
-        <a asp-action="Index" asp-controller="Home" class="bk-back-link">
-            <i class="fa fa-arrow-left"></i> Back to home
-        </a>
-    </div>
-
     <div class="bk-header">
+        <div class="back-container">
+            <a asp-action="Index" asp-controller="Home" class="bk-back-link">
+                <i class="fa fa-arrow-left"></i> ← Back to Home
+            </a>
+        </div>
         <div class="bk-title-row">
             <span class="bk-header-icon">🧾</span>
             <div>
-                <h1>My bookings</h1>
-                <p>@Model.TotalTrips trip@(Model.TotalTrips == 1 ? "" : "s") on record — every ride you've taken with us, in one place.</p>
+                <h1>My Bookings</h1>
+                <p>@Model.TotalTrips trip@(Model.TotalTrips == 1 ? "" : "s") on record for user #@Model.UserName</p>
             </div>
         </div>
     </div>
@@ -1086,127 +483,49 @@
             <div class="value">@(Model.LastTripDate?.ToString("dd MMM yyyy") ?? "—")</div>
         </div>
     </div>
-
     @if (Model.TodayRide != null)
     {
         <div class="today-ride-card">
-            <div class="ride-main">
-                <span class="eyebrow"><span class="pulse"></span> Ride in progress</span>
-                <h3>On the road right now</h3>
 
-                <div class="ride-route">
-                    <div class="track">
-                        <span class="dot a"></span>
-                        <span class="line"></span>
-                        <span class="dot b"></span>
-                    </div>
-                    <div class="stops">
-                        <div class="stop">
-                            <div class="k">Pickup</div>
-                            <div class="v">@Model.TodayRide.PickupAddress</div>
-                        </div>
-                        <div class="stop">
-                            <div class="k">Drop</div>
-                            <div class="v">@Model.TodayRide.DropAddress</div>
-                        </div>
-                    </div>
+            <div class="ride-content">
+
+                <div class="ride-details">
+                    <h3>🚖 Today's Ride</h3>
+
+                    <p><strong>Booking:</strong> @Model.TodayRide.BookingNo</p>
+                    <p><strong>Pickup:</strong> @Model.TodayRide.PickupAddress</p>
+                    <p><strong>Drop:</strong> @Model.TodayRide.DropAddress</p>
+                    <p><strong>Driver:</strong> @Model.TodayRide.DriverName</p>
+                    <p><strong>Vehicle:</strong> @Model.TodayRide.VehicleNumber</p>
+                    <p><strong>Status:</strong> @Model.TodayRide.Status</p>
+
+                    <a class="btn btn-success"
+                       href="@Url.Action("TrackRide","Customer",new { bookingId = Model.TodayRide.BookingId })">
+                        📍 Track Driver
+                    </a>
                 </div>
 
-                <div class="ride-meta">
-                    <div>
-                        <div class="k">Driver</div>
-                        <div class="v">@Model.TodayRide.DriverName</div>
-                    </div>
-                    <div>
-                        <div class="k">Status</div>
-                        <div class="v">@Model.TodayRide.Status</div>
-                    </div>
-                </div>
-                <div class="otp-box">
-                    <div class="otp-info">
-                        <div class="otp-label">
-                            <i class="fa fa-shield-alt"></i> Trip OTP
-                        </div>
-                        <div class="otp-hint">Share this with your driver to start the trip</div>
-                    </div>
-                    <div class="otp-digits">
-
-                        <span class="otp-digit">@Model.TodayRide.OTP</span>
-
-                    </div>
+                <div class="ride-image">
+                    <img src="@Model.TodayRide.CarImage"
+                         alt="Car"
+                         onerror="this.src='/images/default-car.png';" />
                 </div>
 
-                <a class="ride-track-btn"
-                   href="@Url.Action("TrackRide","Customer",new { bookingId = Model.TodayRide.BookingId })">
-                    📍 Track driver
-                </a>
             </div>
 
-            <div class="ride-stub">
-                <div class="notch-bottom"></div>
-                <img src="@Model.TodayRide.CarImage"
-                     alt="Car"
-                     onerror="this.src='/images/default-car.png';" />
-                <span class="plate">@Model.TodayRide.VehicleNumber</span>
-                <span class="booking-no">@Model.TodayRide.BookingNo</span>
-            </div>
         </div>
     }
-    else if (Model.PendingRide != null)
-    {
-        <div class="today-ride-card pending">
-            <div class="ride-main">
-                <span class="eyebrow pending"><span class="pulse"></span> Booking confirmed</span>
-                <h3>Your ride is scheduled today</h3>
-                <div class="ride-route">
-                    <div class="track">
-                        <span class="dot a"></span>
-                        <span class="line"></span>
-                        <span class="dot b"></span>
-                    </div>
-                    <div class="stops">
-                        <div class="stop">
-                            <div class="k">Pickup</div>
-                            <div class="v">@Model.PendingRide.PickupAddress</div>
-                        </div>
-                        <div class="stop">
-                            <div class="k">Drop</div>
-                            <div class="v">@Model.PendingRide.DropAddress</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ride-meta">
-                    <div>
-                        <div class="k">Driver</div>
-                        <div class="v">Assigning soon</div>
-                    </div>
-                    <div>
-                        <div class="k">Status</div>
-                        <div class="v">@Model.PendingRide.Status</div>
-                    </div>
-                </div>
-                <span class="ride-track-btn disabled">⏳ Driver not assigned yet</span>
-            </div>
-            <div class="ride-stub">
-                <div class="notch-bottom"></div>
-                <div class="pending-car-icon">🚕</div>
-                <span class="booking-no">@Model.PendingRide.BookingNo</span>
-            </div>
-        </div>
-    }
-
-
+    
     @if (Model.Bookings == null || Model.Bookings.Count == 0)
-    {
-        <div class="bk-empty">
-            <div class="glyph">🚕</div>
-            <strong>No bookings yet</strong>
-            <div>Once you book a ride, it'll show up here — ready to track, review and re-download anytime.</div>
-        </div>
-    }
-    else
-    {
-        <div class="bk-table-card">
+        {
+            <div class="bk-empty">
+                <div class="glyph">🚕</div>
+                <div><strong>No bookings yet.</strong></div>
+                <div>Once a ride is booked, it'll show up here.</div>
+            </div>
+        }
+        else
+        {
             <table class="bk-table">
                 <thead>
                     <tr>
@@ -1214,10 +533,10 @@
                         <th>Booking</th>
                         <th class="col-route">Route</th>
                         <th>Journey date</th>
-                        <th>Vehicle detials</th>
+                        <th>Vehicle</th>
                         <th>Fare</th>
                         <th>Status</th>
-                        <th>Booked on</th>
+                        <th>Booking Date</th>
                         <th>Invoice</th>
                     </tr>
                 </thead>
@@ -1227,62 +546,65 @@
                     }
                     @foreach (var b in Model.Bookings)
                     {
-                            <tr>
-                                <td class="col-sno" data-label="S.No">@sno</td>
-                                <td data-label="Booking">
-                                    <div class="bk-code">@b.BookingNo</div>
-                                    <div class="bk-sub">#@b.BookingId</div>
-                                </td>
-                                <td class="col-route" data-label="Route">
-                                    <div class="bk-route-wrap">
-                                        <div class="bk-route">
-                                            <span class="dot a"></span>
-                                            <span class="place">@b.PickupAddress</span>
-                                            <span class="seg"></span>
-                                            <span class="dot b"></span>
-                                            <span class="place">@b.DropAddress</span>
+                        <tr>
+                            <td class="col-sno">@sno</td>
+                            <td>
+                                <div class="bk-code">@b.BookingNo</div>
+                                <div class="bk-sub">#@b.BookingId</div>
+                            </td>
+                            <td class="col-route">
+                                <div class="bk-route-wrap">
+                                    <div class="bk-route">
+                                        <span class="dot a"></span>
+                                        <span class="place">@b.PickupAddress</span>
+                                        <span class="seg"></span>
+                                        <span class="dot b"></span>
+                                        <span class="place">@b.DropAddress</span>
+                                    </div>
+                                    <div class="bk-route-tip">
+                                        <div class="tip-row">
+                                            <span class="tip-dot a"></span>
+                                            <span>@b.PickupAddress</span>
                                         </div>
-                                        <div class="bk-route-tip">
-                                            <div class="tip-row">
-                                                <span class="tip-dot a"></span>
-                                                <span>@b.PickupAddress</span>
-                                            </div>
-                                            <div class="tip-row">
-                                                <span class="tip-dot b"></span>
-                                                <span>@b.DropAddress</span>
-                                            </div>
+                                        <div class="tip-row">
+                                            <span class="tip-dot b"></span>
+                                            <span>@b.DropAddress</span>
                                         </div>
                                     </div>
+                                </div>
                                 @if (b.TotalDistanceKm.HasValue)
                                 {
-                                            <div class="bk-sub">@b.TotalDistanceKm.Value.ToString("0.0") km</div>
+                                    <div class="bk-sub">@b.TotalDistanceKm.Value.ToString("0.0") km</div>
                                 }
-                                </td>
-                                <td data-label="Journey date">
-                                    <div>@b.JourneyDate.ToString("dd MMM yyyy")</div>
-                                    <div class="bk-sub">@b.JourneyTime.ToString("hh:mm tt")</div>
-                                </td>
-                                <td data-label="Vehicle">
-                                    <div>@b.VehicleName</div>
-                                    <div class="bk-sub">@b.VehicleModelYear &middot; @b.VehicleColor &middot; @b.VehicleNumber</div>
-                                </td>
-                                <td data-label="Fare">
-                                    <div class="bk-fare">@b.NetPayable.ToString("C2", inr)</div>
-                                </td>
-                                <td data-label="Status">
-                                    <span class="badge-status @b.StatusBadgeClass">@b.Status</span>
-                                </td>
-                                <td data-label="Booked on">
-                                    <div>@b.CreatedDate.ToString("dd MMM yyyy")</div>
-                                    <div class="bk-sub">@b.CreatedDate.ToString("hh:mm tt")</div>
-                                </td>
-                                <td class="bk-actions" data-label="Invoice">
-                                    <a href="@Url.Action("DownloadInvoice", "Reports", new { id = b.BookingId })">⬇ Download</a>
-                                </td>
-                            </tr>
+                            </td>
+                            <td>
+                                <div>@b.JourneyDate.ToString("dd MMM yyyy")</div>
+                                <div class="bk-sub">@b.JourneyTime.ToString("hh:mm tt")</div>
+                            </td>
+                            <td>
+                                <div>@b.VehicleName</div>
+                                <div class="bk-sub">@b.VehicleModelYear &middot; @b.VehicleColor ; @b.VehicleNumber</div>
+                            </td>
+                            <td>
+                                <div class="bk-fare">@b.NetPayable.ToString("C2", inr)</div>
+                                @*  <div class="bk-sub">@b.PaymentMethod</div> *@
+                            </td>
+                           
+                            <td>
+                                <span class="badge-status @b.StatusBadgeClass">@b.Status</span>
+                            </td>
+                            <td>
+                                <div>@b.CreatedDate.ToString("dd MMM yyyy")</div>
+                                <div class="bk-sub">@b.CreatedDate.ToString("hh:mm tt")</div>
+                            </td>
+                            <td class="bk-actions">
+                                <a href="@Url.Action("DownloadInvoice", "Reports", new { id = b.BookingId })">Download</a>
+                            </td>
+                        </tr>
                         sno++;
                     }
                 </tbody>
             </table>
-        </div>
-    }
+        }
+    </div>
+</div>
