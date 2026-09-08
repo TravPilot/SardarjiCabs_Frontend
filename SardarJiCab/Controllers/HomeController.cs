@@ -42,7 +42,7 @@ namespace SardarJi_Cab_Booking.Controllers
                 .Where(c => c.IsActive)
                 .ToList();
 
-            var uploadsBaseUrl = _config["AdminUploadsBaseUrl"] ?? "https://adminsardarji.traviyo.in";
+            var uploadsBaseUrl = _config["AdminUploadsBaseUrl"] ?? "https://admin.sardarjiev.com";
             foreach (var cat in activeCategories)
             {
                 if (!string.IsNullOrEmpty(cat.Icon) && !string.IsNullOrEmpty(uploadsBaseUrl))

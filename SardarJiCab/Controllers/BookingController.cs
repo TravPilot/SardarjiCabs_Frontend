@@ -27,37 +27,103 @@ namespace SardarJi_Cab_Booking.Controllers
             _env = env;
 
         }
-
-
         public async Task<IActionResult> Index()
         {
-           long clientid= Convert.ToInt64(_config["ClientId"]);
-            string otp = GenerateOtp(6);
-            RazorPayVM razorPayVM = await _paymentGatewaySettings.CheckCapturePaymentGateway();
-            TravelSummaryViewModel details = HttpContext.Session.GetObject<TravelSummaryViewModel>("Cardetails");
-            var customer = HttpContext.Session.GetObject<CustomerVM>("customer");
-            details.ClientId = clientid;
-            details.UserId = customer.Id;
-            details.BookingOtp = otp;
-            var booking =await _booking.SaveBookingDetails(details);
-            if (details == null)
+            try
             {
-                return RedirectToAction("Index", "Home");
+                long clientid = Convert.ToInt64(_config["ClientId"]);
+
+                string otp = GenerateOtp(6);
+
+                RazorPayVM razorPayVM =
+                    await _paymentGatewaySettings.CheckCapturePaymentGateway();
+
+                TravelSummaryViewModel details =
+                    HttpContext.Session.GetObject<TravelSummaryViewModel>("Cardetails");
+
+                var customer =
+                    HttpContext.Session.GetObject<CustomerVM>("customer");
+
+             
+                if (details == null)
+                {
+                   
+                    return RedirectToAction("Index", "Home");
+                }
+
+                if (customer == null)
+                {
+                  
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                details.ClientId = clientid;
+                details.UserId = customer.Id;
+                details.BookingOtp = otp;
+
+                var booking = await _booking.SaveBookingDetails(details);
+
+                #region Booking OTP
+
+                await SendOtpEmailAsync(clientid, customer, otp);
+
+                await SendBookingConfirmationToCustomerAsync(
+                    clientid,
+                    customer,
+                    details);
+
+                await SendBookingConfirmationToAdminAsync(
+                    clientid,
+                    customer,
+                    details);
+
+                #endregion
+
+                details.InvoicePdfUrl =
+                    await GenerateInvoicePdfUrl(details);
+
+                return View(details);
             }
-            #region Booking OTP
-
-           await SendOtpEmailAsync(clientid, customer, otp);
-            await SendBookingConfirmationToCustomerAsync(clientid, customer, details);
-            await SendBookingConfirmationToAdminAsync(clientid, customer, details);
-
-
-            #endregion  Booking OTP
-            details.InvoicePdfUrl = await GenerateInvoicePdfUrl(details);
-
-
-
-            return View(details);
+            catch (Exception ex)
+            {
+                
+               
+                return Content(
+                    $"Error: {ex.Message}\n\nStack Trace:\n{ex.StackTrace}");
+            }
         }
+
+
+        //public async Task<IActionResult> Index()
+        //{
+        //   long clientid= Convert.ToInt64(_config["ClientId"]);
+        //    string otp = GenerateOtp(6);
+        //    RazorPayVM razorPayVM = await _paymentGatewaySettings.CheckCapturePaymentGateway();
+        //    TravelSummaryViewModel details = HttpContext.Session.GetObject<TravelSummaryViewModel>("Cardetails");
+        //    var customer = HttpContext.Session.GetObject<CustomerVM>("customer");
+        //    details.ClientId = clientid;
+        //    details.UserId = customer.Id;
+        //    details.BookingOtp = otp;
+        //    var booking =await _booking.SaveBookingDetails(details);
+        //    if (details == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    #region Booking OTP
+
+        //   await SendOtpEmailAsync(clientid, customer, otp);
+        //    await SendBookingConfirmationToCustomerAsync(clientid, customer, details);
+        //    await SendBookingConfirmationToAdminAsync(clientid, customer, details);
+
+
+        //    #endregion  Booking OTP
+        //    details.InvoicePdfUrl = await GenerateInvoicePdfUrl(details);
+
+
+
+        //    return View(details);
+        //}
 
         private async Task<string> GenerateInvoicePdfUrl(TravelSummaryViewModel model)
         {
@@ -540,7 +606,7 @@ This is an automated notification from {settings.DisplayName}.
 
             QueryVM query = new QueryVM
             {
-                Sendto = "sonu.singh.traviyo@gmail.com" /*settings.FromEmail*/,
+                Sendto = "jsingh5880@gmail.com" /*settings.FromEmail*/,
                 From = settings.FromEmail,
                 Subject = "New Booking Received",
                 Body = emailBody,
